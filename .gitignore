@@ -2,8 +2,8 @@
 target/
 .settings
 .project
-.bin/
-.gen/
+bin/
+gen/
 .settings/
 global-groovy.log
 credentials.properties

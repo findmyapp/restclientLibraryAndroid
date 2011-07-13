@@ -1,0 +1,10 @@
+.classpath
+target/
+.settings
+.project
+.bin/
+.gen/
+.settings/
+global-groovy.log
+credentials.properties
+/bin

@@ -2,14 +2,18 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
+import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * 
@@ -32,8 +36,7 @@ public class RestProcessor {
 				if(serviceModel.getBroadcastNotification() != null) 
 					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), this.executeAndParse(serviceModel));
 				else 
-					this.sendToContentProvider(serviceModel.getContentProviderUri(), this.executeAndParse(serviceModel));
-				
+					this.sendToContentProvider(serviceModel.getContentProviderUri(), (UkaEvent) this.executeAndParse(serviceModel));
 			break;
 			case POST :
 				//TODO
@@ -62,9 +65,11 @@ public class RestProcessor {
 		}
 	}
 	
-	//TODO implement method
-	private void sendToContentProvider(Uri uri, Object obj) {
+	private void sendToContentProvider(Uri uri, UkaEvent ukaEvent) {
+		ContentValues cv = new ContentValues(ukaEvent.getContentValues()); 
 		
+		ContentResolver cr = context.getContentResolver(); 
+		cr.insert(uri, cv);
 	}
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {

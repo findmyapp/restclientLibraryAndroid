@@ -2,9 +2,8 @@ package no.uka.findmyapp.android.rest.datamodels;
 import java.io.Serializable;
 import java.sql.Date;
 
-
-public class UkaEvent implements Serializable {
-	private String id;
+public class UkaEvent extends ProviderModel implements Serializable {
+	private int id;
 	
     /**
      */
@@ -86,11 +85,11 @@ public class UkaEvent implements Serializable {
      */
 	private boolean canceled;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -252,5 +251,28 @@ public class UkaEvent implements Serializable {
 
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
+	}
+
+	@Override
+	protected void setContentValues() {
+		contentValues.put(UkaEventContract.EVENT_ID, this.eventId);
+		contentValues.put(UkaEventContract.BILLING_ID, this.billingid);
+		contentValues.put(UkaEventContract.ENTRANCE_ID, this.entranceId);
+		contentValues.put(UkaEventContract.TITLE, this.title); 
+		contentValues.put(UkaEventContract.LEAD, this.lead);
+		contentValues.put(UkaEventContract.TEXT, this.text);
+		contentValues.put(UkaEventContract.PLACE, this.place);
+		contentValues.put(UkaEventContract.IMAGE, this.image);
+		contentValues.put(UkaEventContract.THUMBNAIL, this.thumbnail);
+		contentValues.put(UkaEventContract.HIDDEN_FROM_LISTING, this.hidden_from_listings);
+		contentValues.put(UkaEventContract.SLUG, this.slug);
+		contentValues.put(UkaEventContract.AGE_LIMIT, this.ageLimit);
+		contentValues.put(UkaEventContract.DETAIL_PHOTO_ID, this.detailPhotoId); 
+		contentValues.put(UkaEventContract.SHOWING_TIME, this.showingTime.toLocaleString());
+		contentValues.put(UkaEventContract.PUBLISH_TIME, this.publishTime.toLocaleString());
+		contentValues.put(UkaEventContract.NETSALE_FROM, this.netsaleFrom.toLocaleString());
+		contentValues.put(UkaEventContract.NETSALE_TO, this.netsaleTo.toLocaleString());
+		contentValues.put(UkaEventContract.FREE, this.free);
+		contentValues.put(UkaEventContract.CANCELED, this.canceled);
 	}
 }

@@ -8,8 +8,8 @@ import android.provider.BaseColumns;
  * Clients should only use information given by this "contract" to fetch
  * data from the SensorProvider.
  */
-public final class Events implements BaseColumns{
-	private Events() {}
+public final class UkaEvents implements BaseColumns{
+	private UkaEvents() {}
 
     /**
      * Defines the authority part of the URI
@@ -24,10 +24,10 @@ public final class Events implements BaseColumns{
     /** 
      * Event table contract 
      */
-	public static class Event implements BaseColumns {
+	public static class UkaEventContract implements BaseColumns {
 		
 		// This class cannot be instantiated
-		private Event() {}
+		private UkaEventContract() {}
 		
 	    /**
 	     * The event table 

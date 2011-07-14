@@ -1,29 +1,30 @@
 package no.uka.findmyapp.android.rest.client.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.net.URI;
 
 import no.uka.findmyapp.android.rest.client.HttpType;
 import no.uka.findmyapp.android.rest.client.ServiceDataFormat;
-import android.net.Uri;
 
 public class ServiceModel implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8851427905103524899L;
 	private URI uri;
 	private HttpType httpType;
 	private ServiceDataFormat dataformat; 
-	private Type returnType;
+	private Class returnType;
 	private Serializable data; 
-	private Uri contentProviderUri; 
+	private URI contentProviderUri; 
 	private String broadcastNotification; 
 	
 	public ServiceModel() { }
 	
 	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Type returnType, Serializable data,
-			Uri contentProviderUri, String broadcastNotification) {
+			ServiceDataFormat dataformat, Class returnType, Serializable data,
+			URI contentProviderUri, String broadcastNotification) {
 		super();
 		this.uri = uri;
 		this.httpType = httpType;
@@ -35,30 +36,35 @@ public class ServiceModel implements Serializable{
 	}
 
 	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Type returnType, Serializable data,
-			Uri contentProviderUri) {
+			ServiceDataFormat dataformat, Class returnType, Serializable data,
+			URI contentProviderUri) {
 		this(uri, httpType, dataformat, returnType, data, contentProviderUri, null);
 	}
 
 	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Type returnType, Serializable data,
+			ServiceDataFormat dataformat, Class returnType, Serializable data,
 			String broadcastNotification) {
 		this(uri, httpType, dataformat, returnType, data, null, broadcastNotification);
 	}
 
 	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Type returnType, Serializable data) {
+			ServiceDataFormat dataformat, Class returnType, Serializable data) {
 		this(uri, httpType, dataformat, returnType, data, null, null);
 	}
 
 	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Type returnType) {
+			ServiceDataFormat dataformat, Class returnType) {
 		this(uri, httpType, dataformat, returnType, null, null, null);
 	}
 
 	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Type returnType, String broadcastNotification) {
+			ServiceDataFormat dataformat, Class returnType, String broadcastNotification) {
 		this(uri, httpType, dataformat, returnType, null, null, broadcastNotification);
+	}
+
+	public ServiceModel(URI uri, HttpType httpType,
+			ServiceDataFormat dataformat, Class returnType, URI contentProviderUri, String broadcastNotification) {
+		this(uri, httpType, dataformat, returnType, null, contentProviderUri, broadcastNotification);
 	}
 	
 	public URI getUri() {
@@ -82,10 +88,10 @@ public class ServiceModel implements Serializable{
 		this.dataformat = dataformat;
 	}
 
-	public Type getReturnType() {
+	public Class getReturnType() {
 		return returnType;
 	}
-	public void setReturnType(Type returnType) {
+	public void setReturnType(Class returnType) {
 		this.returnType = returnType;
 	}
 	
@@ -97,11 +103,11 @@ public class ServiceModel implements Serializable{
 		this.data = data;
 	}
 
-	public Uri getContentProviderUri() {
+	public URI getContentProviderUri() {
 		return contentProviderUri;
 	}
 
-	public void setContentProviderUri(Uri contentProvider) {
+	public void setContentProviderUri(URI contentProvider) {
 		this.contentProviderUri = contentProvider;
 	}
 

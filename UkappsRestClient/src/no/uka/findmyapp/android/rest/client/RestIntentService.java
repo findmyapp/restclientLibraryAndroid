@@ -37,6 +37,7 @@ public class RestIntentService extends IntentService {
 
         Bundle bundle = intent.getExtras();
         ServiceModel serviceModel = (ServiceModel) bundle.get("ServiceModel");
+
 		
 		Log.v(TAG, "STARTING" + " URI: " + serviceModel);
 	//	this.getApplication

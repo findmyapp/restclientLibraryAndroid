@@ -1,8 +1,17 @@
 package no.uka.findmyapp.android.rest.client;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.net.URISyntaxException;
+
+import org.apache.http.entity.SerializableEntity;
+
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * The rest service helper class, a singleton 
@@ -27,8 +36,6 @@ public class RestServiceHelper {
 	 */
 	private static RestServiceHelper INSTANCE; 
 	
-	public static enum Services {TEMP, XX}
-	
 	private RestServiceHelper() {
 	}
 	
@@ -39,36 +46,22 @@ public class RestServiceHelper {
 		}
 		return INSTANCE;
 	}
-	
+
 	public void startServiceTest(Context context, ServiceModel serviceModel) {
+		Log.v("DEBUG", "HERE3");
 		Intent selectIntent = new Intent(context, RestIntentService.class);
+		Log.v("DEBUG", "HERE4");
 		selectIntent.putExtra("ServiceModel", serviceModel);
+		Log.v("DEBUG", "HERE5");
         context.startService(selectIntent);
+		Log.v("DEBUG", "HERE6");
 	}
 	
-	public class ServiceReferenceFactory {
-		public ServiceModel getService(Services service) {
-			/*
-			switch(service) {
-				case TEMP :
-					try {
-						Type typeToken = new TypeToken<Temperature>(){}.getType();
-
-						String uri = ServicesConstants.SERVICE1_URI; 
-						
-						return new ServiceModel();
-						
-					} catch (URISyntaxException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
-				case XX :
-					break;
-			}
-			*/
-			return null;
-		}
+	public void startServiceTest(Context context, UkappsServices service) throws URISyntaxException {
+		Log.v("DEBUG", "HERE2");
+		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
+		Log.v("DEBUG startServiceTest", sm.toString());
+		this.startServiceTest(context, sm);
 	}
-
+	
 }

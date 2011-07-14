@@ -3,19 +3,26 @@ package no.uka.findmyapp.android.demo;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import no.uka.findmyapp.android.rest.R;
+import no.uka.findmyapp.android.rest.client.BroadcastTokens;
 import no.uka.findmyapp.android.rest.client.HttpType;
 import no.uka.findmyapp.android.rest.client.RestServiceHelper;
 import no.uka.findmyapp.android.rest.client.ServiceDataFormat;
+import no.uka.findmyapp.android.rest.client.UkappsServices;
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.Temperature;
+import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -33,17 +40,16 @@ public class UkappsRestClientDemoActivity extends Activity {
         
         ServiceModel serviceModel;
 		try {
-			serviceModel = new ServiceModel(
-					new URI("http://10.0.2.2:8080/findmyapp/locations/1/temperature/latest"),
-					HttpType.GET, 
-					ServiceDataFormat.JSON, new TypeToken<Temperature>(){}.getType(),  BroadcastTokens.BROADCAST_INTENT_TOKEN);
-			
-
 	        ReciveIntent intentReceiver = new ReciveIntent();
 			IntentFilter intentFilter = new IntentFilter(BroadcastTokens.BROADCAST_INTENT_TOKEN);
 
 			registerReceiver(intentReceiver, intentFilter); 
-			serviceHelper.startServiceTest(this, serviceModel); 
+			Handler handler = new Handler();
+			
+			this.getContentResolver()
+			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
+			Log.v("DEBUG", "HERE1");
+			serviceHelper.startServiceTest(this, UkappsServices.UKAEVENTS); 
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -51,6 +57,21 @@ public class UkappsRestClientDemoActivity extends Activity {
 		}
         
     }
+    
+    class MyContentObserver extends ContentObserver {
+
+		public MyContentObserver(Handler handler) {
+			super(handler);
+			// TODO Auto-generated constructor stub
+		}
+    	@Override
+    	public void onChange(boolean selfChange) {
+    		// TODO Auto-generated method stub
+    		super.onChange(selfChange);
+    		Log.v("CONTENT OBSERVER", "oBSERVED");
+    	}
+    }
+    
     public class ReciveIntent extends BroadcastReceiver {
 
 		@Override
@@ -61,10 +82,14 @@ public class UkappsRestClientDemoActivity extends Activity {
 			Gson gson = new Gson(); 
 			if (intent.getAction().equals(BroadcastTokens.BROADCAST_INTENT_TOKEN)) {
 				Serializable obj = intent.getSerializableExtra("return");
-				//gson.toJson(obj);
-				Temperature t = (Temperature) obj;
+				List<UkaEvent> t = (List<UkaEvent>) obj;
+				
+				for(UkaEvent u : t) {
+					Log.w("BroadcastIntentDebug", u.toString());
+					
+				}
+				
 				//tv.setText(t.toString()); 
-				Log.w("BroadcastIntentDebug", t.toString());
 			}
 		}
 	}

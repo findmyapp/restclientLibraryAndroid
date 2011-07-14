@@ -66,7 +66,26 @@ public class RestProcessor {
 	}
 	
 	private void sendToContentProvider(Uri uri, UkaEvent ukaEvent) {
-		ContentValues cv = new ContentValues(ukaEvent.getContentValues()); 
+		ContentValues cv = new ContentValues();
+		cv.put(UkaEventContract.EVENT_ID, ukaEvent.getEntranceId());
+		cv.put(UkaEventContract.BILLING_ID, ukaEvent.getBillingid());
+		cv.put(UkaEventContract.ENTRANCE_ID, ukaEvent.getEntranceId());
+		cv.put(UkaEventContract.TITLE, ukaEvent.getTitle()); 
+		cv.put(UkaEventContract.LEAD, ukaEvent.getLead());
+		cv.put(UkaEventContract.TEXT, ukaEvent.getText());
+		cv.put(UkaEventContract.PLACE, ukaEvent.getPlace());
+		cv.put(UkaEventContract.IMAGE, ukaEvent.getImage());
+		cv.put(UkaEventContract.THUMBNAIL, ukaEvent.getThumbnail());
+		cv.put(UkaEventContract.HIDDEN_FROM_LISTING, ukaEvent.isHidden_from_listings());
+		cv.put(UkaEventContract.SLUG, ukaEvent.getSlug());
+		cv.put(UkaEventContract.AGE_LIMIT, ukaEvent.getAgeLimit());
+		cv.put(UkaEventContract.DETAIL_PHOTO_ID, ukaEvent.getDetailPhotoId()); 
+		cv.put(UkaEventContract.SHOWING_TIME, ukaEvent.getShowingTime().toLocaleString());
+		cv.put(UkaEventContract.PUBLISH_TIME, ukaEvent.getPublishTime().toLocaleString());
+		cv.put(UkaEventContract.NETSALE_FROM, ukaEvent.getNetsaleFrom().toLocaleString());
+		cv.put(UkaEventContract.NETSALE_TO, ukaEvent.getNetsaleTo().toLocaleString());
+		cv.put(UkaEventContract.FREE, ukaEvent.isFree());
+		cv.put(UkaEventContract.CANCELED, ukaEvent.isCanceled());
 		
 		ContentResolver cr = context.getContentResolver(); 
 		cr.insert(uri, cv);

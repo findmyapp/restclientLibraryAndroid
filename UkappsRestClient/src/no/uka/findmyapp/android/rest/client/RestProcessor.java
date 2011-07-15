@@ -100,13 +100,18 @@ public class RestProcessor {
 		try {
 			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());
 			response = restMethod.get(serviceModel.getDataformat());
-			
 			Log.v(debug, "executeAndParse: Response " + response);
-			UkaEvent event = (UkaEvent) gson.fromJson(response, UkaEvent.class);
-			Log.v(debug, "executeAndParse: Serializable " + event.toString());
-			return event;
+			Class theClass = Class.forName(serviceModel.getReturnType());
+			Type t1 = (Type) new TypeToken<Object>(){}.get(theClass).getType();
+			
+			Serializable s = (Serializable)gson.fromJson(response, t1);
+			Log.v(debug, "executeAndParse: Serializable " + s.toString());
+			return s;
 		} catch (Exception e) {
+			// TODO Fix return
 			Log.v(debug, "executeAndParse: Exception " + e.getMessage());
+			e.printStackTrace();
+			
 			return e; 
 		}
 	}
@@ -114,9 +119,16 @@ public class RestProcessor {
 	
 	private void sendToContentProvider(Uri uri, Serializable object) {
 		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
-		ContentResolver cr = context.getContentResolver(); 
-		ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
-		cr.insert(uri, cv);
+		ContentResolver cr = context.getContentResolver();
+		if(ContentHelper.isList(object)) {
+			List<ContentValues> list = ContentHelper.getContentValuesList(object);
+			for(ContentValues values : list) {
+				cr.insert(uri, values);
+			}
+		} else {
+			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
+			cr.insert(uri, cv);
+		}
 	}
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {

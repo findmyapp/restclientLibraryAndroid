@@ -1,19 +1,14 @@
 package no.uka.findmyapp.android.demo;
 
 import java.io.Serializable;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.R;
 import no.uka.findmyapp.android.rest.client.BroadcastTokens;
-import no.uka.findmyapp.android.rest.client.HttpType;
 import no.uka.findmyapp.android.rest.client.RestServiceHelper;
-import no.uka.findmyapp.android.rest.client.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.client.UkappsServices;
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
-import no.uka.findmyapp.android.rest.datamodels.Temperature;
 import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -24,10 +19,8 @@ import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class UkappsRestClientDemoActivity extends Activity {
 	private static RestServiceHelper serviceHelper = RestServiceHelper.getInstance(); 
@@ -51,6 +44,12 @@ public class UkappsRestClientDemoActivity extends Activity {
 			serviceHelper.startServiceTest(this, UkappsServices.TEMPERATURE_SAMPLE); 
 			
 		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

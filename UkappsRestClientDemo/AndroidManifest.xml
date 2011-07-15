@@ -13,9 +13,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+		<provider android:name="no.uka.findmyapp.android.rest.providers.EventsProvider" 
+			android:authorities="no.uka.findmyapp.android.rest.providers.EventsProvider" 
+			android:exported="false"
+			android:enabled="true">
+			
+			<grant-uri-permission android:pathPattern=".*" />
+		</provider> 
         </activity>
+        
 		
 		<service android:name="no.uka.findmyapp.android.rest.client.RestIntentService"/>
-		
     </application>
 </manifest>

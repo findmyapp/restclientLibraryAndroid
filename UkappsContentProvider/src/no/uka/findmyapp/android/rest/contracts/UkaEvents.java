@@ -14,7 +14,7 @@ public final class UkaEvents implements BaseColumns{
     /**
      * Defines the authority part of the URI
      */
-	public static final String AUTHORITY = "no.uka.findmyapp.EventsProvider"; 
+	public static final String AUTHORITY = "no.uka.findmyapp.android.rest.providers.EventsProvider"; 
 	
     /**
      * The scheme prefix

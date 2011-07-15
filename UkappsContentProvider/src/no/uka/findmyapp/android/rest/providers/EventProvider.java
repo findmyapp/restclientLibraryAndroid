@@ -30,7 +30,7 @@ public class EventProvider extends ContentProvider {
 	   /**
 	    * The database version
 	    */
-	   private static final int DATABASE_VERSION = 2;
+	   private static final int DATABASE_VERSION = 3;
 
 	   /**
 	    * A projection map used to select columns from the database
@@ -65,7 +65,7 @@ public class EventProvider extends ContentProvider {
 	       uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 	       // Setup the right patterns to the events "dir"
-	       uriMatcher.addURI(UkaEvents.AUTHORITY, "events/", EVENTS);
+	       uriMatcher.addURI(UkaEvents.AUTHORITY, "events", EVENTS);
 	      
 	       /*
 	        * Setup pattern to a spesific event by using the spesific 

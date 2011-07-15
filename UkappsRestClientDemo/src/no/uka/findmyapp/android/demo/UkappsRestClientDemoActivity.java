@@ -41,7 +41,7 @@ public class UkappsRestClientDemoActivity extends Activity {
 			this.getContentResolver()
 			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
 			Log.v("DEBUG", "HERE1");
-			serviceHelper.startServiceTest(this, UkappsServices.TEMPERATURE_SAMPLE); 
+			serviceHelper.startServiceTest(this, UkappsServices.UKAEVENTS); 
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

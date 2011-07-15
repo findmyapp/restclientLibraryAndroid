@@ -7,5 +7,7 @@
 
     <application>
 
+		<provider android:name="no.uka.findmyapp.android.rest.providers.EventsProvider" 
+		android:authorities="no.uka.findmyapp.android.rest.providers.EventsProvider" android:exported="true" /> 
     </application>
 </manifest>

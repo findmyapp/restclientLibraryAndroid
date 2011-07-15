@@ -57,7 +57,7 @@ public class RestServiceHelper {
 		Log.v("DEBUG", "HERE6");
 	}
 	
-	public void startServiceTest(Context context, UkappsServices service) throws URISyntaxException {
+	public void startServiceTest(Context context, UkappsServices service) throws URISyntaxException, IllegalAccessException, InstantiationException {
 		Log.v("DEBUG", "HERE2");
 		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
 		Log.v("DEBUG startServiceTest", sm.toString());

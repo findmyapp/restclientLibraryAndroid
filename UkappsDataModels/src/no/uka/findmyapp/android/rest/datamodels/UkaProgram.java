@@ -1,10 +1,11 @@
 package no.uka.findmyapp.android.rest.datamodels;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UkaProgram {
+public class UkaProgram  implements Serializable {
 	private List<UkaEvent> events;
 	private int eventSize;
 	

@@ -65,27 +65,36 @@ public class RestProcessor {
 		restMethod.setUri(serviceModel.getUri());
 		String response = "";
 		try {
-			Log.v("PROCESSOR", "SM : " + serviceModel.toString());
+			Log.v("PROCESSOR", "EXECUTE: SM : " + serviceModel.toString());
 			response = restMethod.get(serviceModel.getDataformat());
-			Class collectionType = new TypeToken<Temperature>(){}.getClass();
+			Log.v("PROCESSOR", "EXECUTE: R : " + response);
+			Class theClass = Class.forName(serviceModel.getReturnType());
+			Type t1 = (Type) new TypeToken<Object>(){}.get(theClass).getType();
 			
-			Log.v("PROCESSOR", "R : " + response);
-			Serializable s = (Serializable)gson.fromJson(response, (Type) collectionType);
-			Log.v("PROCESSOR", s.toString());
+			Serializable s = (Serializable)gson.fromJson(response, t1);
+			Log.v("PROCESSOR", "EXECUTE: R : " + s.toString());
 			return s;
 		} catch (Exception e) {
 			// TODO Fix return
 			e.printStackTrace();
-			
 			return e; 
 		}
 	}
 	
 	private void sendToContentProvider(Uri uri, Serializable object) {
 		Log.v("DEBUG _ REST", object.getClass().getName());
-		ContentResolver cr = context.getContentResolver(); 
-		ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
-		cr.insert(uri, cv);
+		ContentResolver cr = context.getContentResolver();
+		if(ContentHelper.isList(object)) {
+			List<ContentValues> list = ContentHelper.getContentValuesList(object);
+			for(ContentValues values : list) {
+				cr.insert(uri, values);
+			}
+		} else {
+			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
+			cr.insert(uri, cv);
+		}
+		
+		
 	}
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {

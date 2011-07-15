@@ -2,9 +2,11 @@ package no.uka.findmyapp.android.rest.client.model;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import no.uka.findmyapp.android.rest.client.HttpType;
 import no.uka.findmyapp.android.rest.client.ServiceDataFormat;
+import android.net.Uri;
 
 public class ServiceModel implements Serializable{
 	
@@ -15,7 +17,7 @@ public class ServiceModel implements Serializable{
 	private URI uri;
 	private HttpType httpType;
 	private ServiceDataFormat dataformat; 
-	private Class returnType;
+	private String returnType;
 	private Serializable data; 
 	private URI contentProviderUri; 
 	private String broadcastNotification; 
@@ -24,17 +26,17 @@ public class ServiceModel implements Serializable{
 	
 	public ServiceModel(URI uri, HttpType httpType,
 			ServiceDataFormat dataformat, Class returnType, Serializable data,
-			URI contentProviderUri, String broadcastNotification) {
+			Uri contentProviderUri, String broadcastNotification) throws URISyntaxException {
 		super();
 		this.uri = uri;
 		this.httpType = httpType;
 		this.dataformat = dataformat;
-		this.returnType = returnType;
+		this.returnType = returnType.getName();
 		this.data = data;
-		this.contentProviderUri = contentProviderUri;
+		this.contentProviderUri = new URI(contentProviderUri.toString());
 		this.broadcastNotification = broadcastNotification;
 	}
-
+/*
 	public ServiceModel(URI uri, HttpType httpType,
 			ServiceDataFormat dataformat, Class returnType, Serializable data,
 			URI contentProviderUri) {
@@ -66,7 +68,7 @@ public class ServiceModel implements Serializable{
 			ServiceDataFormat dataformat, Class returnType, URI contentProviderUri, String broadcastNotification) {
 		this(uri, httpType, dataformat, returnType, null, contentProviderUri, broadcastNotification);
 	}
-	
+	*/
 	public URI getUri() {
 		return uri;
 	}
@@ -88,10 +90,10 @@ public class ServiceModel implements Serializable{
 		this.dataformat = dataformat;
 	}
 
-	public Class getReturnType() {
+	public String getReturnType() {
 		return returnType;
 	}
-	public void setReturnType(Class returnType) {
+	public void setReturnType(String returnType) {
 		this.returnType = returnType;
 	}
 	

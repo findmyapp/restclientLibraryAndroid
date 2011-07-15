@@ -1,6 +1,7 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
+import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
@@ -33,5 +34,16 @@ public class UkaEventContentMapper implements IContentMapper {
 		contentValues.put(UkaEventContract.FREE, event.isFree());
 		contentValues.put(UkaEventContract.CANCELED, event.isCanceled());
 		return contentValues;
+	}
+
+	@Override
+	public boolean isList() {
+		return false;
+	}
+
+	@Override
+	public List<ContentValues> mapValuesList(Serializable object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

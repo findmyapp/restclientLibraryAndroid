@@ -22,7 +22,7 @@ import android.widget.Toast;
  */
 
 public class RestIntentService extends IntentService {
-    public static final String TAG = "RestIntentService";
+    public static final String debug = "RestIntentService";
     private RestProcessor _restProcessor;
 
     public RestIntentService() {
@@ -32,24 +32,24 @@ public class RestIntentService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-    	Log.v("Debug","HandleIntent");
-        Log.v(TAG, "" + new Date() + ", In onHandleIntent for thread id = " + Thread.currentThread().getId());
+    	Log.v(debug,"Inside onHandleIntent");
+        Log.v(debug, "" + new Date() + ", In onHandleIntent for thread id = " + Thread.currentThread().getId());
 
         Bundle bundle = intent.getExtras();
         ServiceModel serviceModel = (ServiceModel) bundle.get("ServiceModel");
 
 		
-		Log.v(TAG, "STARTING" + " URI: " + serviceModel);
+		Log.v(debug, "onHandleIntent: STARTING URI: " + serviceModel);
 	//	this.getApplication
 		_restProcessor.callRest(serviceModel);
 		
-		Log.v(TAG, "DONE HandleIntent");
-        Log.v(TAG, "" + new Date() + ", This thread is waked up.");
+		Log.v(debug, "onHandleIntent: DONE HandleIntent");
+        Log.v(debug, "" + new Date() + ", This thread is waked up.");
 	}
 	@Override
     public void onCreate() {
     	super.onCreate();
-    	Log.v("Debug:","Service started");
+    	Log.v(debug,"onCreate: service started");
     }
 	
     @Override

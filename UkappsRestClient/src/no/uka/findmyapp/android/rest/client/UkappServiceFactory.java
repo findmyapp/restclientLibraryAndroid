@@ -21,13 +21,13 @@ public class UkappServiceFactory {
 		switch (service) {
 		case UKAEVENTS:
 			return new ServiceModel(
-					new URI("http://10.0.2.2:8080/findmyapp/program/uka11/events"),
-					HttpType.GET, 
-					ServiceDataFormat.JSON, 
-					UkaProgram.class, 
-					null,
-					UkaEventContract.EVENT_CONTENT_URI,
-					BroadcastTokens.BROADCAST_INTENT_TOKEN);
+				new URI("http://10.0.2.2:8080/findmyapp/program/uka11/events"),
+				HttpType.GET, 
+				ServiceDataFormat.JSON, 
+				UkaProgram.class, 
+				null,
+				UkaEventContract.EVENT_CONTENT_URI,
+				BroadcastTokens.BROADCAST_INTENT_TOKEN);
 		default:
 			break;
 		}

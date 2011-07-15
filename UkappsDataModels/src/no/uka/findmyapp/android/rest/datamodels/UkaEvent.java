@@ -1,6 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 public class UkaEvent implements Serializable {
 	private int id;
@@ -204,8 +204,8 @@ public class UkaEvent implements Serializable {
 		return showingTime;
 	}
 
-	public void setShowingTime(Date showingTime) {
-		this.showingTime = showingTime;
+	public void setShowingTime(Date date) {
+		this.showingTime = date;
 	}
 
 	public Date getPublishTime() {

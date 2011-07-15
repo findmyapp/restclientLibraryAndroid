@@ -31,6 +31,8 @@ import android.util.Log;
  *  	- Dispatch callbacks to the user interface listeners
  */
 public class RestServiceHelper {
+	private static final String debug = "RestServiceHelper";
+	
 	/**
 	 * The singleton RestServiceHelper instance
 	 */
@@ -48,20 +50,19 @@ public class RestServiceHelper {
 	}
 
 	public void startServiceTest(Context context, ServiceModel serviceModel) {
-		Log.v("DEBUG", "HERE3");
+		Log.v(debug, "inside starteServiceTest HERE3");
 		Intent selectIntent = new Intent(context, RestIntentService.class);
-		Log.v("DEBUG", "HERE4");
+		Log.v(debug, "starteServiceTest selectIntent created HERE4");
 		selectIntent.putExtra("ServiceModel", serviceModel);
-		Log.v("DEBUG", "HERE5");
+		Log.v(debug, "starteServiceTest serivce model added to intent HERE5");
         context.startService(selectIntent);
-		Log.v("DEBUG", "HERE6");
+		Log.v(debug, "starteServiceTest HERE6");
 	}
 	
 	public void startServiceTest(Context context, UkappsServices service) throws URISyntaxException, IllegalAccessException, InstantiationException {
-		Log.v("DEBUG", "HERE2");
+		Log.v(debug, "startServiceTest HERE2");
 		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
-		Log.v("DEBUG startServiceTest", sm.toString());
+		Log.v(debug, "startServiceTest " + sm.toString());
 		this.startServiceTest(context, sm);
 	}
-	
 }

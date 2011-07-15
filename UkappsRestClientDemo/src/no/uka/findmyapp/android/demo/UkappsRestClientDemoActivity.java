@@ -15,6 +15,7 @@ import no.uka.findmyapp.android.rest.client.model.ServiceModel;
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.Temperature;
 import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
+import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -88,9 +89,9 @@ public class UkappsRestClientDemoActivity extends Activity {
 			Gson gson = new Gson(); 
 			if (intent.getAction().equals(BroadcastTokens.BROADCAST_INTENT_TOKEN)) {
 				Serializable obj = intent.getSerializableExtra("return");
-				List<UkaEvent> t = (List<UkaEvent>) obj;
+				UkaProgram t = (UkaProgram) obj;
 				
-				for(UkaEvent u : t) {
+				for(UkaEvent u : t.getEvents()) {
 					Log.w("BroadcastIntentDebug", u.toString());
 					
 				}

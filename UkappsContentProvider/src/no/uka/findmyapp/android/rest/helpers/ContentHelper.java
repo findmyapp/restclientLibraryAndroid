@@ -13,7 +13,6 @@ public class ContentHelper {
 	public static ContentValues getContentValues(Serializable object) {
 		
 		try {
-			
 			String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
 			Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class.forName(classString);
 			IContentMapper contentMapper = (IContentMapper) mapperClass.newInstance();

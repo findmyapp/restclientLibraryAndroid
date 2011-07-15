@@ -2,6 +2,7 @@ package no.uka.findmyapp.android.rest.contracts;
 
 //TODO check table definition datavalues
 
+import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -45,6 +46,23 @@ public final class Sensors implements BaseColumns{
 		 *  Table name
 		 */
 		public static final String TABLE_NAME = "sensor_temperature"; 
+		
+		/**
+		 * Create table query
+		 */
+		public static final String CREATE_TABLE_QUERY = 
+			  "CREATE TABLE " + TemperatureTable.TABLE_NAME + " ("	
+			  + TemperatureTable.ID + " INTEGER PRIMARY KEY, "
+			  + TemperatureTable.LOCATION_ID + " INTEGER, "
+			  + TemperatureTable.VALUE + " FLOAT, "
+			  + TemperatureTable.DATE + " DATETIME "
+			  + ");"; 
+		
+		/**
+		 * Drop table query
+		 */
+		public static final String DROP_TABLE_QUERY =
+			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
 		
 		/*
 		 * URI Definitions
@@ -139,6 +157,23 @@ public final class Sensors implements BaseColumns{
 		 */
 		public static final String TABLE_NAME = "sensor_humidity"; 
 		
+		/**
+		 * Create table query
+		 */
+		public static final String CREATE_TABLE_QUERY = 
+			  "CREATE TABLE " + HumidityTable.TABLE_NAME + " ("	
+			  + HumidityTable.ID + " INTEGER PRIMARY KEY, "
+			  + HumidityTable.LOCATION_ID + " INTEGER, "
+			  + HumidityTable.VALUE + " FLOAT, "
+			  + HumidityTable.DATE + " DATETIME "
+			  + ");"; 
+		
+		/**
+		 * Drop table query
+		 */
+		public static final String DROP_TABLE_QUERY =
+			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
+		
 		/*
 		 * URI Definitions
 		 */
@@ -231,6 +266,27 @@ public final class Sensors implements BaseColumns{
 		 *  Table name
 		 */
 		public static final String TABLE_NAME = "sensor_noise";
+		
+		/**
+		 * Create table query
+		 */
+		public static final String CREATE_TABLE_QUERY = 
+			  "CREATE TABLE " + NoiseTable.TABLE_NAME + " ("	
+			  + NoiseTable.ID + " INTEGER PRIMARY KEY, "
+			  + NoiseTable.LOCATION_ID + " INTEGER, "
+			  + NoiseTable.AVERAGE + " FLOAT, "
+			  + NoiseTable.MIN + " FLOAT, "
+			  + NoiseTable.MAX + " FLOAT, "
+			  + NoiseTable.STANDARD_DEVIATION + " FLOAT, "
+			  + NoiseTable.SAMPLES + " TEXT, "
+			  + NoiseTable.DATE + " DATETIME "
+			  + ");"; 
+		
+		/**
+		 * Drop table query
+		 */
+		public static final String DROP_TABLE_QUERY =
+			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
 		
 		/*
 		 * URI Definitions
@@ -349,6 +405,24 @@ public final class Sensors implements BaseColumns{
 		 *  Table name
 		 */
 		public static final String TABLE_NAME = "sensor_beertap";
+		
+		/**
+		 * Create table query
+		 */
+		public static final String CREATE_TABLE_QUERY = 
+			  "CREATE TABLE " + BeerTapTable.TABLE_NAME + " ("	
+			  + BeerTapTable.ID + " INTEGER PRIMARY KEY, "
+			  + BeerTapTable.LOCATION_ID + " INTEGER, "
+			  + BeerTapTable.DATE + " DATETIME, "
+			  + BeerTapTable.TAPNR + " INTEGER, "
+			  + BeerTapTable.VALUE + " FLOAT "
+			  + ");"; 
+		
+		/**
+		 * Drop table query
+		 */
+		public static final String DROP_TABLE_QUERY =
+			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
 		
 		/*
 		 * URI Definitions

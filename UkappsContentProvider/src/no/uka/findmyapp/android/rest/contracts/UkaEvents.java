@@ -32,8 +32,42 @@ public final class UkaEvents implements BaseColumns{
 	    /**
 	     * The event table 
 	     */
-	    public static final String TABLE_NAME = "events";
+	    public static final String TABLE_NAME = "uka_events";
 	    
+		  /**
+		   * Create uka event table query
+		   */
+		  public static final String CREATE_TABLE_QUERY =
+			  "CREATE TABLE " + UkaEventContract.TABLE_NAME + " ("	
+			  + UkaEventContract.ID + " INTEGER PRIMARY KEY, "
+			  + UkaEventContract.EVENT_ID + " INTEGER, "
+			  + UkaEventContract.BILLING_ID + " INTEGER, "
+			  + UkaEventContract.ENTRANCE_ID + " INTEGER, "
+			  + UkaEventContract.TITLE + " varchar(255), "
+			  + UkaEventContract.LEAD + " varchar(255), " 
+			  + UkaEventContract.TEXT + " varchar(255), "
+			  + UkaEventContract.PLACE + " varchar(30)"
+			  + UkaEventContract.EVENT_TYPE + " varchar(30), "
+			  + UkaEventContract.IMAGE + " varchar(100), "
+			  + UkaEventContract.THUMBNAIL + " varchar(100), "
+			  + UkaEventContract.HIDDEN_FROM_LISTING + " boolean, "
+			  + UkaEventContract.SLUG + " varchar(50), "
+			  + UkaEventContract.AGE_LIMIT + " INTEGER, "
+			  + UkaEventContract.DETAIL_PHOTO_ID + " INTEGER, "
+			  + UkaEventContract.SHOWING_TIME + " DATETIME, "
+			  + UkaEventContract.PUBLISH_TIME + " DATETIME, "
+			  + UkaEventContract.NETSALE_FROM + " DATETIME, "
+			  + UkaEventContract.NETSALE_TO + " DATETIME, "
+			  + UkaEventContract.FREE + " BOOLEAN, "
+			  + UkaEventContract.CANCELED + " BOOLEAN"
+			  + ");";
+		  
+		 /**
+		  * Drop uka events table
+		  */
+		public static final String DROP_TABLE_QUERY = 
+			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
+		
 	    /**
 	     * The default sort order for this table
 	     */

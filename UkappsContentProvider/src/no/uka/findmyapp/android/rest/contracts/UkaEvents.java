@@ -54,10 +54,10 @@ public final class UkaEvents implements BaseColumns{
 			  + UkaEventContract.SLUG + " varchar(50), "
 			  + UkaEventContract.AGE_LIMIT + " INTEGER, "
 			  + UkaEventContract.DETAIL_PHOTO_ID + " INTEGER, "
-			  + UkaEventContract.SHOWING_TIME + " DATETIME, "
-			  + UkaEventContract.PUBLISH_TIME + " DATETIME, "
-			  + UkaEventContract.NETSALE_FROM + " DATETIME, "
-			  + UkaEventContract.NETSALE_TO + " DATETIME, "
+			  + UkaEventContract.SHOWING_TIME + " TIMESTAMP, "
+			  + UkaEventContract.PUBLISH_TIME + " TIMESTAMP, "
+			  + UkaEventContract.NETSALE_FROM + " TIMESTAMP, "
+			  + UkaEventContract.NETSALE_TO + " TIMESTAMP, "
 			  + UkaEventContract.FREE + " BOOLEAN, "
 			  + UkaEventContract.CANCELED + " BOOLEAN"
 			  + ");";
@@ -66,7 +66,7 @@ public final class UkaEvents implements BaseColumns{
 		  * Drop uka events table
 		  */
 		public static final String DROP_TABLE_QUERY = 
-			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
+			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 		
 	    /**
 	     * The default sort order for this table

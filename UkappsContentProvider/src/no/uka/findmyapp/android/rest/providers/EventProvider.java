@@ -30,7 +30,7 @@ public class EventProvider extends ContentProvider {
 	   /**
 	    * The database version
 	    */
-	   private static final int DATABASE_VERSION = 4;
+	   private static final int DATABASE_VERSION = 5;
 
 	   /**
 	    * A projection map used to select columns from the database

@@ -79,7 +79,9 @@ public class UkappsRestClientDemoActivity extends Activity {
 			Log.w("BroadcastIntentDebug", "---------");
 			//TextView tv = (TextView) findViewById(R.id.debugResult);
 			Gson gson = new Gson(); 
+			
 			if (intent.getAction().equals(BroadcastTokens.BROADCAST_INTENT_TOKEN)) {
+				/*
 				Serializable obj = intent.getSerializableExtra("return");
 				UkaProgram t = (UkaProgram) obj;
 				
@@ -87,6 +89,7 @@ public class UkappsRestClientDemoActivity extends Activity {
 					Log.w("BroadcastIntentDebug", u.toString());
 					
 				}
+				*/
 				//tv.setText(t.toString()); 
 			}
 		}

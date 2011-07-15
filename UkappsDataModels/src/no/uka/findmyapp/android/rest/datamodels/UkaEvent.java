@@ -61,16 +61,15 @@ public class UkaEvent implements Serializable {
      */
 	private int detailPhotoId;
 	
-	/**
 	
-    private Date showingTime;
+    private long showingTime;
     
-    private Date publishTime;
+    private long publishTime;
     
 
-    private Date netsaleFrom;
+    private long netsaleFrom;
     
-    private Date netsaleTo;
+    private long netsaleTo;
     
     /**
      */
@@ -199,38 +198,38 @@ public class UkaEvent implements Serializable {
 	public void setDetailPhotoId(int detailPhotoId) {
 		this.detailPhotoId = detailPhotoId;
 	}
-	/*
-	public Date getShowingTime() {
+
+	public long getShowingTime() {
 		return showingTime;
 	}
 
-	public void setShowingTime(Date date) {
+	public void setShowingTime(long date) {
 		this.showingTime = date;
 	}
 
-	public Date getPublishTime() {
+	public long getPublishTime() {
 		return publishTime;
 	}
-	public void setPublishTime(Date publishTime) {
+	public void setPublishTime(long publishTime) {
 		this.publishTime = publishTime;
 	}
 
-	public Date getNetsaleFrom() {
+	public long getNetsaleFrom() {
 		return netsaleFrom;
 	}
 
-	public void setNetsaleFrom(Date netsaleFrom) {
+	public void setNetsaleFrom(long netsaleFrom) {
 		this.netsaleFrom = netsaleFrom;
 	}
 
-	public Date getNetsaleTo() {
+	public long getNetsaleTo() {
 		return netsaleTo;
 	}
 
-	public void setNetsaleTo(Date netsaleTo) {
+	public void setNetsaleTo(long netsaleTo) {
 		this.netsaleTo = netsaleTo;
 	}
-*/
+
 	public boolean isFree() {
 		return free;
 	}
@@ -246,15 +245,7 @@ public class UkaEvent implements Serializable {
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
 	}
-	/*
-	public String getStartTime() {
-		return showingTime.toLocaleString();
-	}
 	
-	public int getDayNumber() {
-		return showingTime.getDay();
-	}
-*/
 	@Override
 	public String toString() {
 		return "UkaEvent [id=" + id + ", eventId=" + eventId + ", billingid="

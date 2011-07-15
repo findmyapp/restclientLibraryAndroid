@@ -12,7 +12,6 @@ public class ContentHelper {
 	public static ContentValues getContentValues(Serializable object) {
 		
 		try {
-			
 			String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
 			Log.v("DEBUG", classString);
 			Log.v("DEBUG", object.getClass().getSimpleName());

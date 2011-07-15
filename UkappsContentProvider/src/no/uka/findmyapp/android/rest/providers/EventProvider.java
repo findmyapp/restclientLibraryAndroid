@@ -17,7 +17,11 @@ import android.net.Uri;
 import android.util.Log;
 
 public class EventProvider extends ContentProvider {
-
+	   /**
+	    * Debug tag
+	    */
+		private static final String debug = "EventProvider";
+	
 	   /**
 	    * The local event database name
 	    */
@@ -101,37 +105,11 @@ public class EventProvider extends ContentProvider {
 	    * deleting tables
 	    */
 	  private static class EventsDatabaseHelper extends SQLiteOpenHelper {
-		  
-		  private static final String CREATE_TABLE_QUERY =
-			  "CREATE TABLE " + UkaEventContract.TABLE_NAME + " ("	
-			  + UkaEventContract.ID + " INTEGER PRIMARY KEY, "
-			  + UkaEventContract.EVENT_ID + " INTEGER, "
-			  + UkaEventContract.BILLING_ID + " INTEGER, "
-			  + UkaEventContract.ENTRANCE_ID + " INTEGER, "
-			  + UkaEventContract.TITLE + " varchar(255), "
-			  + UkaEventContract.LEAD + " varchar(255), " 
-			  + UkaEventContract.TEXT + " varchar(255), "
-			  + UkaEventContract.PLACE + " varchar(30)"
-			  + UkaEventContract.EVENT_TYPE + " varchar(30), "
-			  + UkaEventContract.IMAGE + " varchar(100), "
-			  + UkaEventContract.THUMBNAIL + " varchar(100), "
-			  + UkaEventContract.HIDDEN_FROM_LISTING + " boolean, "
-			  + UkaEventContract.SLUG + " varchar(50), "
-			  + UkaEventContract.AGE_LIMIT + " INTEGER, "
-			  + UkaEventContract.DETAIL_PHOTO_ID + " INTEGER, "
-			  + UkaEventContract.SHOWING_TIME + " DATETIME, "
-			  + UkaEventContract.PUBLISH_TIME + " DATETIME, "
-			  + UkaEventContract.NETSALE_FROM + " DATETIME, "
-			  + UkaEventContract.NETSALE_TO + " DATETIME, "
-			  + UkaEventContract.FREE + " BOOLEAN, "
-			  + UkaEventContract.CANCELED + " BOOLEAN"
-			  + ");";
-		  
-		  private static final String DROP_TABLE_QUERY = 
-			  "DROP TABLE IF EXISTS " + UkaEventContract.TABLE_NAME; 
-		  
+		  private static final String debug = "EventesDatabaseHelper";
+
 	      public EventsDatabaseHelper(Context context) {
 	          super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			  Log.v(debug, "Inside constructor");
 	      }
 
 	      /**
@@ -140,7 +118,8 @@ public class EventProvider extends ContentProvider {
 	       */
 	      @Override
 	      public void onCreate(SQLiteDatabase db) {
-	          db.execSQL(CREATE_TABLE_QUERY); 
+			  Log.v(debug, "On create");
+	          db.execSQL(UkaEventContract.CREATE_TABLE_QUERY); 
 	      }
 
 	      //TODO Implement implement UKA-program caching
@@ -151,12 +130,13 @@ public class EventProvider extends ContentProvider {
 	       */
 	      @Override
 	      public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			  Log.v(debug, "Inside onUpgrade");
 
 	          Log.w("EventProvider", "Upgrading database, version:" + oldVersion + " to "
 	                  + newVersion + ", the data is dropped");
 
 	          // Drops the table
-	          db.execSQL("DROP TABLE IF EXISTS notes");
+	          db.execSQL(UkaEventContract.DROP_TABLE_QUERY);
 
 	          // Recreates the database
 	          onCreate(db);
@@ -165,7 +145,7 @@ public class EventProvider extends ContentProvider {
 
 	  @Override
 	  public boolean onCreate() {
-
+		  Log.v(debug, "Inside onCreate");
 	      dbHelper = new EventsDatabaseHelper(getContext());
 
 	      // Returns true by default, throws exceptions if something fails
@@ -174,7 +154,7 @@ public class EventProvider extends ContentProvider {
 
 	  @Override
 	  public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-
+		  Log.v(debug, "Inside query");
 	      SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 	      qb.setTables(UkaEventContract.TABLE_NAME);
 
@@ -202,6 +182,7 @@ public class EventProvider extends ContentProvider {
 
 	  @Override
 	  public String getType(Uri uri) {
+		  Log.v(debug, "Inside getType");
 	      switch (uriMatcher.match(uri)) {
 	          case EVENTS:
 	              return UkaEventContract.CONTENT_TYPE_EVENT;
@@ -214,6 +195,7 @@ public class EventProvider extends ContentProvider {
 
 	   @Override
 	   public Uri insert(Uri uri, ContentValues initialValues) {
+		Log.v(debug, "Inside insert");
 	       if (uriMatcher.match(uri) != EVENTS) {
 	           throw new IllegalArgumentException("Unknown URI " + uri);
 	       }
@@ -249,7 +231,7 @@ public class EventProvider extends ContentProvider {
 
 	   @Override
 	   public int delete(Uri uri, String where, String[] whereArgs) {
-
+			  Log.v(debug, "Inside delete");
 	       SQLiteDatabase db = dbHelper.getWritableDatabase();
 	       String finalWhere;
 
@@ -279,6 +261,7 @@ public class EventProvider extends ContentProvider {
 
 	   @Override
 	   public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
+			  Log.v(debug, "inside update");
 	       SQLiteDatabase db = dbHelper.getWritableDatabase();
 	       int count;
 	       String finalWhere;

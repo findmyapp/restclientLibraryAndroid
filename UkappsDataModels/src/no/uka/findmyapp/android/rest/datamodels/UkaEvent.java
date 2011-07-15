@@ -63,22 +63,21 @@ public class UkaEvent implements Serializable {
 	
 	/**
      */
-	/*
+	
     private Date showingTime;
     
     /**
      */
-	/*
+	
     private Date publishTime;
     
     /**
      */
-	/*
+
     private Date netsaleFrom;
     
     /**
      */
-	/*
     private Date netsaleTo;
     
     /**
@@ -208,8 +207,7 @@ public class UkaEvent implements Serializable {
 	public void setDetailPhotoId(int detailPhotoId) {
 		this.detailPhotoId = detailPhotoId;
 	}
-
-	/*
+	
 	public Date getShowingTime() {
 		return showingTime;
 	}
@@ -241,7 +239,6 @@ public class UkaEvent implements Serializable {
 		this.netsaleTo = netsaleTo;
 	}
 
-*/
 	public boolean isFree() {
 		return free;
 	}
@@ -256,6 +253,14 @@ public class UkaEvent implements Serializable {
 
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
+	}
+	
+	public String getStartTime() {
+		return showingTime.toLocaleString();
+	}
+	
+	public int getDayNumber() {
+		return showingTime.getDay();
 	}
 
 	@Override

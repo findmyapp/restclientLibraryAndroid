@@ -21,7 +21,7 @@ public class UkappServiceFactory {
 		switch (service) {
 		case UKAEVENTS:
 			return new ServiceModel(
-				new URI("http://findmyapp.net/findmyapp/program/uka11/events"),
+				new URI("http://findmyapp.net/findmyapp/program/uka11/events.json"),
 				HttpType.GET, 
 				ServiceDataFormat.JSON, 
 				new TypeToken<List<UkaEvent>>(){}.getClass(), 

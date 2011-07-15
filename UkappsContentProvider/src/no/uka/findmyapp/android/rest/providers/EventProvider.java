@@ -118,7 +118,7 @@ public class EventProvider extends ContentProvider {
 	       */
 	      @Override
 	      public void onCreate(SQLiteDatabase db) {
-			  Log.v(debug, "On create");
+			  Log.v(debug, "Inside onCreate");
 	          db.execSQL(UkaEventContract.CREATE_TABLE_QUERY); 
 	      }
 
@@ -169,9 +169,9 @@ public class EventProvider extends ContentProvider {
 	          default:
 	              throw new IllegalArgumentException("Unknown URI " + uri);
 	      }
-
+	      
 	      SQLiteDatabase db = dbHelper.getReadableDatabase();
-
+	      Log.v(debug, "query: querystatment " + qb.toString());
 	      Cursor cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
 
 	      // Tells the Cursor what URI to watch, so it knows when its source data changes
@@ -207,10 +207,11 @@ public class EventProvider extends ContentProvider {
 	       else {
 	           values = new ContentValues();
 	       }
-
+	       
 			SQLiteDatabase db = dbHelper.getWritableDatabase(); 
-	        Log.v("INFO", "DB: " +db.toString());
+	        Log.v(debug, "insert: selected database " + db.toString());
 			
+	        Log.v(debug, "insert: insertvalues " + values.toString());
 			
 			/* The second insert() parameter is a nullColumnHack, 
 			 * a somewhat crappy solution which is used to avoid 

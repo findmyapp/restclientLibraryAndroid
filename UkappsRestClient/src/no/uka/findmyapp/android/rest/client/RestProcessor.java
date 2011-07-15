@@ -3,6 +3,7 @@ package no.uka.findmyapp.android.rest.client;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
@@ -25,11 +26,14 @@ import com.google.gson.reflect.TypeToken;
  * 
  */
 public class RestProcessor {
+	private static final String debug = "RestProcessor"; 
+	
 	private RestMethod restMethod;
 	private Gson gson;
 	private Context context; 
 	
 	public RestProcessor(Context context) {
+		Log.v(debug, "Inside RestProcessor creator");
 		this.context = context; 
 		this.restMethod = new RestMethod();
 		GsonBuilder builder = new GsonBuilder();
@@ -40,9 +44,10 @@ public class RestProcessor {
 		
 		switch(serviceModel.getHttpType()) {
 			case GET :
+				Log.v(debug, "callRest: trying executeAndParese " + serviceModel);
 				Object o = this.executeAndParse(serviceModel);
 				
-				Log.v("PROCESSOR", o.getClass().getName());
+				Log.v(debug, "callRest: executeAndParse done, object name " + o.getClass().getName());
 				Serializable returnedObject = this.executeAndParse(serviceModel);
 				if(serviceModel.getBroadcastNotification() != null) 
 					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
@@ -61,36 +66,62 @@ public class RestProcessor {
 		}
 	}
 	
+	private UkaEvent executeAndParse(ServiceModel serviceModel) {
+		Log.v(debug, "Inside executeAndParse");
+		UkaEvent e = new UkaEvent(); 
+		
+		e.setId(11);
+	/*	e.setShowingTime(new Date("2011-10-03 13:37")); 
+		e.setPublishTime(new Date("2011-10-03 13:37")); 
+		e.setPublishTime(new Date("2011-10-03 13:37"));
+		e.setPublishTime(new Date("2011-10-03 13:37"));
+		*/
+		e.setPlace("Samfundet"); 
+		e.setEventId(10); 
+		e.setFree(false); 
+		e.setCanceled(false);
+		e.setEntranceId(10); 
+		e.setTitle("Konsert 1"); 
+		e.setLead("Lead 1");
+		e.setText("Dette er et arrangement!"); 
+		e.setEventType("Konsert");
+		e.setImage("bilde1.jpg"); 
+		e.setThumbnail("thumb1.jpg");
+		e.setAgeLimit(23); 
+		e.setDetailPhotoId(0);
+		Log.v(debug, "executeAndParse: returning " + e.toString());
+		return e; 
+	}
+	
+	/*
 	private Serializable executeAndParse(ServiceModel serviceModel) {
 		restMethod.setUri(serviceModel.getUri());
 		String response = "";
 		try {
-			Log.v("PROCESSOR", "SM : " + serviceModel.toString());
+			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());
 			response = restMethod.get(serviceModel.getDataformat());
-			Class collectionType = new TypeToken<Temperature>(){}.getClass();
 			
-			Log.v("PROCESSOR", "R : " + response);
-			Serializable s = (Serializable)gson.fromJson(response, (Type) collectionType);
-			Log.v("PROCESSOR", s.toString());
-			return s;
+			Log.v(debug, "executeAndParse: Response " + response);
+			UkaEvent event = (UkaEvent) gson.fromJson(response, UkaEvent.class);
+			Log.v(debug, "executeAndParse: Serializable " + event.toString());
+			return event;
 		} catch (Exception e) {
-			// TODO Fix return
-			e.printStackTrace();
-			
+			Log.v(debug, "executeAndParse: Exception " + e.getMessage());
 			return e; 
 		}
 	}
+	*/
 	
 	private void sendToContentProvider(Uri uri, Serializable object) {
-		Log.v("DEBUG _ REST", object.getClass().getName());
+		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
 		ContentResolver cr = context.getContentResolver(); 
 		ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
 		cr.insert(uri, cv);
 	}
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {
-		Log.v("RestProcessor", "sending broadcast");
-		Log.v("DEBUG _ REST", obj.getClass().getName());
+		Log.v(debug, "sendIntentBroadcast: sending broadcast");
+		Log.v(debug, "sendIntentBroadcast: object name " + obj.getClass().getName());
 		Intent broadcastedIntent = new Intent(); 
 		broadcastedIntent.putExtra("return", obj);
 		broadcastedIntent.setAction(intentString);

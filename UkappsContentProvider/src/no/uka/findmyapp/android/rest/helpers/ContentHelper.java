@@ -9,11 +9,10 @@ import android.util.Log;
 
 public class ContentHelper {
 	private static final String debug = "ContentHelper";
-	
 	private static final String MAPPER_POSTFIX = "ContentMapper";
 	private static final String MAPPER_PREFIX = "no.uka.findmyapp.android.rest.mapper.";
+	
 	public static ContentValues getContentValues(Serializable object) {
-		
 		try {
 			String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
 			Log.v(debug, "getContentValues: " + classString);

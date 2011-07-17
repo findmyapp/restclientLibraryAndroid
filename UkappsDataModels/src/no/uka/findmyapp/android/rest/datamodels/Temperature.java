@@ -1,17 +1,15 @@
 package no.uka.findmyapp.android.rest.datamodels;
 
 import java.io.Serializable;
-import java.sql.Date;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
+import java.sql.Timestamp;
 
 public class Temperature implements Serializable {
+
+	private static final long serialVersionUID = 3585851763563250840L;
 	private int id;
 	private int locationId;
 	private float value;
-	//private Date date;
+	private long date;
 	
 	public int getId() {
 		return id;
@@ -36,18 +34,18 @@ public class Temperature implements Serializable {
 	public void setValue(float value) {
 		this.value = value;
 	}
-	/*
-	public Date getDate() {
+
+	public long getDate() {
 		return date;
 	}
 	
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
-	*/
+
 	@Override
 	public String toString() {
 		return "Temperature [id=" + id + ", locationId=" + locationId
-				+ ", value=" + value + "]";
+				+ ", value=" + value + ", date=" + date + "]";
 	}
 }

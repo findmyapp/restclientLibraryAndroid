@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UkaProgram  implements Serializable {
+
+	private static final long serialVersionUID = 1068267981093192578L;
+
 	private List<UkaEvent> events;
 	private int eventSize;
-	
 	
 	public UkaProgram() {
 		events = new ArrayList<UkaEvent>();

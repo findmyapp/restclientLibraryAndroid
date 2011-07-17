@@ -37,13 +37,12 @@ public class UkaEventContentMapper implements IContentMapper {
 	}
 
 	@Override
+	public List<ContentValues> mapValuesList(Serializable object) {
+		return null;
+	}
+	
+	@Override
 	public boolean isList() {
 		return false;
-	}
-
-	@Override
-	public List<ContentValues> mapValuesList(Serializable object) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

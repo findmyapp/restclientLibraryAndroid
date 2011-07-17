@@ -1,82 +1,30 @@
 package no.uka.findmyapp.android.rest.datamodels;
 import java.io.Serializable;
-import java.util.Date;
 
 public class UkaEvent implements Serializable {
+	
+	private static final long serialVersionUID = -1589155612163861047L;
+
 	private int id;
-	
-    /**
-     */
-	private int eventId;
-	
-    /**
-     */
+	private long eventId;
 	private int billingid;
-	
-    /**
-     */
 	private int entranceId;
-	
-    /**
-     */
 	private String title;
-	
-	/**
-	 */
 	private String lead;
-	
-	/**
-	 */
 	private String text;
-	
-    /**
-     */
 	private String place;
-	
-    /**
-     */
 	private String eventType;
-	
-    /**
-     */
 	private String image;
-
-    /**
-     */
 	private String thumbnail;
-	
-    /**
-     */
 	private boolean hidden_from_listings;
-	
-    /**
-     */
 	private String slug;
-	
-    /**
-     */
 	private int ageLimit;
-	
-    /**
-     */
 	private int detailPhotoId;
-	
-	
     private long showingTime;
-    
     private long publishTime;
-    
-
     private long netsaleFrom;
-    
     private long netsaleTo;
-    
-    /**
-     */
 	private boolean free;
-	
-	 /**
-     */
 	private boolean canceled;
 
 	public int getId() {
@@ -87,11 +35,11 @@ public class UkaEvent implements Serializable {
 		this.id = id;
 	}
 
-	public int getEventId() {
+	public long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(int eventId) {
+	public void setEventId(long eventId) {
 		this.eventId = eventId;
 	}
 

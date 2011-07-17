@@ -17,20 +17,18 @@ public class NoiseContentMapper implements IContentMapper {
 		contentValues.put(Sensors.NoiseTable.MAX, noiseSample.getMax());
 		contentValues.put(Sensors.NoiseTable.SAMPLES, noiseSample.getSamples());
 		contentValues.put(Sensors.NoiseTable.STANDARD_DEVIATION, noiseSample.getStandardDeviation());
-	    contentValues.put(Sensors.NoiseTable.DATE, noiseSample.getDate().toLocaleString()); 
+	    contentValues.put(Sensors.NoiseTable.DATE, noiseSample.getDate()); 
 
 		return contentValues;
 	}
 
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isList() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

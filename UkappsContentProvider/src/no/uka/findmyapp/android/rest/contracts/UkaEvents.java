@@ -219,25 +219,25 @@ public final class UkaEvents implements BaseColumns{
 		
 		/**
          * Column name for the showing time timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String SHOWING_TIME = "showing_time";
         
         /**
          * Column name for the publish time timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String PUBLISH_TIME = "publish_time";
         
         /**
          * Column name for thenetsaleFrom timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String NETSALE_FROM = "netsale_from";
         
         /**
          * Column name for the netsaleTo timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String NETSALE_TO = "netsale_to";
         

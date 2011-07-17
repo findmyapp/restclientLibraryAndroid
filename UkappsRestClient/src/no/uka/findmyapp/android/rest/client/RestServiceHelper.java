@@ -49,20 +49,27 @@ public class RestServiceHelper {
 		return INSTANCE;
 	}
 
-	public void startServiceTest(Context context, ServiceModel serviceModel) {
-		Log.v(debug, "inside starteServiceTest HERE3");
+	public void callStartService(Context context, ServiceModel serviceModel) {
+		Log.v(debug, "Inside callStarteService, using ServiceModel");
+		
 		Intent selectIntent = new Intent(context, RestIntentService.class);
-		Log.v(debug, "starteServiceTest selectIntent created HERE4");
-		selectIntent.putExtra("ServiceModel", serviceModel);
-		Log.v(debug, "starteServiceTest serivce model added to intent HERE5");
-        context.startService(selectIntent);
-		Log.v(debug, "starteServiceTest HERE6");
+		Log.v(debug, "callStarteService: selectIntent created");
+		
+		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
+		Log.v(debug, "callStarteService: serivce model added to intent");
+        
+		context.startService(selectIntent);
+		Log.v(debug, "callStarteService: context.startSerivce() called");
 	}
 	
-	public void startServiceTest(Context context, UkappsServices service) throws URISyntaxException, IllegalAccessException, InstantiationException {
-		Log.v(debug, "startServiceTest HERE2");
+	public void callStartService(Context context, UkappsServices service) 
+			throws URISyntaxException, IllegalAccessException, InstantiationException {
+		Log.v(debug, "Innside callStartService, using UkappsSerivce");
+		
 		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
-		Log.v(debug, "startServiceTest " + sm.toString());
-		this.startServiceTest(context, sm);
+		Log.v(debug, "callStartService: preparing ServiceModel: " + sm.toString());
+		
+		this.callStartService(context, sm);
+		Log.v(debug, "callStarteService: called callStartService with ServiceModel");
 	}
 }

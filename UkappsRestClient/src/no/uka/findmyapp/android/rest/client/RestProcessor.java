@@ -2,14 +2,9 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
-import no.uka.findmyapp.android.rest.datamodels.Temperature;
-import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
-import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
 import no.uka.findmyapp.android.rest.helpers.ContentHelper;
 import android.content.ContentResolver;
 import android.content.ContentValues;

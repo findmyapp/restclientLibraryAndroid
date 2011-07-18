@@ -1,10 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-
-import android.text.format.Time;
 
 public class BeerTap implements Serializable {
 	private static final long serialVersionUID = 7627495501757920463L;

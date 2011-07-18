@@ -1,7 +1,6 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.Sensors;

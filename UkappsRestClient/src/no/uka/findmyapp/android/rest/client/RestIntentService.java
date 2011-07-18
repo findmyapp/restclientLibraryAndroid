@@ -7,7 +7,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * The RestService is able to recieve Intents sent

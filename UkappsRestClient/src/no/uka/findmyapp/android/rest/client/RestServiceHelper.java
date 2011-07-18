@@ -1,12 +1,6 @@
 package no.uka.findmyapp.android.rest.client;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.URISyntaxException;
-
-import org.apache.http.entity.SerializableEntity;
 
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
 import android.content.Context;

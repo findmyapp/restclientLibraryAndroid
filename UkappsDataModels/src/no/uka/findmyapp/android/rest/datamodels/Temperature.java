@@ -1,7 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 public class Temperature implements Serializable {
 

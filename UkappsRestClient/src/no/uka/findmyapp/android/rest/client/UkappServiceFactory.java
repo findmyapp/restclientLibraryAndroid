@@ -2,15 +2,10 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import no.uka.findmyapp.android.rest.client.model.ServiceModel;
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
-import no.uka.findmyapp.android.rest.datamodels.Temperature;
-import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
 import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
-
-import com.google.gson.reflect.TypeToken;
 
 public class UkappServiceFactory {
 	

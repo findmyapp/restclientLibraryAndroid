@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.helpers.ContentHelper;
 import android.content.ContentResolver;
 import android.content.ContentValues;

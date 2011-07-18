@@ -1,4 +1,4 @@
-package no.uka.findmyapp.android.rest.client;
+package no.uka.findmyapp.android.rest.datamodels.constants;
 
 public enum ServiceDataFormat {
 	JSON("application/json");

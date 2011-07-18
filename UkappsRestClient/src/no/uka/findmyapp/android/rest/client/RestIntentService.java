@@ -2,7 +2,7 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.util.Date;
 
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;

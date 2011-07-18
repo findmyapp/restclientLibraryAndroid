@@ -63,7 +63,7 @@ public class ServiceModel implements Serializable{
 	 */
 	public ServiceModel(URI uri, HttpType httpType,
 			ServiceDataFormat dataformat, Class returnType, Serializable data,
-			Uri contentProviderUri, String broadcastNotification) throws URISyntaxException {
+			Uri contentProviderUri, String broadcastNotification, String localIdentifier) throws URISyntaxException {
 		super();
 		this.uri = uri;
 		this.httpType = httpType;
@@ -72,6 +72,7 @@ public class ServiceModel implements Serializable{
 		this.data = data;
 		this.contentProviderUri = new URI(contentProviderUri.toString());
 		this.broadcastNotification = broadcastNotification;
+		this.localIdentifier = localIdentifier;
 	}
 	
 	/**

@@ -6,5 +6,7 @@ package no.uka.findmyapp.android.rest.client;
  * 
  */
 public enum UkappsServices {
-	UKAEVENTS, TEMPERATURE_SAMPLE
+	UKAEVENTS, 
+	TEMPERATURE_SAMPLE
+	
 }

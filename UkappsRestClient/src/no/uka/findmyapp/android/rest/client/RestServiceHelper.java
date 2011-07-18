@@ -2,7 +2,7 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.net.URISyntaxException;
 
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;

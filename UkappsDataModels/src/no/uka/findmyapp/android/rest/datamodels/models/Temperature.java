@@ -24,7 +24,8 @@ public class Temperature implements Serializable {
 	
 	/** The value. */
 	private float value;
-	//private Date date;
+	
+	private long date;
 	
 	/**
 	 * Gets the id.
@@ -79,21 +80,19 @@ public class Temperature implements Serializable {
 	public void setValue(float value) {
 		this.value = value;
 	}
-	/*
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 	
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
-	*/
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+
 	@Override
 	public String toString() {
 		return "Temperature [id=" + id + ", locationId=" + locationId
-				+ ", value=" + value + "]";
+				+ ", value=" + value + ", date=" + date + "]";
 	}
+	
+	
 }

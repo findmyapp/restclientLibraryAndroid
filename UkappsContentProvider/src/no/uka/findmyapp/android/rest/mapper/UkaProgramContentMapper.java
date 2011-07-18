@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
-import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
+import no.uka.findmyapp.android.rest.datamodels.models.UkaEvent;
+import no.uka.findmyapp.android.rest.datamodels.models.UkaProgram;
 import android.content.ContentValues;
+import android.util.Log;
 
 public class UkaProgramContentMapper implements IContentMapper  {
 	@Override
@@ -17,6 +18,7 @@ public class UkaProgramContentMapper implements IContentMapper  {
 		List<ContentValues> events = new ArrayList<ContentValues>();
 		
 		for(UkaEvent event : up.getEvents()) {
+			Log.v("event", event.toString());
 			UkaEventContentMapper u = new UkaEventContentMapper();
 			ContentValues ue = u.mapValues(event);
 			events.add(ue);

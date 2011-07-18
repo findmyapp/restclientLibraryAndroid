@@ -3,7 +3,7 @@ package no.uka.findmyapp.android.demo;
 import java.net.URISyntaxException;
 
 import no.uka.findmyapp.android.rest.R;
-import no.uka.findmyapp.android.rest.client.BroadcastTokens;
+import no.uka.findmyapp.android.rest.client.IntentMessages;
 import no.uka.findmyapp.android.rest.client.RestServiceHelper;
 import no.uka.findmyapp.android.rest.client.UkappsServices;
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
@@ -29,18 +29,30 @@ public class UkappsRestClientDemoActivity extends Activity {
         setContentView(R.layout.main);
         
 		try {
+<<<<<<< HEAD
 			ReciveIntent intentReceiver = new ReciveIntent();
 			IntentFilter intentFilter = new IntentFilter(BroadcastTokens.BROADCAST_INTENT_TOKEN);
+=======
+	        ReciveIntent intentReceiver = new ReciveIntent();
+			IntentFilter intentFilter = new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN);
+
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 			registerReceiver(intentReceiver, intentFilter); 
 			
 			Handler handler = new Handler();
 			this.getContentResolver()
+<<<<<<< HEAD
 			.registerContentObserver(
 					UkaEventContract.EVENT_CONTENT_URI,
 					false, 
 					new MyContentObserver(handler));
 
 			serviceHelper.startService(this, UkappsServices.UKAEVENTS); 
+=======
+			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
+			Log.v("DEBUG", "HERE1");
+			serviceHelper.callStartService(this, UkappsServices.UKAEVENTS); 
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -78,7 +90,7 @@ public class UkappsRestClientDemoActivity extends Activity {
 			//TextView tv = (TextView) findViewById(R.id.debugResult);
 			Gson gson = new Gson(); 
 			
-			if (intent.getAction().equals(BroadcastTokens.BROADCAST_INTENT_TOKEN)) {
+			if (intent.getAction().equals(IntentMessages.BROADCAST_INTENT_TOKEN)) {
 				/*
 				Serializable obj = intent.getSerializableExtra("return");
 				UkaProgram t = (UkaProgram) obj;

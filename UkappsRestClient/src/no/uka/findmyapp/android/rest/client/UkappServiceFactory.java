@@ -4,10 +4,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
+<<<<<<< HEAD
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import no.uka.findmyapp.android.rest.datamodels.models.UkaProgram;
+=======
+import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 
 public class UkappServiceFactory {
 	
@@ -18,13 +22,13 @@ public class UkappServiceFactory {
 		switch (service) {
 		case UKAEVENTS:
 			return new ServiceModel(
-				new URI("http://10.0.2.2:8080/findmyapp/program/uka11/events"),
+				new URI("http://findmyapp.net/findmyapp/program/uka11/events"),
 				HttpType.GET, 
 				ServiceDataFormat.JSON, 
 				UkaProgram.class,
 				null,
 				UkaEventContract.EVENT_CONTENT_URI,
-				BroadcastTokens.BROADCAST_INTENT_TOKEN);
+				IntentMessages.BROADCAST_INTENT_TOKEN);
 		default:
 			break;
 		}

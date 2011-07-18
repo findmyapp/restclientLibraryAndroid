@@ -6,7 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 
 public interface IContentMapper {
-	ContentValues mapValues(Serializable object);
-	List<ContentValues>mapValuesList(Serializable object);
-	boolean isList();
+	public ContentValues mapValues(Serializable object);
+	public List<ContentValues>mapValuesList(Serializable object);
+	public boolean isList();
 }

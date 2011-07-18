@@ -21,12 +21,18 @@ import android.util.Log;
  */
 
 public class RestIntentService extends IntentService {
+<<<<<<< HEAD
     public static final String TAG = "RestIntentService";
     private RestProcessor _restProcessor;
+=======
+    public static final String debug = "RestIntentService";
+    
+    private RestProcessor restProcessor;
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 
     public RestIntentService() {
         super("RestIntentService");
-        _restProcessor = new RestProcessor(this);
+        this.restProcessor = new RestProcessor(this);
     }
 
 	/* (non-Javadoc)
@@ -37,10 +43,17 @@ public class RestIntentService extends IntentService {
         Log.v(TAG, "" + new Date() + ", In onHandleIntent for thread id = " + Thread.currentThread().getId());
 
         Bundle bundle = intent.getExtras();
+<<<<<<< HEAD
         ServiceModel serviceModel = (ServiceModel) bundle.get("ServiceModel");
 
 		Log.v(TAG, "onHandleIntent: STARTING URI: " + serviceModel);
 		_restProcessor.callRest(serviceModel);
+=======
+        ServiceModel serviceModel = (ServiceModel) bundle.get(IntentMessages.SERVICE_MODEL_PACKAGE);
+		
+		Log.v(debug, "onHandleIntent: Sending " + serviceModel + " to the rest processor");
+		this.restProcessor.callRest(serviceModel);
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 		
 		Log.v(TAG, "onHandleIntent: DONE HandleIntent");
         Log.v(TAG, "" + new Date() + ", This thread is waked up.");

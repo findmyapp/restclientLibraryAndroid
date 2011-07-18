@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 /**
  * Defines a contract between the event content provider and its clients.
  * Clients should only use information given by this "contract" to fetch
- * data from the SensorProvider.
+ * data from the EventsProvider.
  */
 public final class UkaEvents implements BaseColumns{
 	private UkaEvents() {}
@@ -67,11 +67,6 @@ public final class UkaEvents implements BaseColumns{
 		  */
 		public static final String DROP_TABLE_QUERY = 
 			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
-		
-	    /**
-	     * The default sort order for this table
-	     */
-	    public static final String DEFAULT_SORT_ORDER = "modified DESC";
 		
         /**
          * Path part for the event URI
@@ -219,25 +214,25 @@ public final class UkaEvents implements BaseColumns{
 		
 		/**
          * Column name for the showing time timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String SHOWING_TIME = "showing_time";
         
         /**
          * Column name for the publish time timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String PUBLISH_TIME = "publish_time";
         
         /**
          * Column name for thenetsaleFrom timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String NETSALE_FROM = "netsale_from";
         
         /**
          * Column name for the netsaleTo timestamp
-         * <P>Type: DATETIME</P>
+         * <P>Type: TIMESTAMP</P>
          */
         public static final String NETSALE_TO = "netsale_to";
         

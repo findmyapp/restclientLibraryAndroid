@@ -2,7 +2,11 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.net.URISyntaxException;
 
+<<<<<<< HEAD
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
+=======
+import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -51,6 +55,7 @@ public class RestServiceHelper {
 		return INSTANCE;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Start service test.
 	 *
@@ -77,5 +82,29 @@ public class RestServiceHelper {
 		Log.v(TAG, "Prepare startService");
 		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
 		this.startService(context, sm);
+=======
+	public void callStartService(Context context, ServiceModel serviceModel) {
+		Log.v(debug, "Inside callStarteService, using ServiceModel");
+		
+		Intent selectIntent = new Intent(context, RestIntentService.class);
+		Log.v(debug, "callStarteService: selectIntent created");
+		
+		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
+		Log.v(debug, "callStarteService: serivce model added to intent");
+        
+		context.startService(selectIntent);
+		Log.v(debug, "callStarteService: context.startSerivce() called");
+	}
+	
+	public void callStartService(Context context, UkappsServices service) 
+			throws URISyntaxException, IllegalAccessException, InstantiationException {
+		Log.v(debug, "Innside callStartService, using UkappsSerivce");
+		
+		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
+		Log.v(debug, "callStartService: preparing ServiceModel: " + sm.toString());
+		
+		this.callStartService(context, sm);
+		Log.v(debug, "callStarteService: called callStartService with ServiceModel");
+>>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 	}
 }

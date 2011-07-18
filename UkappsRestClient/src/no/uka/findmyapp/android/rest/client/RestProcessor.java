@@ -2,14 +2,9 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
-import no.uka.findmyapp.android.rest.datamodels.Temperature;
-import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
-import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
+import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.helpers.ContentHelper;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -22,122 +17,134 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
+ * The Class RestProcessor.
  */
 public class RestProcessor {
-	private static final String debug = "RestProcessor"; 
 	
+	/** The Constant debug. */
+	private static final String TAG = "RestProcessor"; 
+	
+	/** The rest method. */
 	private RestMethod restMethod;
+	
+	/** The gson. */
 	private Gson gson;
+	
+	/** The context. */
 	private Context context; 
 	
+	/**
+	 * Instantiates a new rest processor.
+	 *
+	 * @param context the context
+	 */
 	public RestProcessor(Context context) {
-		Log.v(debug, "Inside RestProcessor creator");
+		Log.v(TAG, "Inside RestProcessor creator");
 		this.context = context; 
 		this.restMethod = new RestMethod();
-		GsonBuilder builder = new GsonBuilder();
-		this.gson = builder.create();
+		this.gson = new GsonBuilder().create();
 	}
 	
+	/**
+	 * Call rest.
+	 *
+	 * @param serviceModel the service model
+	 */
 	public void callRest(ServiceModel serviceModel) {
+		
 		
 		switch(serviceModel.getHttpType()) {
 			case GET :
-				Log.v(debug, "callRest: trying executeAndParese " + serviceModel);
+				Log.v(TAG, "callRest: trying executeAndParese " + serviceModel);
 				Object o = this.executeAndParse(serviceModel);
 				
-				Log.v(debug, "callRest: executeAndParse done, object name " + o.getClass().getName());
+				Log.v(TAG, "callRest: executeAndParse done, object name " + o.getClass().getName());
 				Serializable returnedObject = this.executeAndParse(serviceModel);
 				if(serviceModel.getBroadcastNotification() != null) 
-					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
+					this.sendIntentBroadcast(
+							serviceModel.getBroadcastNotification(), returnedObject);
+				
 				if(serviceModel.getContentProviderUri() != null)
-					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject);
+					this.sendToContentProvider(
+							Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject);
 			break;
+			
 			case POST :
 				//TODO
 			break;
+			
 			case DELETE :
 				//TODO
 			break;
+			
 			case PUT :
 				//TODO
 			break;
 		}
 	}
 	
-	private UkaEvent executeAndParse(ServiceModel serviceModel) {
-		Log.v(debug, "Inside executeAndParse");
-		UkaEvent e = new UkaEvent(); 
-		
-		e.setId(11);
-	/*	e.setShowingTime(new Date("2011-10-03 13:37")); 
-		e.setPublishTime(new Date("2011-10-03 13:37")); 
-		e.setPublishTime(new Date("2011-10-03 13:37"));
-		e.setPublishTime(new Date("2011-10-03 13:37"));
-		*/
-		e.setPlace("Samfundet"); 
-		e.setEventId(10); 
-		e.setFree(false); 
-		e.setCanceled(false);
-		e.setEntranceId(10); 
-		e.setTitle("Konsert 1"); 
-		e.setLead("Lead 1");
-		e.setText("Dette er et arrangement!"); 
-		e.setEventType("Konsert");
-		e.setImage("bilde1.jpg"); 
-		e.setThumbnail("thumb1.jpg");
-		e.setAgeLimit(23); 
-		e.setDetailPhotoId(0);
-		Log.v(debug, "executeAndParse: returning " + e.toString());
-		return e; 
-	}
-	
-	/*
+	/**
+	 * Execute and parse.
+	 *
+	 * @param serviceModel the service model
+	 * @return the serializable
+	 */
 	private Serializable executeAndParse(ServiceModel serviceModel) {
 		restMethod.setUri(serviceModel.getUri());
 		String response = "";
 		try {
-			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());
+			Log.v(TAG, "executeAndParse: ServiceModel " + serviceModel.toString());
 			response = restMethod.get(serviceModel.getDataformat());
-			Log.v(debug, "executeAndParse: Response " + response);
-			Class theClass = Class.forName(serviceModel.getReturnType());
-			Type t1 = (Type) new TypeToken<Object>(){}.get(theClass).getType();
+			Log.v(TAG, "executeAndParse: Response " + response);
+			Serializable s = (Serializable)gson.fromJson(
+					response, (Type) TypeToken.get(Class.forName(serviceModel.getReturnType())).getType());
 			
-			Serializable s = (Serializable)gson.fromJson(response, t1);
-			Log.v(debug, "executeAndParse: Serializable " + s.toString());
+			Log.v(TAG, "executeAndParse: Serializable " + s.toString());
 			return s;
 		} catch (Exception e) {
 			// TODO Fix return
-			Log.v(debug, "executeAndParse: Exception " + e.getMessage());
+			Log.v(TAG, "executeAndParse: Exception " + e.getMessage());
 			e.printStackTrace();
-			
 			return e; 
 		}
 	}
-	*/
 	
+	/**
+	 * Send to content provider.
+	 *
+	 * @param uri the uri
+	 * @param object the object
+	 */
 	private void sendToContentProvider(Uri uri, Serializable object) {
-		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
+		Log.v(TAG, "sendToContentProvider: serializable object " + object.getClass().getName());
 		ContentResolver cr = context.getContentResolver();
 		if(ContentHelper.isList(object)) {
 			List<ContentValues> list = ContentHelper.getContentValuesList(object);
+			cr.bulkInsert(uri, (ContentValues[])list.toArray());
+			/*
 			for(ContentValues values : list) {
 				cr.insert(uri, values);
-			}
+			}*/
 		} else {
 			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
 			cr.insert(uri, cv);
 		}
 	}
 	
+	/**
+	 * Send intent broadcast.
+	 *
+	 * @param intentString the intent string
+	 * @param obj the obj
+	 */
 	private void sendIntentBroadcast(String intentString, Serializable obj) {
-		Log.v(debug, "sendIntentBroadcast: sending broadcast");
-		Log.v(debug, "sendIntentBroadcast: object name " + obj.getClass().getName());
+		Log.v(TAG, "sendIntentBroadcast: sending broadcast");
+		Log.v(TAG, "sendIntentBroadcast: object name " + obj.getClass().getName());
 		Intent broadcastedIntent = new Intent(); 
 		broadcastedIntent.putExtra("return", obj);
 		broadcastedIntent.setAction(intentString);
-		
 		context.sendBroadcast(broadcastedIntent);
 	}
 }

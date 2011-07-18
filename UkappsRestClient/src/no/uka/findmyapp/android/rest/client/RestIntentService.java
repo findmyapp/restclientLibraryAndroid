@@ -2,12 +2,11 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.util.Date;
 
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * The RestService is able to recieve Intents sent
@@ -22,7 +21,7 @@ import android.widget.Toast;
  */
 
 public class RestIntentService extends IntentService {
-    public static final String debug = "RestIntentService";
+    public static final String TAG = "RestIntentService";
     private RestProcessor _restProcessor;
 
     public RestIntentService() {
@@ -30,43 +29,50 @@ public class RestIntentService extends IntentService {
         _restProcessor = new RestProcessor(this);
     }
 
+	/* (non-Javadoc)
+	 * @see android.app.IntentService#onHandleIntent(android.content.Intent)
+	 */
 	@Override
 	protected void onHandleIntent(Intent intent) {
-    	Log.v(debug,"Inside onHandleIntent");
-        Log.v(debug, "" + new Date() + ", In onHandleIntent for thread id = " + Thread.currentThread().getId());
+        Log.v(TAG, "" + new Date() + ", In onHandleIntent for thread id = " + Thread.currentThread().getId());
 
         Bundle bundle = intent.getExtras();
         ServiceModel serviceModel = (ServiceModel) bundle.get("ServiceModel");
 
-		
-		Log.v(debug, "onHandleIntent: STARTING URI: " + serviceModel);
-	//	this.getApplication
+		Log.v(TAG, "onHandleIntent: STARTING URI: " + serviceModel);
 		_restProcessor.callRest(serviceModel);
 		
-		Log.v(debug, "onHandleIntent: DONE HandleIntent");
-        Log.v(debug, "" + new Date() + ", This thread is waked up.");
+		Log.v(TAG, "onHandleIntent: DONE HandleIntent");
+        Log.v(TAG, "" + new Date() + ", This thread is waked up.");
 	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.IntentService#onCreate()
+	 */
 	@Override
     public void onCreate() {
     	super.onCreate();
-    	Log.v(debug,"onCreate: service started");
+    	Log.v(TAG,"onCreate: service started");
     }
 	
+    /* (non-Javadoc)
+     * @see android.app.IntentService#onStartCommand(android.content.Intent, int, int)
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
     	super.onStartCommand(intent, flags, startId);
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
+        Log.i(TAG, "Received start id " + startId + ": " + intent);
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
         //TODO THINK THIS WORKS....
         return START_STICKY;
     }
 
+    /* (non-Javadoc)
+     * @see android.app.IntentService#onDestroy()
+     */
     @Override
     public void onDestroy() {
     	super.onDestroy();
-    	//TODO
-        // Tell the user we stopped.
-        //Toast.makeText(this, R.string.rest_service_stopped, Toast.LENGTH_SHORT).show();
     }
 }

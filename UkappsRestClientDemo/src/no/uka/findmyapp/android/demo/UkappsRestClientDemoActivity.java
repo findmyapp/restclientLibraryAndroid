@@ -1,16 +1,12 @@
 package no.uka.findmyapp.android.demo;
 
-import java.io.Serializable;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import no.uka.findmyapp.android.rest.R;
 import no.uka.findmyapp.android.rest.client.BroadcastTokens;
 import no.uka.findmyapp.android.rest.client.RestServiceHelper;
 import no.uka.findmyapp.android.rest.client.UkappsServices;
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
-import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
-import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,16 +29,18 @@ public class UkappsRestClientDemoActivity extends Activity {
         setContentView(R.layout.main);
         
 		try {
-	        ReciveIntent intentReceiver = new ReciveIntent();
+			ReciveIntent intentReceiver = new ReciveIntent();
 			IntentFilter intentFilter = new IntentFilter(BroadcastTokens.BROADCAST_INTENT_TOKEN);
-
 			registerReceiver(intentReceiver, intentFilter); 
-			Handler handler = new Handler();
 			
+			Handler handler = new Handler();
 			this.getContentResolver()
-			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
-			Log.v("DEBUG", "HERE1");
-			serviceHelper.startServiceTest(this, UkappsServices.UKAEVENTS); 
+			.registerContentObserver(
+					UkaEventContract.EVENT_CONTENT_URI,
+					false, 
+					new MyContentObserver(handler));
+
+			serviceHelper.startService(this, UkappsServices.UKAEVENTS); 
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

@@ -1,18 +1,13 @@
 package no.uka.findmyapp.android.rest.client;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 
-import org.apache.http.entity.SerializableEntity;
-
-import no.uka.findmyapp.android.rest.client.model.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
 /**
  * The rest service helper class, a singleton 
  * which exposes a simple asynchronous
@@ -20,7 +15,6 @@ import android.util.Log;
  * 
  * Responsibility
  * 	Prepare and send the Service request:
- * 		- Check if the method is already running
  * 		- Create the requested Intent
  * 		- Add the operation type and a unique request id
  * 		- Add the method specific parameters
@@ -31,16 +25,24 @@ import android.util.Log;
  *  	- Dispatch callbacks to the user interface listeners
  */
 public class RestServiceHelper {
-	private static final String debug = "RestServiceHelper";
 	
-	/**
-	 * The singleton RestServiceHelper instance
-	 */
+	/** The Constant TAG for logging. */
+	private static final String TAG = "RestServiceHelper";
+	
+	/** The singleton RestServiceHelper instance. */
 	private static RestServiceHelper INSTANCE; 
 	
+	/**
+	 * Instantiates a new rest service helper.
+	 */
 	private RestServiceHelper() {
 	}
 	
+	/**
+	 * Gets the single instance of RestServiceHelper.
+	 *
+	 * @return single instance of RestServiceHelper
+	 */
 	public static RestServiceHelper getInstance() {
 		if(INSTANCE == null) {
 			INSTANCE = new RestServiceHelper();
@@ -49,20 +51,31 @@ public class RestServiceHelper {
 		return INSTANCE;
 	}
 
-	public void startServiceTest(Context context, ServiceModel serviceModel) {
-		Log.v(debug, "inside starteServiceTest HERE3");
+	/**
+	 * Start service test.
+	 *
+	 * @param context the context
+	 * @param serviceModel the service model
+	 */
+	public void startService(Context context, ServiceModel serviceModel) {
+		Log.v(TAG, "Prepare startService - Starting");
 		Intent selectIntent = new Intent(context, RestIntentService.class);
-		Log.v(debug, "starteServiceTest selectIntent created HERE4");
 		selectIntent.putExtra("ServiceModel", serviceModel);
-		Log.v(debug, "starteServiceTest serivce model added to intent HERE5");
         context.startService(selectIntent);
-		Log.v(debug, "starteServiceTest HERE6");
 	}
 	
-	public void startServiceTest(Context context, UkappsServices service) throws URISyntaxException, IllegalAccessException, InstantiationException {
-		Log.v(debug, "startServiceTest HERE2");
+	/**
+	 * Start service test.
+	 *
+	 * @param context the context
+	 * @param service the service
+	 * @throws URISyntaxException the uRI syntax exception
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws InstantiationException the instantiation exception
+	 */
+	public void startService(Context context, UkappsServices service) throws URISyntaxException, IllegalAccessException, InstantiationException {
+		Log.v(TAG, "Prepare startService");
 		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
-		Log.v(debug, "startServiceTest " + sm.toString());
-		this.startServiceTest(context, sm);
+		this.startService(context, sm);
 	}
 }

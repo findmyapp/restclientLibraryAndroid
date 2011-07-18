@@ -1,4 +1,4 @@
-package no.uka.findmyapp.android.rest.datamodels;
+package no.uka.findmyapp.android.rest.datamodels.models;
 
 
 import java.io.Serializable;
@@ -30,26 +30,4 @@ public class UkaProgram  implements Serializable {
 		this.events = events;
 	}
 	
-	/*
-	public void addEvent(UkaEvent e) {
-		events.add(e);
-	}
-	public void removeEvent(UkaEvent e) {
-		events.remove(e);
-	}
-	public void removeEvent(int i) {
-		events.remove(i);
-	}
-	public int getEventSize() {
-		return events.size();
-	}
-	public UkaEvent getEvent(int i) {
-		return events.get(i);
-	}
-	public List<UkaEvent> getEvents() {
-		return events;
-	}
-	public void setEvents(List<UkaEvent> events) {
-		this.events = events;
-	}*/
 }

@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
-import no.uka.findmyapp.android.rest.datamodels.UkaEvent;
-import no.uka.findmyapp.android.rest.datamodels.UkaProgram;
+import no.uka.findmyapp.android.rest.datamodels.models.UkaEvent;
+import no.uka.findmyapp.android.rest.datamodels.models.UkaProgram;
 import android.content.ContentValues;
 
 public class UkaProgramContentMapper implements IContentMapper  {

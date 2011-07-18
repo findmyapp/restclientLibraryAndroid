@@ -8,20 +8,14 @@ import android.content.ContentValues;
 import android.util.Log;
 
 public class ContentHelper {
-	private static final String debug = "ContentHelper";
+	private static final String TAG = "ContentHelper";
 	
 	private static final String MAPPER_POSTFIX = "ContentMapper";
 	private static final String MAPPER_PREFIX = "no.uka.findmyapp.android.rest.mapper.";
+	
 	public static ContentValues getContentValues(Serializable object) {
-		
 		try {
-			String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
-			Log.v(debug, "getContentValues: " + classString);
-			Log.v(debug, "getContentValues: object simple name " + object.getClass().getSimpleName());
-			Log.v(debug, "getContentValues: object canocial name " + object.getClass().getCanonicalName());
-			Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class.forName(classString);
-
-			IContentMapper contentMapper = (IContentMapper) mapperClass.newInstance();
+			IContentMapper contentMapper = (IContentMapper) getMapperClass(object).newInstance();
 			return contentMapper.mapValues(object);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -39,9 +33,7 @@ public class ContentHelper {
 	public static List<ContentValues> getContentValuesList(Serializable object) {
 
 		try {
-			String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
-			Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class.forName(classString);
-			IContentMapper contentMapper = (IContentMapper) mapperClass.newInstance();
+			IContentMapper contentMapper = (IContentMapper) getMapperClass(object).newInstance();
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -59,10 +51,7 @@ public class ContentHelper {
 	public static boolean isList(Serializable object) {
 
 		try {
-			String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
-			Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class.forName(classString);
-			IContentMapper contentMapper;
-			contentMapper = (IContentMapper) mapperClass.newInstance();
+			IContentMapper contentMapper = (IContentMapper) getMapperClass(object).newInstance();
 			return contentMapper.isList();
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
@@ -75,5 +64,13 @@ public class ContentHelper {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static Class<IContentMapper> getMapperClass(Serializable object) throws ClassNotFoundException {
+		String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
+		
+		Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class.forName(classString);
+		return mapperClass;
 	}
 }

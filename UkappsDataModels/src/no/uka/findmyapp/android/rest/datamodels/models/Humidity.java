@@ -1,15 +1,14 @@
-package no.uka.findmyapp.android.rest.datamodels;
+package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
 import java.sql.Date;
 
-public class BeerTap implements Serializable {
+public class Humidity implements Serializable {
 	private int id;
 	private int locationId;
 	private float value;
-	private int beerTowerNum; 
 	private Date date;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -33,15 +32,6 @@ public class BeerTap implements Serializable {
 	public void setValue(float value) {
 		this.value = value;
 	}
-
-	public int getBeerTowerNum() {
-		return beerTowerNum;
-	}
-
-	public void setBeerTowerNum(int beerTowerNum) {
-		this.beerTowerNum = beerTowerNum;
-	}
-
 	public Date getDate() {
 		return date;
 	}
@@ -52,7 +42,7 @@ public class BeerTap implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Temperature [id=" + id + ", locationId=" + locationId
-				+ ", value=" + value + ", beerTowerNum=" + beerTowerNum + ", date=" + date.toString() + "]";
+		return "Humidity [id=" + id + ", locationId=" + locationId
+				+ ", value=" + value + ", date=" + date.toString() + "]";
 	}
 }

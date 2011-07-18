@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.Sensors;
-import no.uka.findmyapp.android.rest.datamodels.BeerTap;
+import no.uka.findmyapp.android.rest.datamodels.models.BeerTap;
 import android.content.ContentValues;
 
 public class BeerTapContentProvider implements IContentMapper {

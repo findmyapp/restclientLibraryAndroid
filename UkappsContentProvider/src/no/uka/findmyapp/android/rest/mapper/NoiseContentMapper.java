@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.Sensors;
-import no.uka.findmyapp.android.rest.datamodels.Noise;
+import no.uka.findmyapp.android.rest.datamodels.models.Noise;
 import android.content.ContentValues;
 
 public class NoiseContentMapper implements IContentMapper {

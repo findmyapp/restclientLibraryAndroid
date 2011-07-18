@@ -1,9 +1,10 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class Noise implements Serializable {
+	private static final long serialVersionUID = 7042725896751783303L;
+
 	private int id;
 	private int locationId;
 	private float average; 
@@ -11,7 +12,7 @@ public class Noise implements Serializable {
 	private float min; 
 	private float standardDeviation;
 	private String samples; 
-	private Date date;
+	private long date;
 	
 	public int getId() {
 		return id;
@@ -69,11 +70,11 @@ public class Noise implements Serializable {
 		this.samples = samples;
 	}
 
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 
@@ -82,6 +83,6 @@ public class Noise implements Serializable {
 		return "Temperature [id=" + id + ", locationId=" + locationId
 				+ ", average=" + average + ", max=" + max + ", min=" + min
 				+ ", standardDeviation=" + standardDeviation + ", samples=" + samples 
-				+ ", date=" + date.toString() + "]";
+				+ ", date=" + date + "]";
 	}
 }

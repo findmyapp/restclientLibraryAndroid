@@ -14,20 +14,18 @@ public class HumidityContentMapper implements IContentMapper {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(Sensors.HumidityTable.LOCATION_ID, sample.getLocationId());
 		contentValues.put(Sensors.HumidityTable.VALUE, sample.getValue());
-	  //contentValues.put(Sensors.HumidityTable.DATE, sampleO.getDate()); 
+	    contentValues.put(Sensors.HumidityTable.DATE, sample.getDate());
 
 		return contentValues;
 	}
 
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isList() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

@@ -29,30 +29,16 @@ public class UkappsRestClientDemoActivity extends Activity {
         setContentView(R.layout.main);
         
 		try {
-<<<<<<< HEAD
-			ReciveIntent intentReceiver = new ReciveIntent();
-			IntentFilter intentFilter = new IntentFilter(BroadcastTokens.BROADCAST_INTENT_TOKEN);
-=======
 	        ReciveIntent intentReceiver = new ReciveIntent();
 			IntentFilter intentFilter = new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN);
 
->>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 			registerReceiver(intentReceiver, intentFilter); 
-			
 			Handler handler = new Handler();
+			
 			this.getContentResolver()
-<<<<<<< HEAD
-			.registerContentObserver(
-					UkaEventContract.EVENT_CONTENT_URI,
-					false, 
-					new MyContentObserver(handler));
-
-			serviceHelper.startService(this, UkappsServices.UKAEVENTS); 
-=======
 			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
 			Log.v("DEBUG", "HERE1");
 			serviceHelper.callStartService(this, UkappsServices.UKAEVENTS); 
->>>>>>> 82b11cff84cde59f65147417e9ed4f10d2496333
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

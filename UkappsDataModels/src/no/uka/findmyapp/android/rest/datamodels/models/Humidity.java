@@ -1,13 +1,14 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 public class Humidity implements Serializable {
+	private static final long serialVersionUID = 3094510102510621293L;
+
 	private int id;
 	private int locationId;
 	private float value;
-	private Date date;
+	private long date;
 
 	public int getId() {
 		return id;
@@ -32,17 +33,17 @@ public class Humidity implements Serializable {
 	public void setValue(float value) {
 		this.value = value;
 	}
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 
 	@Override
 	public String toString() {
 		return "Humidity [id=" + id + ", locationId=" + locationId
-				+ ", value=" + value + ", date=" + date.toString() + "]";
+				+ ", value=" + value + ", date=" + date + "]";
 	}
 }

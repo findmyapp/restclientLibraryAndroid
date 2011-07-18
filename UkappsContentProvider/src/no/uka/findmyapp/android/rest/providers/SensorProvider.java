@@ -7,7 +7,6 @@ import no.uka.findmyapp.android.rest.contracts.Sensors.BeerTapTable;
 import no.uka.findmyapp.android.rest.contracts.Sensors.HumidityTable;
 import no.uka.findmyapp.android.rest.contracts.Sensors.NoiseTable;
 import no.uka.findmyapp.android.rest.contracts.Sensors.TemperatureTable;
-import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -27,6 +26,13 @@ import android.util.Log;
  */
 public class SensorProvider extends ContentProvider {
 
+	// TODO needs refactoring; remove switches, send in table-
+	// classes/objects instead of constants?
+	
+	
+	// Debug tag
+	private static final String debug = "SensorProvider";
+	
 	/**
 	 * The local event database name
 	 */
@@ -35,10 +41,7 @@ public class SensorProvider extends ContentProvider {
 	/**
 	 * The database version
 	 */
-	private static final int DATABASE_VERSION = 2;
-
-	// Debug tag
-	private static final String DEBUG_TAG = "SensorProvider";
+	private static final int DATABASE_VERSION = 1;
 
 	private DatabaseHelper dbHelper;
 
@@ -71,10 +74,8 @@ public class SensorProvider extends ContentProvider {
 		/**
 		 * Initializing the URI mapping for the sensor data.
 		 */
-		uriMatcher.addURI(Sensors.AUTHORITY, "temperature_samples/",
-				TEMPERATURE);
-		uriMatcher.addURI(Sensors.AUTHORITY, "temperature_samples/#",
-				TEMPERATURE_ID);
+		uriMatcher.addURI(Sensors.AUTHORITY, "temperature_samples/", TEMPERATURE);
+		uriMatcher.addURI(Sensors.AUTHORITY, "temperature_samples/#", TEMPERATURE_ID);
 		uriMatcher.addURI(Sensors.AUTHORITY, "humidity_samples/", HUMIDITY);
 		uriMatcher.addURI(Sensors.AUTHORITY, "humidity_samples/#", HUMIDITY_ID);
 		uriMatcher.addURI(Sensors.AUTHORITY, "noise_samples/", NOISE);
@@ -86,89 +87,120 @@ public class SensorProvider extends ContentProvider {
 		 * Initializing the projection map for the temperature samples.
 		 */
 		temperatureProjectionMap = new HashMap<String, String>();
-
-		temperatureProjectionMap.put(Sensors.TemperatureTable.ID,
-				Sensors.TemperatureTable.ID);
-		temperatureProjectionMap.put(Sensors.TemperatureTable.LOCATION_ID,
-				Sensors.TemperatureTable.LOCATION_ID);
-		temperatureProjectionMap.put(Sensors.TemperatureTable.VALUE,
-				Sensors.TemperatureTable.VALUE);
-		temperatureProjectionMap.put(Sensors.TemperatureTable.DATE,
-				Sensors.TemperatureTable.DATE);
+		
+		temperatureProjectionMap.put(TemperatureTable.ID, TemperatureTable.ID);
+		temperatureProjectionMap.put(TemperatureTable.LOCATION_ID, TemperatureTable.LOCATION_ID);
+		temperatureProjectionMap.put(TemperatureTable.VALUE, TemperatureTable.VALUE);
+		temperatureProjectionMap.put(TemperatureTable.DATE, TemperatureTable.DATE);
 
 		/**
 		 * Initializing the projection map for the humidity samples.
 		 */
 		humidityProjectionMap = new HashMap<String, String>();
-
-		humidityProjectionMap.put(Sensors.HumidityTable.ID,
-				Sensors.HumidityTable.ID);
-		humidityProjectionMap.put(Sensors.HumidityTable.LOCATION_ID,
-				Sensors.HumidityTable.LOCATION_ID);
-		humidityProjectionMap.put(Sensors.HumidityTable.VALUE,
-				Sensors.HumidityTable.VALUE);
-		humidityProjectionMap.put(Sensors.HumidityTable.DATE,
-				Sensors.HumidityTable.DATE);
+		
+		humidityProjectionMap.put(HumidityTable.ID, HumidityTable.ID);
+		humidityProjectionMap.put(HumidityTable.LOCATION_ID, HumidityTable.LOCATION_ID);
+		humidityProjectionMap.put(HumidityTable.VALUE, HumidityTable.VALUE);
+		humidityProjectionMap.put(HumidityTable.DATE, HumidityTable.DATE);
 
 		/**
 		 * Initializing the projection map for the noise samples.
 		 */
 		noiseProjectionMap = new HashMap<String, String>();
 
-		noiseProjectionMap.put(Sensors.NoiseTable.ID, Sensors.NoiseTable.ID);
-		noiseProjectionMap.put(Sensors.NoiseTable.LOCATION_ID,
-				Sensors.NoiseTable.LOCATION_ID);
-		noiseProjectionMap.put(Sensors.NoiseTable.AVERAGE,
-				Sensors.NoiseTable.AVERAGE);
-		noiseProjectionMap.put(Sensors.NoiseTable.MIN, Sensors.NoiseTable.MIN);
-		noiseProjectionMap.put(Sensors.NoiseTable.MAX, Sensors.NoiseTable.MAX);
-		noiseProjectionMap.put(Sensors.NoiseTable.STANDARD_DEVIATION,
-				Sensors.NoiseTable.STANDARD_DEVIATION);
-		noiseProjectionMap.put(Sensors.NoiseTable.SAMPLES,
-				Sensors.NoiseTable.SAMPLES);
-		noiseProjectionMap
-				.put(Sensors.NoiseTable.DATE, Sensors.NoiseTable.DATE);
+		noiseProjectionMap.put(NoiseTable.ID, NoiseTable.ID);
+		noiseProjectionMap.put(NoiseTable.LOCATION_ID, NoiseTable.LOCATION_ID);
+		noiseProjectionMap.put(NoiseTable.AVERAGE, NoiseTable.AVERAGE);
+		noiseProjectionMap.put(NoiseTable.MIN, NoiseTable.MIN);
+		noiseProjectionMap.put(NoiseTable.MAX, NoiseTable.MAX);
+		noiseProjectionMap.put(NoiseTable.STANDARD_DEVIATION, NoiseTable.STANDARD_DEVIATION);
+		noiseProjectionMap.put(NoiseTable.SAMPLES, NoiseTable.SAMPLES);
+		noiseProjectionMap.put(NoiseTable.DATE, NoiseTable.DATE);
 
 		/**
 		 * Initializing the projection map for the beertap samples.
 		 */
 		beerTapProjectionMap = new HashMap<String, String>();
 
-		beerTapProjectionMap.put(Sensors.BeerTapTable.ID,
-				Sensors.BeerTapTable.ID);
-		beerTapProjectionMap.put(Sensors.BeerTapTable.LOCATION_ID,
-				Sensors.BeerTapTable.LOCATION_ID);
-		beerTapProjectionMap.put(Sensors.BeerTapTable.VALUE,
-				Sensors.BeerTapTable.VALUE);
-		beerTapProjectionMap.put(Sensors.BeerTapTable.DATE,
-				Sensors.BeerTapTable.DATE);
+		beerTapProjectionMap.put(BeerTapTable.ID, BeerTapTable.ID);
+		beerTapProjectionMap.put(BeerTapTable.LOCATION_ID, BeerTapTable.LOCATION_ID);
+		beerTapProjectionMap.put(BeerTapTable.VALUE, BeerTapTable.VALUE);
+		beerTapProjectionMap.put(BeerTapTable.DATE, BeerTapTable.DATE);
 	}
-
+	
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
+	public boolean onCreate() {
+		Log.d(debug, this + " CREATED");
+		dbHelper = new DatabaseHelper(getContext());
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-		int count = 0;
+		Log.v(debug, "Created " + db);
+		
+		boolean b = (dbHelper == null) ? false : true;
+		Log.v(debug, "Created " + b);
+		
+		return b;
+	}
+	
+	@Override
+	public String getType(Uri uri) {
+		Log.d(debug, "getType()URI: " + uri);
 		switch (uriMatcher.match(uri)) {
 		case TEMPERATURE:
-			count = db.delete(Sensors.TemperatureTable.TABLE_NAME, selection, selectionArgs);
-			break;
+			return TemperatureTable.CONTENT_TYPE;
 		case TEMPERATURE_ID:
-			break;
+			return TemperatureTable.CONTENT_ITEM;
 		case HUMIDITY:
-			count = db.delete(Sensors.HumidityTable.TABLE_NAME, selection, selectionArgs);
-			break;
+			return HumidityTable.CONTENT_TYPE;
 		case HUMIDITY_ID:
-			break;
+			return HumidityTable.CONTENT_ITEM;
 		case NOISE:
-			count = db.delete(Sensors.NoiseTable.TABLE_NAME, selection, selectionArgs);
-			break;
+			return NoiseTable.CONTENT_TYPE;
 		case NOISE_ID:
-			break;
+			return NoiseTable.CONTENT_ITEM;
 		case BEERTAP:
-			count = db.delete(Sensors.BeerTapTable.TABLE_NAME, selection, selectionArgs);
-			break;
+			return BeerTapTable.CONTENT_TYPE;
 		case BEERTAP_ID:
+			return BeerTapTable.CONTENT_ITEM;
+		default:
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
+	}
+	
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		int count = 0;
+		switch (uriMatcher.match(uri)) {
+		case TEMPERATURE_ID:
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection, 
+					TemperatureTable.ID_PATH_POSITION, TemperatureTable.ID);
+		case TEMPERATURE:
+			count = this.deleteFromTable(TemperatureTable.TABLE_NAME, TemperatureTable.CREATE_TABLE_QUERY, 
+					TemperatureTable.DROP_TABLE_QUERY, selection, selectionArgs);
+			break;
+			
+		case HUMIDITY_ID:
+	        selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		HumidityTable.ID_PATH_POSITION, HumidityTable.ID);	
+		case HUMIDITY:
+			count = this.deleteFromTable(HumidityTable.TABLE_NAME, HumidityTable.CREATE_TABLE_QUERY, 
+					HumidityTable.DROP_TABLE_QUERY, selection, selectionArgs);
+			break;
+			
+		case NOISE_ID:
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		NoiseTable.ID_PATH_POSITION, NoiseTable.ID);	
+		case NOISE:
+			count = this.deleteFromTable(NoiseTable.TABLE_NAME, NoiseTable.CREATE_TABLE_QUERY, 
+					NoiseTable.DROP_TABLE_QUERY, selection, selectionArgs);
+			break;
+			
+		case BEERTAP_ID:
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		BeerTapTable.ID_PATH_POSITION, BeerTapTable.ID);	
+		case BEERTAP:
+			count = this.deleteFromTable(BeerTapTable.TABLE_NAME, BeerTapTable.CREATE_TABLE_QUERY, 
+					BeerTapTable.DROP_TABLE_QUERY, selection, selectionArgs);
+					
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -179,37 +211,42 @@ public class SensorProvider extends ContentProvider {
 	}
 
 	@Override
-	public String getType(Uri uri) {
-		Log.d(DEBUG_TAG, "getType()URI: " + uri);
+	public Uri insert(Uri uri, ContentValues initValues) {
+		Log.v(debug, "insert: uri " + uri.toString()); 
+		Uri retUri; 
 		switch (uriMatcher.match(uri)) {
-		case TEMPERATURE:
-			return Sensors.TemperatureTable.CONTENT_TYPE_TEMPERATURE;
-		case TEMPERATURE_ID:
-			return Sensors.TemperatureTable.CONTENT_ITEM_TEMPERATURE;
-		case HUMIDITY:
-			return Sensors.HumidityTable.CONTENT_TYPE_HUMIDITY;
-		case HUMIDITY_ID:
-			return Sensors.HumidityTable.CONTENT_ITEM_HUMIDITY;
-		case NOISE:
-			return Sensors.NoiseTable.CONTENT_TYPE_NOISE;
-		case NOISE_ID:
-			return Sensors.NoiseTable.CONTENT_ITEM_NOISE;
-		case BEERTAP:
-			return Sensors.BeerTapTable.CONTENT_TYPE_BEERTAP;
-		case BEERTAP_ID:
-			return Sensors.BeerTapTable.CONTENT_ITEM_BEERTAP;
-		default:
-			throw new IllegalArgumentException("Unknown URI " + uri);
+			case TEMPERATURE:
+				retUri = insertRowInTable(uri, initValues, TemperatureTable.CREATE_TABLE_QUERY,
+							 TemperatureTable.DROP_TABLE_QUERY, TemperatureTable.TABLE_NAME, 
+							 TemperatureTable.LOCATION_ID, TemperatureTable.CONTENT_URI); 
+				break;
+			case HUMIDITY:
+				retUri = insertRowInTable(uri, initValues, HumidityTable.CREATE_TABLE_QUERY,
+							 HumidityTable.DROP_TABLE_QUERY, HumidityTable.TABLE_NAME, 
+							 HumidityTable.LOCATION_ID, HumidityTable.CONTENT_URI); 
+				break;
+			case NOISE:
+				retUri = insertRowInTable(uri, initValues, TemperatureTable.CREATE_TABLE_QUERY,
+							 TemperatureTable.DROP_TABLE_QUERY, TemperatureTable.TABLE_NAME, 
+							 TemperatureTable.LOCATION_ID, TemperatureTable.CONTENT_URI); 
+				break;
+			case BEERTAP:
+				retUri = insertRowInTable(uri, initValues, TemperatureTable.CREATE_TABLE_QUERY,
+							 TemperatureTable.DROP_TABLE_QUERY, TemperatureTable.TABLE_NAME, 
+							 TemperatureTable.LOCATION_ID, TemperatureTable.CONTENT_URI); 
+				break;
+				
+			default:
+				throw new IllegalArgumentException("Unknown URI " + uri);
 		}
+
+		return retUri; 
 	}
 
-	@Override
-	public Uri insert(Uri uri, ContentValues initValues) {
-		Log.v(DEBUG_TAG, "insert(): URI - INSERT " + uri);
-		if (uriMatcher.match(uri) != TEMPERATURE) {
-			throw new IllegalArgumentException("Unknown URI " + uri);
-		}
-		Log.v("DEBUG", "URI - INSERT AFTER" + uri);
+	private Uri insertRowInTable(Uri uri, ContentValues initValues, String createTableQuery, 
+			String dropTableQuery, String tableName, String nullColumn, 
+			Uri contentProviderUri) {
+		Log.v(debug, "insertRowInTable(): URI - INSERT " + uri);
 
 		ContentValues values;
 		if (initValues != null) {
@@ -218,78 +255,75 @@ public class SensorProvider extends ContentProvider {
 			values = new ContentValues();
 		}
 		
-		DatabaseHelper dbh = new DatabaseHelper(getContext());//, createTableQuery, dropTableQuery)
+		DatabaseHelper dbh = new DatabaseHelper(getContext(), createTableQuery, dropTableQuery);
 		SQLiteDatabase db = dbh.getWritableDatabase();
-		Log.v("INFO", "DB: " + db.toString());
+		Log.v(debug, "DB: " + db.toString());
 
 		/*
 		 * The second insert() parameter is a nullColumnHack, a somewhat crappy
 		 * solution that is used to avoid queries like "INSERT INTO tablename;"
 		 * isn't declared illegal. Instead it automatically creates a statement
-		 * like "INSERT INTO temperature_table (location_id) VALUES (NULL)" in
+		 * like "INSERT INTO tableName (nullColumn) VALUES (NULL)" in
 		 * this case.
 		 */
-		long rowId = db.insert(Sensors.TemperatureTable.TABLE_NAME,
-				Sensors.TemperatureTable.LOCATION_ID, values);
+		long rowId = db.insert(tableName,
+				nullColumn, values);
 		if (rowId > 0) {
 			Uri temperatureUri = ContentUris.withAppendedId(
-					TemperatureTable.TEMPERATURE_CONTENT_URI, rowId);
+				contentProviderUri, rowId);
+				
 			getContext().getContentResolver().notifyChange(uri, null);
+
 			return temperatureUri;
 		}
 		throw new IllegalArgumentException("InsertUnknown URI: " + uri);
 	}
 
 	@Override
-	public boolean onCreate() {
-		Log.d(DEBUG_TAG, this + " CREATED");
-		dbHelper = new DatabaseHelper(getContext());
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-		Log.v(DEBUG_TAG, "CREATED" + db);
-		boolean b = (dbHelper == null) ? false : true;
-
-		Log.v(DEBUG_TAG, "CREATED" + b);
-		return b;
-	}
-
-	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-
+		
 		switch (uriMatcher.match(uri)) {
+		case TEMPERATURE_ID:
+	        selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		TemperatureTable.ID_PATH_POSITION, TemperatureTable.ID);			
 		case TEMPERATURE:
-			qb.setTables(Sensors.TemperatureTable.TABLE_NAME);
+			qb.setTables(TemperatureTable.TABLE_NAME);
 			qb.setProjectionMap(temperatureProjectionMap);
 			break;
-		case TEMPERATURE_ID:
-			break;
+
+		case HUMIDITY_ID:
+	        selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		HumidityTable.ID_PATH_POSITION, HumidityTable.ID);	
 		case HUMIDITY:
-			qb.setTables(Sensors.HumidityTable.TABLE_NAME);
+			qb.setTables(HumidityTable.TABLE_NAME);
 			qb.setProjectionMap(humidityProjectionMap);
 			break;
-		case HUMIDITY_ID:
-			break;
+			
+		case NOISE_ID:
+	        selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		NoiseTable.ID_PATH_POSITION, NoiseTable.ID);	
 		case NOISE:
-			qb.setTables(Sensors.NoiseTable.TABLE_NAME);
+			qb.setTables(NoiseTable.TABLE_NAME);
 			qb.setProjectionMap(noiseProjectionMap);
 			break;
-		case NOISE_ID:
-			break;
+
+		case BEERTAP_ID:
+	        selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection,
+	        		BeerTapTable.ID_PATH_POSITION, BeerTapTable.ID);	
 		case BEERTAP:
-			qb.setTables(Sensors.BeerTapTable.TABLE_NAME);
+			qb.setTables(BeerTapTable.TABLE_NAME);
 			qb.setProjectionMap(beerTapProjectionMap);
 			break;
-		case BEERTAP_ID:
-			break;
+			
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Log.v("INFO", "DB: " + db.toString());
-		Log.v("INFO", "URI: " + uri);
+		Log.v(debug, "DB: " + db.toString());
+		Log.v(debug, "URI: " + uri);
 		Cursor c = qb.query(db, projection, selection, selectionArgs, null,
 				null, sortOrder);
 
@@ -298,49 +332,41 @@ public class SensorProvider extends ContentProvider {
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
+	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		int count = 0;
 		switch (uriMatcher.match(uri)) {
-		case TEMPERATURE:
-			count = updateTable(TemperatureTable.TABLE_NAME, TemperatureTable.CREATE_TABLE_QUERY, 
-					TemperatureTable.DROP_TABLE_QUERY, values, where, whereArgs);
-			break;
 		case TEMPERATURE_ID:
-			where = setWhereArgumentsForSpesificItem(uri, where, 
-					TemperatureTable.TEMPERATURE_SAMPLES_ID_PATH_POSITION, TemperatureTable.ID);
-			count = updateTable(TemperatureTable.ID, TemperatureTable.CREATE_TABLE_QUERY, 
-					TemperatureTable.DROP_TABLE_QUERY, values, where, whereArgs);
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection, 
+					TemperatureTable.ID_PATH_POSITION, TemperatureTable.ID);
+		case TEMPERATURE:
+			count = this.updateTable(TemperatureTable.TABLE_NAME, TemperatureTable.CREATE_TABLE_QUERY, 
+					TemperatureTable.DROP_TABLE_QUERY, values, selection, selectionArgs);
 			break;
-		case HUMIDITY:
-			count = updateTable(HumidityTable.TABLE_NAME, HumidityTable.CREATE_TABLE_QUERY, 
-					HumidityTable.DROP_TABLE_QUERY, values, where, whereArgs);
-			break;
+
 		case HUMIDITY_ID:
-			where = setWhereArgumentsForSpesificItem(uri, where, 
-					HumidityTable.HUMIDITY_SAMPLES_ID_PATH_POSITION, HumidityTable.ID);
-			count = updateTable(HumidityTable.ID, HumidityTable.CREATE_TABLE_QUERY, 
-					HumidityTable.DROP_TABLE_QUERY, values, where, whereArgs);
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection, 
+					HumidityTable.ID_PATH_POSITION, HumidityTable.ID);
+		case HUMIDITY:
+			count = this.updateTable(HumidityTable.TABLE_NAME, HumidityTable.CREATE_TABLE_QUERY, 
+					HumidityTable.DROP_TABLE_QUERY, values, selection, selectionArgs);
 			break;
-		case NOISE:
-			count = updateTable(NoiseTable.TABLE_NAME, NoiseTable.CREATE_TABLE_QUERY, 
-					NoiseTable.DROP_TABLE_QUERY, values, where, whereArgs);
-			break;
+
 		case NOISE_ID:
-			where = setWhereArgumentsForSpesificItem(uri, where, 
-					NoiseTable.NOISE_SAMPLES_ID_PATH_POSITION, NoiseTable.ID);
-			count = updateTable(NoiseTable.ID, NoiseTable.CREATE_TABLE_QUERY, 
-					NoiseTable.DROP_TABLE_QUERY, values, where, whereArgs);
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection, 
+					NoiseTable.ID_PATH_POSITION, NoiseTable.ID);
+		case NOISE:
+			count = this.updateTable(NoiseTable.TABLE_NAME, NoiseTable.CREATE_TABLE_QUERY, 
+					NoiseTable.DROP_TABLE_QUERY, values, selection, selectionArgs);
 			break;
-		case BEERTAP:
-			count = updateTable(BeerTapTable.TABLE_NAME, BeerTapTable.CREATE_TABLE_QUERY, 
-					BeerTapTable.DROP_TABLE_QUERY, values, where, whereArgs);
-			break;
+
 		case BEERTAP_ID:
-			where = setWhereArgumentsForSpesificItem(uri, where, 
-					BeerTapTable.BEERTAP_SAMPLES_ID_PATH_POSITION, BeerTapTable.ID);
-			count = updateTable(BeerTapTable.ID, BeerTapTable.CREATE_TABLE_QUERY, 
-					BeerTapTable.DROP_TABLE_QUERY, values, where, whereArgs);
+			selection = this.setWhereArgumentsForSpesificSampleItem(uri, selection, 
+					BeerTapTable.ID_PATH_POSITION, BeerTapTable.ID);
+		case BEERTAP:
+			count = this.updateTable(BeerTapTable.TABLE_NAME, BeerTapTable.CREATE_TABLE_QUERY, 
+					BeerTapTable.DROP_TABLE_QUERY, values, selection, selectionArgs);
 			break;
+			
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -350,23 +376,33 @@ public class SensorProvider extends ContentProvider {
 		return count;
 	}
 
-	private String setWhereArgumentsForSpesificItem(Uri uri, String where, int samplePathPosition, String sampleDatabaseRowId) {
-		String sampleId = uri.getPathSegments().get(samplePathPosition);
-		String finalWhere = sampleDatabaseRowId + " = " + sampleId; 
+	private String setWhereArgumentsForSpesificSampleItem(Uri uri, String selection, int idPathPositionInUri, String tableIdColumnName) {
+		String itemId = uri.getPathSegments().get(idPathPositionInUri);
+		String finalSelection = tableIdColumnName + " = " + itemId; 
 		
-		if(where != null) {
-			finalWhere = finalWhere + " AND " + where; 
+		if(selection != null) {
+			finalSelection = finalSelection + " AND " + selection; 
 		}
 		
-		return finalWhere; 
+		return finalSelection; 
 	}
 
 	private int updateTable(String tableName, String createTableQuery, String dropTableQuery, 
-			ContentValues values, String where, String[] whereArgs) {
+			ContentValues values, String selection, String[] selectionArgs) {
 		int count;
 		DatabaseHelper dbh = new DatabaseHelper(getContext(), createTableQuery, dropTableQuery); 
 		SQLiteDatabase db = dbh.getWritableDatabase();
-		count = db.update(tableName, values, where, whereArgs);
+		count = db.update(tableName, values, selection, selectionArgs);
+		
+		return count;
+	}
+	
+	private int deleteFromTable(String tableName, String createTableQuery, String dropTableQuery, 
+			String selection, String[] selectionArgs) {
+		int count;
+		DatabaseHelper dbh = new DatabaseHelper(getContext(), createTableQuery, dropTableQuery); 
+		SQLiteDatabase db = dbh.getWritableDatabase();
+		count = db.delete(tableName, selection, selectionArgs);
 		
 		return count;
 	}
@@ -396,7 +432,7 @@ public class SensorProvider extends ContentProvider {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.w(DEBUG_TAG, "Upgrading database, version:" + oldVersion
+			Log.w(debug, "Upgrading database, version:" + oldVersion
 					+ " to " + newVersion + ", the data is dropped");
 
 			// Drops the table

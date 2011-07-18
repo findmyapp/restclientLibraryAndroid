@@ -1,6 +1,7 @@
 package no.uka.findmyapp.android.rest.client;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
@@ -9,8 +10,12 @@ import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -53,11 +58,14 @@ public class RestMethod {
 	 */
 	private HttpClient client; 
 	
-	public RestMethod() {
-		
-	}
+	/**
+	 * Empty constructor
+	 */
+	public RestMethod() { }
 	
 	/** 
+	 * Overloaded constructor
+	 * 
 	 * @param url Base URL to the service
 	 */
 	public RestMethod(URI uri) {
@@ -83,19 +91,37 @@ public class RestMethod {
 	public String get(ServiceDataFormat serviceDataFormat) throws Exception {
 		HttpGet request = new HttpGet(this.uri);
 		
-		return this.execute(setRequestHeaders(serviceDataFormat.getValue(), request));
+	//	return this.execute(setRequestHeaders(request, serviceDataFormat.getValue(), this.useragent));
+		return ""; 
 	}
 	
-	private HttpRequestBase setRequestHeaders(String expectedDataFormat, HttpRequestBase request) {
+	public String put(ServiceDataFormat serviceDataFormat) {
+		HttpPut request = new HttpPut(this.uri); 
+
+		return ""; 
+	}
+	
+	public String post() {
+		HttpPost request = new HttpPost(this.uri);
+		
+		return ""; 
+	}
+	
+	public String delete() {
+		HttpDelete request = new HttpDelete(this.uri);
+		
+		return ""; 
+	}
+	
+	private HttpRequestBase setRequestGetHeaders(HttpRequestBase request, String expectedDataFormat, String useragent) {
 		request.setHeader("Accept", expectedDataFormat);
 		request.setHeader("Content-type", expectedDataFormat);
-		request.setHeader("User-Agent", this.useragent);
+		request.setHeader("User-Agent", useragent);
 		
 		return request; 
 	}
 	
-	private String execute(HttpRequestBase request) throws Exception {
-		try {
+	private String execute(HttpRequestBase request) throws ClientProtocolException, IOException, HTTPStatusException {
 			this.client = new DefaultHttpClient();
 			HttpResponse response = this.client.execute(request);
 	
@@ -119,11 +145,6 @@ public class RestMethod {
 	
 			// Return result from buffered stream
 			return new String(content.toByteArray());
-		} 
-		//TODO Fix errorhandling
-		catch (Exception e) {
-			throw new Exception(e);
-		}
 	}
 
 	/**
@@ -151,7 +172,7 @@ public class RestMethod {
 	}
 	
 	/**
-	 * 
+	 * Custom HTTP Status exception class
 	 */
 	public static class HTTPStatusException extends Exception {
 		private int statusCode; 

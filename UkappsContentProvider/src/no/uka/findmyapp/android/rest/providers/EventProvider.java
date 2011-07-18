@@ -153,6 +153,19 @@ public class EventProvider extends ContentProvider {
 	  }
 
 	  @Override
+	  public String getType(Uri uri) {
+		  Log.v(debug, "Inside getType");
+	      switch (uriMatcher.match(uri)) {
+	          case EVENTS:
+	              return UkaEventContract.CONTENT_TYPE_EVENT;
+	          case EVENT_ID:
+	              return UkaEventContract.CONTENT_ITEM_EVENT;
+	          default:
+	              throw new IllegalArgumentException("Unknown URI " + uri);
+	      }
+	   }
+	  
+	  @Override
 	  public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		  Log.v(debug, "Inside query");
 	      SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -180,19 +193,6 @@ public class EventProvider extends ContentProvider {
 	      return cursor;
 	  }
 
-	  @Override
-	  public String getType(Uri uri) {
-		  Log.v(debug, "Inside getType");
-	      switch (uriMatcher.match(uri)) {
-	          case EVENTS:
-	              return UkaEventContract.CONTENT_TYPE_EVENT;
-	          case EVENT_ID:
-	              return UkaEventContract.CONTENT_ITEM_EVENT;
-	          default:
-	              throw new IllegalArgumentException("Unknown URI " + uri);
-	      }
-	   }
-
 	   @Override
 	   public Uri insert(Uri uri, ContentValues initialValues) {
 		Log.v(debug, "Inside insert");
@@ -209,9 +209,8 @@ public class EventProvider extends ContentProvider {
 	       }
 	       
 			SQLiteDatabase db = dbHelper.getWritableDatabase(); 
-	        Log.v(debug, "insert: selected database " + db.toString());
-			
-	        Log.v(debug, "insert: insertvalues " + values.toString());
+	        Log.v(debug, "Insert: selected database " + db.toString());
+	        Log.v(debug, "Insert: insertvalues " + values.toString());
 			
 			/* The second insert() parameter is a nullColumnHack, 
 			 * a somewhat crappy solution which is used to avoid 
@@ -237,20 +236,17 @@ public class EventProvider extends ContentProvider {
 	       String finalWhere;
 
 	       int count;
-
 	       switch (uriMatcher.match(uri)) {
+	       		case EVENT_ID:
+		           finalWhere = UkaEventContract.ID + " = " +  uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION);
+		
+		           if (where != null) {
+		        	   finalWhere = finalWhere + " AND " + where;
+		           }
 	           case EVENTS:
 	               count = db.delete(UkaEventContract.TABLE_NAME, where, whereArgs);
 	               break;
-	           case EVENT_ID:
-	               finalWhere = UkaEventContract.ID + " = " +  uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION);
-
-	               if (where != null) {
-	                   finalWhere = finalWhere + " AND " + where;
-	               }
 	               
-	               count = db.delete( UkaEventContract.TABLE_NAME, finalWhere, whereArgs);
-	               break;
 	           default:
 	               throw new IllegalArgumentException("Unknown URI " + uri);
 	       }
@@ -262,24 +258,21 @@ public class EventProvider extends ContentProvider {
 
 	   @Override
 	   public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
-			  Log.v(debug, "inside update");
+			  Log.v(debug, "Inside update");
 	       SQLiteDatabase db = dbHelper.getWritableDatabase();
 	       int count;
 	       String finalWhere;
 
 	       switch (uriMatcher.match(uri)) {
-	           case EVENTS:
-	               count = db.update(UkaEventContract.TABLE_NAME, values, where, whereArgs);
-	               break;
-	           case EVENT_ID:
-	               String eventId = uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION);
+	       		case EVENT_ID:
+	        	   String eventId = uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION);
 	               finalWhere = UkaEventContract.ID + " = " + eventId;
-
+	
 	               if (where !=null) {
 	                   finalWhere = finalWhere + " AND " + where;
 	               }
-
-	               count = db.update(UkaEventContract.TABLE_NAME, values, finalWhere, whereArgs);
+	           case EVENTS:
+	               count = db.update(UkaEventContract.TABLE_NAME, values, where, whereArgs);
 	               break;
 	           default:
 	               throw new IllegalArgumentException("Unknown URI " + uri);

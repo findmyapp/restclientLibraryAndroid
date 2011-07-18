@@ -36,39 +36,31 @@ public class ServiceModel implements Serializable{
 		this.contentProviderUri = new URI(contentProviderUri.toString());
 		this.broadcastNotification = broadcastNotification;
 	}
-/*
+	
 	public ServiceModel(URI uri, HttpType httpType,
 			ServiceDataFormat dataformat, Class returnType, Serializable data,
-			URI contentProviderUri) {
-		this(uri, httpType, dataformat, returnType, data, contentProviderUri, null);
+			Uri contentProviderUri) throws URISyntaxException {
+		super();
+		this.uri = uri;
+		this.httpType = httpType;
+		this.dataformat = dataformat;
+		this.returnType = returnType.getName();
+		this.data = data;
+		this.contentProviderUri = new URI(contentProviderUri.toString());
 	}
-
+	
 	public ServiceModel(URI uri, HttpType httpType,
 			ServiceDataFormat dataformat, Class returnType, Serializable data,
-			String broadcastNotification) {
-		this(uri, httpType, dataformat, returnType, data, null, broadcastNotification);
+			String broadcastNotification) throws URISyntaxException {
+		super();
+		this.uri = uri;
+		this.httpType = httpType;
+		this.dataformat = dataformat;
+		this.returnType = returnType.getName();
+		this.data = data;
+		this.broadcastNotification = broadcastNotification;
 	}
 
-	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Class returnType, Serializable data) {
-		this(uri, httpType, dataformat, returnType, data, null, null);
-	}
-
-	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Class returnType) {
-		this(uri, httpType, dataformat, returnType, null, null, null);
-	}
-
-	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Class returnType, String broadcastNotification) {
-		this(uri, httpType, dataformat, returnType, null, null, broadcastNotification);
-	}
-
-	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Class returnType, URI contentProviderUri, String broadcastNotification) {
-		this(uri, httpType, dataformat, returnType, null, contentProviderUri, broadcastNotification);
-	}
-	*/
 	public URI getUri() {
 		return uri;
 	}

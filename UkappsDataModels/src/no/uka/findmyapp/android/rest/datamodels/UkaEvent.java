@@ -1,5 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class UkaEvent implements Serializable {
 	
@@ -26,6 +27,25 @@ public class UkaEvent implements Serializable {
     private long netsaleTo;
 	private boolean free;
 	private boolean canceled;
+
+	private int price;
+	
+	public String getStartTime(){
+		Timestamp time = new Timestamp(this.showingTime);
+		return (time.getHours() +":"+ time.getMinutes());
+	}
+	
+	public int getDayNumber(){
+		Timestamp time = new Timestamp(this.showingTime);
+		return (time.getDate());
+	}
+	public void setPrice(int price){
+		this.price = price;
+	}
+	 
+	public int getPrice(){
+		return price;
+	}
 
 	public int getId() {
 		return id;

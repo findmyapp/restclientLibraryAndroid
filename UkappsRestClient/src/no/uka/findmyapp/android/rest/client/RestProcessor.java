@@ -2,6 +2,7 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
@@ -89,9 +90,14 @@ public class RestProcessor {
 		ContentResolver cr = context.getContentResolver();
 		if(ContentHelper.isList(object)) {
 			List<ContentValues> list = ContentHelper.getContentValuesList(object);
-			for(ContentValues values : list) {
-				cr.insert(uri, values);
+			
+			Log.v(debug, "parsing contentvalue array");
+			ContentValues[] cva = new ContentValues[list.size()];
+			for(ContentValues cv : list) {
+				cva[list.indexOf(cv)] = cv; 
 			}
+			Log.v(debug, cva.toString());
+			cr.bulkInsert(uri, cva);
 		} else {
 			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
 			cr.insert(uri, cv);
@@ -104,6 +110,7 @@ public class RestProcessor {
 		Intent broadcastedIntent = new Intent(); 
 		broadcastedIntent.putExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME, obj);
 		broadcastedIntent.setAction(intentString);
+		Log.v(debug, "sendIntentBroadcast: broadcast action " + intentString);
 		Log.v(debug, "sendIntentBroadcast: broadcast sent, extradata identifier: " + IntentMessages.BROADCAST_RETURN_VALUE_NAME);
 		
 		context.sendBroadcast(broadcastedIntent);

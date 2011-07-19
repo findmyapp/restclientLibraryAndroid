@@ -1,5 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 // TODO: Auto-generated Javadoc
@@ -74,6 +75,9 @@ public class UkaEvent implements Serializable {
 	
 	 /** The canceled. */
 	private boolean canceled;
+	
+	/** The price */
+	private int price; 
 
 	/**
 	 * Gets the id.
@@ -451,6 +455,24 @@ public class UkaEvent implements Serializable {
 	 */
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getStartTime(){
+		Timestamp time = new Timestamp(this.showingTime);
+		return (time.getHours() +":"+ time.getMinutes());
+	}
+	
+	public int getDayNumber(){
+		Timestamp time = new Timestamp(this.showingTime);
+		return (time.getDate());
 	}
 	
 	/* (non-Javadoc)

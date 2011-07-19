@@ -3,6 +3,7 @@ package no.uka.findmyapp.android.rest.client;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
+import java.sql.Timestamp;
 
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 
@@ -85,14 +86,29 @@ public class RestMethod {
 	public String get(ServiceDataFormat serviceDataFormat) throws Exception {
 		HttpGet request = new HttpGet(this.uri);
 		
-		return this.execute(setRequestHeaders(serviceDataFormat.getValue(), request));
+		return this.execute(setRequestHeaders( request, serviceDataFormat.getValue(), this.useragent));
 	}
 	
-	private HttpRequestBase setRequestHeaders(String expectedDataFormat, HttpRequestBase request) {
+	public String post() {
+		
+		return ""; 
+	}
+	
+	public String put() {
+		
+		return ""; 
+	}
+	
+	public String delete () {
+		
+		return ""; 
+	}
+	
+	private HttpRequestBase setRequestHeaders(HttpRequestBase request,String expectedDataFormat, String useragent) {
 		request.setHeader("Accept", expectedDataFormat);
 		request.setHeader("Content-type", expectedDataFormat);
-		request.setHeader("User-Agent", this.useragent);
-		
+		request.setHeader("User-Agent", useragent);
+	
 		return request; 
 	}
 	

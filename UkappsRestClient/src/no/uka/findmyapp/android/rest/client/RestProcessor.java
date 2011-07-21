@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.helpers.ContentHelper;
 
@@ -115,7 +116,7 @@ public class RestProcessor {
 				cva[list.indexOf(cv)] = cv; 
 			}
 			Log.v(debug, cva.toString());
-			cr.bulkInsert( Uri.parse("content://no.uka.findmyapp.android.rest.providers/ukaevent"), cva);
+			cr.bulkInsert( UkaEventContract.EVENT_CONTENT_URI, cva);
 		} else {
 			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
 			cr.insert(uri, cv);

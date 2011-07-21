@@ -55,7 +55,6 @@ public class RestServiceHelper {
 
 	public void callStartService(Context context, ServiceModel serviceModel) {
 		Log.v(debug, "Inside callStarteService, using ServiceModel");
-		
 		Intent selectIntent = new Intent(context, RestIntentService.class);
 		Log.v(debug, "Internal: callStarteService: selectIntent created");
 		

@@ -4,8 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import android.util.Log;
-
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 
 public class UkappServiceFactory {

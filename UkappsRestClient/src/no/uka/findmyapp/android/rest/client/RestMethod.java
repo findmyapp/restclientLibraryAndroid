@@ -7,9 +7,8 @@ import java.net.URI;
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.OAuthProvider;
-import oauth.signpost.basic.DefaultOAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

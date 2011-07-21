@@ -65,13 +65,13 @@ public class UkaEventProvider extends ContentProvider {
 	       uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 	       // Setup the right patterns to the events "dir"
-	       uriMatcher.addURI(UkaEvents.AUTHORITY, "ukaevents", UKAEVENTS);
+	       uriMatcher.addURI(UkaEvents.AUTHORITY, "ukaprogram/ukaevents", UKAEVENTS);
 	      
 	       /*
 	        * Setup pattern to a spesific event by using the spesific 
 	        * of the event
 	        */
-	       uriMatcher.addURI(UkaEvents.AUTHORITY, "ukaevents/#", UKAEVENT_ID);
+	       uriMatcher.addURI(UkaEvents.AUTHORITY, "ukaprogram/ukaevents/#", UKAEVENT_ID);
 
 	       /*
 	        * Initializes a projection map that returns all columns

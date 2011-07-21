@@ -5,9 +5,10 @@ import java.util.List;
 
 import no.uka.findmyapp.android.rest.mapper.IContentMapper;
 import android.content.ContentValues;
+import android.util.Log;
 
 public class ContentHelper {
-	private static final String TAG = "ContentHelper";
+	private static final String debug = "ContentHelper";
 	
 	private static final String MAPPER_POSTFIX = "ContentMapper";
 	private static final String MAPPER_PREFIX = "no.uka.findmyapp.android.rest.mapper.";
@@ -32,7 +33,7 @@ public class ContentHelper {
 	public static List<ContentValues> getContentValuesList(Serializable object, String returnType) {
 
 		try {
-			Log.v("DEBUG object", object.toString());
+			Log.v(debug, "Object debug " + object.toString());
 			IContentMapper contentMapper = (IContentMapper) getMapperClass(object, returnType).newInstance();
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {

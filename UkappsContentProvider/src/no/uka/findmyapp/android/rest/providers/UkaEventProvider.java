@@ -16,16 +16,16 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-public class EventProvider extends ContentProvider {
+public class UkaEventProvider extends ContentProvider {
 	   /**
 	    * Debug tag
 	    */
-		private static final String debug = "EventProvider";
+		private static final String debug = "UkaEventProvider";
 	
 	   /**
 	    * The local event database name
 	    */
-	   private static final String DATABASE_NAME = "events.db";
+	   private static final String DATABASE_NAME = "ukaevents.db";
 
 	   /**
 	    * The database version
@@ -35,14 +35,14 @@ public class EventProvider extends ContentProvider {
 	   /**
 	    * A projection map used to select columns from the database
 	    */
-	   private static HashMap<String, String> eventProjectionMap;
+	   private static HashMap<String, String> ukaeventProjectionMap;
 
 	   /*
 	    * Constants used by the Uri matcher to choose an action based on the pattern
 	    * of the incoming URI
 	    */
-	   private static final int EVENTS = 1;
-	   private static final int EVENT_ID = 2;
+	   private static final int UKAEVENTS = 1;
+	   private static final int UKAEVENT_ID = 2;
 
 	   /**
 	    * A UriMatcher instance
@@ -65,38 +65,38 @@ public class EventProvider extends ContentProvider {
 	       uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
 	       // Setup the right patterns to the events "dir"
-	       uriMatcher.addURI(UkaEvents.AUTHORITY, "events", EVENTS);
+	       uriMatcher.addURI(UkaEvents.AUTHORITY, "ukaevents", UKAEVENTS);
 	      
 	       /*
 	        * Setup pattern to a spesific event by using the spesific 
 	        * of the event
 	        */
-	       uriMatcher.addURI(UkaEvents.AUTHORITY, "events/#", EVENT_ID);
+	       uriMatcher.addURI(UkaEvents.AUTHORITY, "ukaevents/#", UKAEVENT_ID);
 
 	       /*
 	        * Initializes a projection map that returns all columns
 	        */
-	       eventProjectionMap = new HashMap<String, String>();
-	       eventProjectionMap.put(UkaEventContract.ID, UkaEventContract.ID);
-	       eventProjectionMap.put(UkaEventContract.EVENT_ID, UkaEventContract.EVENT_ID);
-	       eventProjectionMap.put(UkaEventContract.BILLING_ID, UkaEventContract.BILLING_ID);	       
-	       eventProjectionMap.put(UkaEventContract.ENTRANCE_ID, UkaEventContract.ENTRANCE_ID);	       
-	       eventProjectionMap.put(UkaEventContract.TITLE, UkaEventContract.TITLE);
-	       eventProjectionMap.put(UkaEventContract.LEAD, UkaEventContract.LEAD);	       
-	       eventProjectionMap.put(UkaEventContract.TEXT, UkaEventContract.TEXT);
-	       eventProjectionMap.put(UkaEventContract.PLACE, UkaEventContract.PLACE);	       
-	       eventProjectionMap.put(UkaEventContract.EVENT_TYPE, UkaEventContract.EVENT_TYPE);
-	       eventProjectionMap.put(UkaEventContract.IMAGE, UkaEventContract.IMAGE);	       
-	       eventProjectionMap.put(UkaEventContract.THUMBNAIL, UkaEventContract.THUMBNAIL);
-	       eventProjectionMap.put(UkaEventContract.HIDDEN_FROM_LISTING, UkaEventContract.HIDDEN_FROM_LISTING);	       
-	       eventProjectionMap.put(UkaEventContract.AGE_LIMIT, UkaEventContract.AGE_LIMIT);
-	       eventProjectionMap.put(UkaEventContract.DETAIL_PHOTO_ID, UkaEventContract.DETAIL_PHOTO_ID);
-	       eventProjectionMap.put(UkaEventContract.SHOWING_TIME, UkaEventContract.SHOWING_TIME);
-	       eventProjectionMap.put(UkaEventContract.PUBLISH_TIME, UkaEventContract.PUBLISH_TIME);
-	       eventProjectionMap.put(UkaEventContract.NETSALE_FROM, UkaEventContract.NETSALE_FROM);
-	       eventProjectionMap.put(UkaEventContract.NETSALE_TO, UkaEventContract.NETSALE_TO);
-	       eventProjectionMap.put(UkaEventContract.FREE, UkaEventContract.FREE);
-	       eventProjectionMap.put(UkaEventContract.CANCELED, UkaEventContract.CANCELED);
+	       ukaeventProjectionMap = new HashMap<String, String>();
+	       ukaeventProjectionMap.put(UkaEventContract.ID, UkaEventContract.ID);
+	       ukaeventProjectionMap.put(UkaEventContract.EVENT_ID, UkaEventContract.EVENT_ID);
+	       ukaeventProjectionMap.put(UkaEventContract.BILLING_ID, UkaEventContract.BILLING_ID);	       
+	       ukaeventProjectionMap.put(UkaEventContract.ENTRANCE_ID, UkaEventContract.ENTRANCE_ID);	       
+	       ukaeventProjectionMap.put(UkaEventContract.TITLE, UkaEventContract.TITLE);
+	       ukaeventProjectionMap.put(UkaEventContract.LEAD, UkaEventContract.LEAD);	       
+	       ukaeventProjectionMap.put(UkaEventContract.TEXT, UkaEventContract.TEXT);
+	       ukaeventProjectionMap.put(UkaEventContract.PLACE, UkaEventContract.PLACE);	       
+	       ukaeventProjectionMap.put(UkaEventContract.EVENT_TYPE, UkaEventContract.EVENT_TYPE);
+	       ukaeventProjectionMap.put(UkaEventContract.IMAGE, UkaEventContract.IMAGE);	       
+	       ukaeventProjectionMap.put(UkaEventContract.THUMBNAIL, UkaEventContract.THUMBNAIL);
+	       ukaeventProjectionMap.put(UkaEventContract.HIDDEN_FROM_LISTING, UkaEventContract.HIDDEN_FROM_LISTING);	       
+	       ukaeventProjectionMap.put(UkaEventContract.AGE_LIMIT, UkaEventContract.AGE_LIMIT);
+	       ukaeventProjectionMap.put(UkaEventContract.DETAIL_PHOTO_ID, UkaEventContract.DETAIL_PHOTO_ID);
+	       ukaeventProjectionMap.put(UkaEventContract.SHOWING_TIME, UkaEventContract.SHOWING_TIME);
+	       ukaeventProjectionMap.put(UkaEventContract.PUBLISH_TIME, UkaEventContract.PUBLISH_TIME);
+	       ukaeventProjectionMap.put(UkaEventContract.NETSALE_FROM, UkaEventContract.NETSALE_FROM);
+	       ukaeventProjectionMap.put(UkaEventContract.NETSALE_TO, UkaEventContract.NETSALE_TO);
+	       ukaeventProjectionMap.put(UkaEventContract.FREE, UkaEventContract.FREE);
+	       ukaeventProjectionMap.put(UkaEventContract.CANCELED, UkaEventContract.CANCELED);
 	   }
 
 	   /**
@@ -156,9 +156,9 @@ public class EventProvider extends ContentProvider {
 	  public String getType(Uri uri) {
 		  Log.v(debug, "Inside getType");
 	      switch (uriMatcher.match(uri)) {
-	          case EVENTS:
+	          case UKAEVENTS:
 	              return UkaEventContract.CONTENT_TYPE_EVENT;
-	          case EVENT_ID:
+	          case UKAEVENT_ID:
 	              return UkaEventContract.CONTENT_ITEM_EVENT;
 	          default:
 	              throw new IllegalArgumentException("Unknown URI " + uri);
@@ -172,11 +172,11 @@ public class EventProvider extends ContentProvider {
 	      qb.setTables(UkaEventContract.TABLE_NAME);
 
 	      switch (uriMatcher.match(uri)) {
-	          case EVENTS:
-	              qb.setProjectionMap(eventProjectionMap);
+	          case UKAEVENTS:
+	              qb.setProjectionMap(ukaeventProjectionMap);
 	              break;
-	          case EVENT_ID:
-	              qb.setProjectionMap(eventProjectionMap);
+	          case UKAEVENT_ID:
+	              qb.setProjectionMap(ukaeventProjectionMap);
 	              qb.appendWhere(UkaEventContract.ID + "=" + uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION));
 	              break;
 	          default:
@@ -196,7 +196,7 @@ public class EventProvider extends ContentProvider {
 	   @Override
 	   public Uri insert(Uri uri, ContentValues initialValues) {
 		Log.v(debug, "Inside insert");
-	       if (uriMatcher.match(uri) != EVENTS) {
+	       if (uriMatcher.match(uri) != UKAEVENTS) {
 	           throw new IllegalArgumentException("Unknown URI " + uri);
 	       }
 	       
@@ -237,13 +237,13 @@ public class EventProvider extends ContentProvider {
 
 	       int count;
 	       switch (uriMatcher.match(uri)) {
-	       		case EVENT_ID:
+	       		case UKAEVENT_ID:
 		           finalWhere = UkaEventContract.ID + " = " +  uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION);
 		
 		           if (where != null) {
 		        	   finalWhere = finalWhere + " AND " + where;
 		           }
-	           case EVENTS:
+	           case UKAEVENTS:
 	               count = db.delete(UkaEventContract.TABLE_NAME, where, whereArgs);
 	               break;
 	               
@@ -264,14 +264,14 @@ public class EventProvider extends ContentProvider {
 	       String finalWhere;
 
 	       switch (uriMatcher.match(uri)) {
-	       		case EVENT_ID:
+	       		case UKAEVENT_ID:
 	        	   String eventId = uri.getPathSegments().get(UkaEventContract.EVENTS_ID_PATH_POSITION);
 	               finalWhere = UkaEventContract.ID + " = " + eventId;
 	
 	               if (where !=null) {
 	                   finalWhere = finalWhere + " AND " + where;
 	               }
-	           case EVENTS:
+	           case UKAEVENTS:
 	               count = db.update(UkaEventContract.TABLE_NAME, values, where, whereArgs);
 	               break;
 	           default:

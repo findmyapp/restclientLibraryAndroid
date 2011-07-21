@@ -1,6 +1,7 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
@@ -38,7 +39,13 @@ public class UkaEventContentMapper implements IContentMapper {
 
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		return null;
+		List<ContentValues> list = new ArrayList<ContentValues>();
+		List<UkaEvent> ukaEventList = (List<UkaEvent>) object;
+		
+		for(UkaEvent event : ukaEventList) {
+			list.add(mapValues(event));
+		}
+		return list;
 	}
 	
 	@Override

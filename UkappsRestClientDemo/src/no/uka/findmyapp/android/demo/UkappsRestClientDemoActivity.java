@@ -1,6 +1,8 @@
 package no.uka.findmyapp.android.demo;
 
 import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
 
 import no.uka.findmyapp.android.rest.R;
 import no.uka.findmyapp.android.rest.client.IntentMessages;
@@ -27,7 +29,6 @@ public class UkappsRestClientDemoActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
 		try {
 	        ReciveIntent intentReceiver = new ReciveIntent();
 			IntentFilter intentFilter = new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN);
@@ -37,8 +38,11 @@ public class UkappsRestClientDemoActivity extends Activity {
 			
 			this.getContentResolver()
 			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
+			
 			Log.v("DEBUG", "HERE1");
-			serviceHelper.callStartService(this, UkappsServices.UKAEVENTS); 
+			
+			List<String> list = new LinkedList<String>();
+			serviceHelper.callStartService(this, UkappsServices.UKAEVENTS, new String[] {"uka11"}); 
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
@@ -50,7 +54,6 @@ public class UkappsRestClientDemoActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
     }
     
     class MyContentObserver extends ContentObserver {
@@ -77,6 +80,7 @@ public class UkappsRestClientDemoActivity extends Activity {
 			Gson gson = new Gson(); 
 			
 			if (intent.getAction().equals(IntentMessages.BROADCAST_INTENT_TOKEN)) {
+				
 				/*
 				Serializable obj = intent.getSerializableExtra("return");
 				UkaProgram t = (UkaProgram) obj;

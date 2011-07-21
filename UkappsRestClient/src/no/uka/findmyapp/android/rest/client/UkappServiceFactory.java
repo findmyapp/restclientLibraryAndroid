@@ -2,34 +2,27 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
-import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
-import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
+import android.util.Log;
+
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
-import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
-import no.uka.findmyapp.android.rest.datamodels.models.UkaProgram;
 
 public class UkappServiceFactory {
 	
-	public static ServiceModel createServiceModel(UkappsServices service) throws URISyntaxException, IllegalAccessException, InstantiationException {
-		// TODO FIX EVERYTHING
-		// TODO parse xml file with predefined services, and use naming reflection to init correct serviceModel.
+	public static Map<String, ServiceModel> serviceModels;
+	
+	public static ServiceModel createServiceModel(UkappsServices service, String[] params) throws URISyntaxException, IllegalAccessException, InstantiationException {
+		ServiceModel sm = serviceModels.get(service.getMapperName());
 		
-		switch (service) {
-		case UKAEVENTS:
-			return new ServiceModel(
-				new URI("http://findmyapp.net/findmyapp/program/uka11/events"),
-				HttpType.GET, 
-				ServiceDataFormat.JSON, 
-				UkaProgram.class, 
-				null,
-				UkaEventContract.EVENT_CONTENT_URI,
-				IntentMessages.BROADCAST_INTENT_TOKEN, 
-				null);
-		default:
-			break;
-		}
-		
-		return null;
+		String tempUri = sm.getUri().toString().replace("?", "%s");
+		sm.setUri(new URI(String.format(tempUri, params)));
+
+		/*
+		String tempProviderUri = sm.getContentProviderUri().toString().replace("?", "%s");
+		sm.setContentProviderUri(new URI(String.format(tempProviderUri, R.string.app_name)));
+		*/
+		return sm;
 	}
+	
 }

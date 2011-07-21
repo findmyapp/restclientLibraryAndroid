@@ -5,6 +5,11 @@ import java.io.InputStream;
 import java.net.URI;
 
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
+import oauth.signpost.OAuthConsumer;
+import oauth.signpost.OAuthProvider;
+import oauth.signpost.basic.DefaultOAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,7 +19,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.util.Log;
 
 public class RestMethod {
 	
@@ -55,14 +59,30 @@ public class RestMethod {
 	 */
 	private HttpClient client; 
 	
+	private static final String CONSUMER_KEY = "key";
+	private static final String CONSUMER_SECRET = "secret";
+	private static final String REQUEST_TOKEN_ENDPOINT_URL = "http://10.0.2.2:8080/findmyapp/oauth/request_token";
+	private static final String ACCESS_TOKEN_ENDPOINT_URL = "http://10.0.2.2:8080/findmyapp/oauth/access_token";
+	private static final String AUTHORIZE_WEBSITE_URL = "http://10.0.2.2:8080/findmyapp/oauth/authorize";
+	
+	private OAuthProvider provider;
+	
+	private OAuthConsumer consumer;
+	
 	public RestMethod() {
-		
+		provider = new CommonsHttpOAuthProvider(
+                REQUEST_TOKEN_ENDPOINT_URL, ACCESS_TOKEN_ENDPOINT_URL,
+                AUTHORIZE_WEBSITE_URL);
+
+        consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
+                                             CONSUMER_SECRET);
 	}
 	
 	/** 
 	 * @param url Base URL to the service
 	 */
 	public RestMethod(URI uri) {
+		this();
 		this.uri = uri; 
 	}
 
@@ -85,37 +105,23 @@ public class RestMethod {
 	public String get(ServiceDataFormat serviceDataFormat) throws Exception {
 		HttpGet request = new HttpGet(this.uri);
 		
-		return this.execute(setRequestHeaders( request, serviceDataFormat.getValue(), this.useragent));
+		return this.execute(setRequestHeaders(serviceDataFormat.getValue(), request));
 	}
 	
-	public String post() {
-		
-		return ""; 
-	}
-	
-	public String put() {
-		
-		return ""; 
-	}
-	
-	public String delete () {
-		
-		return ""; 
-	}
-	
-	private HttpRequestBase setRequestHeaders(HttpRequestBase request,String expectedDataFormat, String useragent) {
+	private HttpRequestBase setRequestHeaders(String expectedDataFormat, HttpRequestBase request) {
 		request.setHeader("Accept", expectedDataFormat);
 		request.setHeader("Content-type", expectedDataFormat);
-		request.setHeader("User-Agent", useragent);
-	
+		//request.setHeader("User-Agent", this.useragent);
+		
 		return request; 
 	}
-	
+
 	private String execute(HttpRequestBase request) throws Exception {
 		try {
 			this.client = new DefaultHttpClient();
+			consumer.sign(request);
 			HttpResponse response = this.client.execute(request);
-	
+
 			// Check if server response is valid
 			StatusLine status = response.getStatusLine();
 			if (status.getStatusCode() != HTTP_STATUS_OK) {
@@ -133,7 +139,7 @@ public class RestMethod {
 			while ((readBytes = inputStream.read(streamBuffer)) != -1) {
 				content.write(streamBuffer, 0, readBytes);
 			}
-			Log.v("restmethod", "response " + new String(content.toByteArray()));
+	
 			// Return result from buffered stream
 			return new String(content.toByteArray());
 		} 

@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="no.uka.findmyapp.android.demo"
       android:versionCode="1"
-      android:versionName="1.0">
+      android:versionName="1.0" android:installLocation="preferExternal">
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="no.uka.findmyapp.android.rest.providers.EventProvider" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name=".UkappsRestClientDemoActivity"
@@ -13,17 +14,15 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
         </activity>
-        
-		<provider android:name="no.uka.findmyapp.android.rest.providers.EventProvider" 
+        <!-- 
+		<provider android:name="no.uka.findmyapp.android.rest.providers.UkaEventProvider" 
 			android:authorities="no.uka.findmyapp.android.rest.providers" 
 			android:exported="false"
 			android:enabled="true">
-			
 			<grant-uri-permission android:pathPattern=".*" />
-		</provider> 
-		
+		</provider>  
+		 -->
 		<service android:name="no.uka.findmyapp.android.rest.client.RestIntentService"/>
     </application>
 </manifest>

@@ -29,7 +29,7 @@ public class UkaProgramContentMapper implements IContentMapper  {
 
 	@Override
 	public boolean isList() {
-		return true;
+		return false;
 	}
 
 	@Override

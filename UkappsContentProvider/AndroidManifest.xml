@@ -6,7 +6,7 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <application>
-<provider android:name="no.uka.findmyapp.android.rest.providers.EventProvider" 
+<provider android:name=".providers.UkaEventProvider" 
 		android:authorities="no.uka.findmyapp.android.rest.providers" android:exported="true" >
 		<grant-uri-permission android:pathPattern=".*" />
 		</provider> 

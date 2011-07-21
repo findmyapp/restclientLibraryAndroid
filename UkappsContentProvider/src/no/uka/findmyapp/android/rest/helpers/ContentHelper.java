@@ -14,7 +14,7 @@ public class ContentHelper {
 	
 	public static ContentValues getContentValues(Serializable object) {
 		try {
-			IContentMapper contentMapper = (IContentMapper) getMapperClass(object).newInstance();
+			IContentMapper contentMapper = (IContentMapper) getMapperClass(object, null).newInstance();
 			return contentMapper.mapValues(object);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -29,10 +29,11 @@ public class ContentHelper {
 		return null;
 	}
 	
-	public static List<ContentValues> getContentValuesList(Serializable object) {
+	public static List<ContentValues> getContentValuesList(Serializable object, String returnType) {
 
 		try {
-			IContentMapper contentMapper = (IContentMapper) getMapperClass(object).newInstance();
+			Log.v("DEBUG object", object.toString());
+			IContentMapper contentMapper = (IContentMapper) getMapperClass(object, returnType).newInstance();
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -46,7 +47,7 @@ public class ContentHelper {
 		}
 		return null;
 	}
-	
+	/*
 	public static boolean isList(Serializable object) {
 
 		try {
@@ -64,11 +65,18 @@ public class ContentHelper {
 		}
 		return false;
 	}
-	
+	*/
 	@SuppressWarnings("unchecked")
-	private static Class<IContentMapper> getMapperClass(Serializable object) throws ClassNotFoundException {
-		String classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
+	private static Class<IContentMapper> getMapperClass(Serializable object, String returnType) throws ClassNotFoundException {
+		Log.v("ContentHelper", "trying to getMapperClass for: " +returnType);
+		String classString;
+		if(returnType == null) {
+			classString = MAPPER_PREFIX + object.getClass().getSimpleName() + MAPPER_POSTFIX;
+		} else {
+			classString = MAPPER_PREFIX + returnType + MAPPER_POSTFIX;
+		}
 		
+		Log.v("ContentHelper", "trying to getMapperClass for: " +classString);
 		Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class.forName(classString);
 		return mapperClass;
 	}

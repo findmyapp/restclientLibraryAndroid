@@ -5,8 +5,25 @@ package no.uka.findmyapp.android.rest.client;
  * 
  * 
  */
+
 public enum UkappsServices {
-	UKAEVENTS, 
-	TEMPERATURE_SAMPLE
+	/**
+	* First thing
+	*/
+	UKAEVENTS("getUkaProgramForDate"),
+	/**
+	* S thing
+	*/
+	TEMPERATURE_SAMPLE("");
 	
+	String mapperName;
+	
+	UkappsServices(String mapperName) {
+		this.mapperName = mapperName;
+	}
+	
+	
+	public String getMapperName() {
+		return mapperName;
+	}
 }

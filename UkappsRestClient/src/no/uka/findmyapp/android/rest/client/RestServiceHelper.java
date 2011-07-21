@@ -1,44 +1,54 @@
 package no.uka.findmyapp.android.rest.client;
 
+import java.io.Serializable;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 
 /**
- * The rest service helper class, a singleton 
- * which exposes a simple asynchronous
- * API to be used by the user interface.
+ * The rest service helper class, a singleton which exposes a simple
+ * asynchronous API to be used by the user interface.
  * 
- * Responsibility
- * 	Prepare and send the Service request:
- * 		- Check if the method is already running
- * 		- Create the requested Intent
- * 		- Add the operation type and a unique request id
- * 		- Add the method specific parameters
- * 		- Add the binder callback
- * 		- Call {@link RestService#startService()}
- * 		- Return the request id
- *  Handle the callback from the service
- *  	- Dispatch callbacks to the user interface listeners
+ * Responsibility Prepare and send the Service request: - Check if the method is
+ * already running - Create the requested Intent - Add the operation type and a
+ * unique request id - Add the method specific parameters - Add the binder
+ * callback - Call {@link RestService#startService()} - Return the request id
+ * Handle the callback from the service - Dispatch callbacks to the user
+ * interface listeners
  */
 public class RestServiceHelper {
 	private static final String debug = "RestServiceHelper";
-	
+
 	/**
 	 * The singleton RestServiceHelper instance
 	 */
-	private static RestServiceHelper INSTANCE; 
+	private static RestServiceHelper INSTANCE;
+	private static ServiceModelReceiver intentReceiver;
+	private static boolean updatedServiceModels = false;
+	private static boolean updatingServiceModels = false;
+	
+	private static List<RequestBuffer> buffer;
 	
 	private RestServiceHelper() {
+		buffer = new ArrayList<RequestBuffer>();
 	}
-	
+
 	public static RestServiceHelper getInstance() {
-		if(INSTANCE == null) {
+		if (INSTANCE == null) {
 			INSTANCE = new RestServiceHelper();
-			return INSTANCE; 
+			return INSTANCE;
 		}
 		return INSTANCE;
 	}
@@ -47,23 +57,137 @@ public class RestServiceHelper {
 		Log.v(debug, "Inside callStarteService, using ServiceModel");
 		
 		Intent selectIntent = new Intent(context, RestIntentService.class);
-		Log.v(debug, "callStarteService: selectIntent created");
+		Log.v(debug, "Internal: callStarteService: selectIntent created");
 		
-		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
-		Log.v(debug, "callStarteService: serivce model added to intent");
-        
+		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE,
+				serviceModel);
+		Log.v(debug, "Internal: callStarteService: serivce model added to intent");
+		
 		context.startService(selectIntent);
-		Log.v(debug, "callStarteService: context.startSerivce() called");
+		Log.v(debug, "Internal: callStarteService: context.startSerivce() called");
+	}
+
+	public void callStartService(Context context, UkappsServices service, String[] params)
+			throws URISyntaxException, IllegalAccessException,
+			InstantiationException {
+		if(!updatedServiceModels && !updatingServiceModels) {
+			Log.v(debug, "init updatedServiceModels");
+			updatingServiceModels = true;
+			buffer.add(new RequestBuffer(context, service, params));
+			getUpdatedServiceModelInfo(context);
+			return;
+		} else if(updatedServiceModels) {
+			Log.v(debug, "Internal: Innside callStartService, using UkappsSerivce");
+			ServiceModel sm = UkappServiceFactory.createServiceModel(service, params);
+			Log.v(debug, sm.toString());
+			Log.v(debug,
+					"Internal: callStartService: preparing ServiceModel: " + sm.toString());
+			this.callStartService(context, sm);
+			Log.v(debug,
+					"Internal: callStarteService: called callStartService with ServiceModel");
+		}
+	}
+
+	private void getUpdatedServiceModelInfo(Context context) {
+		Log.v(debug, "Internal: updatingServiceModel");
+		try {
+			ServiceModel sm = new ServiceModel(new URI(
+			"http://findmyapp.net/findmyapp/serviceinfo/all"),
+			HttpType.GET, ServiceDataFormat.JSON, ServiceModel.class,
+			null, null, IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, null);
+			if(intentReceiver == null) {
+				this.registerBroadCastListener(context);
+				this.callStartService(context, sm);
+			}
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.v(debug, e.getLocalizedMessage());
+		}
+	}
+
+	private void registerBroadCastListener(Context context) {
+		Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
+		intentReceiver = new ServiceModelReceiver();
+		IntentFilter intentFilter = new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
+		context.registerReceiver(intentReceiver, intentFilter);
+	}
+
+	private void unregisterBroadCastListener(Context context) {
+		Log.v(debug, "Internal: unregistering broadcastlistener for servicemodel");
+		context.unregisterReceiver(intentReceiver); 
+	}
+
+	// AUTOGENERATED
+	public class ServiceModelReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.v(debug, "Internal: received broadcast");
+			if (intent.getAction().equals(
+					IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL)) {
+				Log.v(debug, "Internal: is right token");
+				unregisterBroadCastListener(context);
+				updatedServiceModels = true;
+				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME);
+				List<ServiceModel> serviceModels = (List<ServiceModel>) obj;
+				Map<String, ServiceModel> serviceModelsMap = new HashMap<String, ServiceModel>();
+				for(ServiceModel s : serviceModels) {
+					serviceModelsMap.put(s.getLocalIdentifier(), s);
+					Log.v(debug, s.toString());
+				}
+				UkappServiceFactory.serviceModels = serviceModelsMap;
+				
+				for(RequestBuffer b : buffer) {
+					try {
+						callStartService(b.getContext(), b.getUkappsServices(), b.getParams());
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			
+		}
 	}
 	
-	public void callStartService(Context context, UkappsServices service) 
-			throws URISyntaxException, IllegalAccessException, InstantiationException {
-		Log.v(debug, "Innside callStartService, using UkappsSerivce");
-		ServiceModel sm = UkappServiceFactory.createServiceModel(UkappsServices.UKAEVENTS);
-		Log.v(debug, sm.toString());
-		Log.v(debug, "callStartService: preparing ServiceModel: " + sm.toString());
+	class RequestBuffer {
+		private Context context;
+		private UkappsServices ukappsServices;
+		private String[] params;
 		
-		this.callStartService(context, sm);
-		Log.v(debug, "callStarteService: called callStartService with ServiceModel");
+		
+		public RequestBuffer(Context context, UkappsServices ukappsServices, String[] params) {
+			super();
+			this.context = context;
+			this.params = params;
+			this.ukappsServices = ukappsServices;
+		}
+		public Context getContext() {
+			return context;
+		}
+		public void setContext(Context context) {
+			this.context = context;
+		}
+		
+		public UkappsServices getUkappsServices() {
+			return ukappsServices;
+		}
+		public void setUkappsServices(UkappsServices ukappsServices) {
+			this.ukappsServices = ukappsServices;
+		}
+		public String[] getParams() {
+			return params;
+		}
+		public void setParams(String[] params) {
+			this.params = params;
+		}
+		
+		
 	}
 }

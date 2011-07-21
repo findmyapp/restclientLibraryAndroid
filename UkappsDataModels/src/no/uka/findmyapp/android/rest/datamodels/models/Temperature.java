@@ -1,10 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
-import java.sql.Date;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 
 // TODO: Auto-generated Javadoc

@@ -1,7 +1,6 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 // TODO: Auto-generated Javadoc
 /**

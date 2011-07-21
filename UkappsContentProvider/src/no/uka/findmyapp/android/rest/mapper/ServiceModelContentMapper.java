@@ -5,7 +5,6 @@ import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.ServiceInfo.ServiceInfoContract;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
-import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import android.content.ContentValues;
 
 public class ServiceModelContentMapper implements IContentMapper {

@@ -1,6 +1,5 @@
 package no.uka.findmyapp.android.rest.contracts;
 
-import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import android.net.Uri;
 import android.provider.BaseColumns;
 

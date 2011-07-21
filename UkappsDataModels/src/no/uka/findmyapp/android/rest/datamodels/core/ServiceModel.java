@@ -61,16 +61,24 @@ public class ServiceModel implements Serializable{
 	 * @param broadcastNotification the broadcast notification
 	 * @throws URISyntaxException the uRI syntax exception
 	 */
-	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Class returnType, Serializable data,
-			Uri contentProviderUri, String broadcastNotification, String localIdentifier) throws URISyntaxException {
+	public ServiceModel(
+			URI uri, 
+			HttpType httpType,
+			ServiceDataFormat dataformat, 
+			Class returnType, 
+			Serializable data,
+			Uri contentProviderUri, 
+			String broadcastNotification, 
+			String localIdentifier) throws URISyntaxException {
 		super();
 		this.uri = uri;
 		this.httpType = httpType;
 		this.dataformat = dataformat;
 		this.returnType = returnType.getName();
 		this.data = data;
-		this.contentProviderUri = new URI(contentProviderUri.toString());
+		if(contentProviderUri != null) {
+			this.contentProviderUri = new URI(contentProviderUri.toString());
+		}
 		this.broadcastNotification = broadcastNotification;
 		this.localIdentifier = localIdentifier;
 	}

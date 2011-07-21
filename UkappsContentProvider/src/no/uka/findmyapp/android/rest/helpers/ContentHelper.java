@@ -5,7 +5,6 @@ import java.util.List;
 
 import no.uka.findmyapp.android.rest.mapper.IContentMapper;
 import android.content.ContentValues;
-import android.util.Log;
 
 public class ContentHelper {
 	private static final String TAG = "ContentHelper";

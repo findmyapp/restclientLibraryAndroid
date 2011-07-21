@@ -2,11 +2,14 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.helpers.ContentHelper;
+
+import org.json.JSONArray;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,9 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-/**
- * 
- */
 public class RestProcessor {
 	private static final String debug = "RestProcessor"; 
 	
@@ -42,11 +42,10 @@ public class RestProcessor {
 			case GET :
 				Serializable returnedObject = this.executeAndParse(serviceModel);
 				Log.v(debug, "callRest: executeAndParse, object name " + returnedObject.getClass().getName());
-
-				if(serviceModel.getBroadcastNotification() != null) 
-					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
 				if(serviceModel.getContentProviderUri() != null)
 					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject);
+				if(serviceModel.getBroadcastNotification() != null) 
+					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
 			break;
 			case POST :
 				//TODO
@@ -67,12 +66,31 @@ public class RestProcessor {
 			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());
 			response = restMethod.get(serviceModel.getDataformat());
 			Log.v(debug, "executeAndParse: Response " + response);
+			Serializable s = null;
 			
-			Class theClass = Class.forName(serviceModel.getReturnType());
-			Type t1 = (Type) new TypeToken<Object>(){}.get(theClass).getType();
-			
-			Serializable s = (Serializable)gson.fromJson(response, t1);
-			Log.v(debug, "executeAndParse: Serializable " + s.toString());
+			if(serviceModel.getReturnType() != null) {
+				String returnType = serviceModel.getReturnType();
+				if(returnType.indexOf(".") == -1) {
+					//TODO Constant?
+					returnType = "no.uka.findmyapp.android.rest.datamodels.models." + returnType;
+				}
+				//no.uka.findmyapp.android.rest.datamodels.models
+				Class theClass = Class.forName(returnType);
+				Type t1 = (Type) new TypeToken<Object>(){}.get(theClass).getType();;
+				if(response.substring(0,1).equals("[")) {
+					Log.v(debug, "ISLIST");
+					JSONArray array = new JSONArray(response);
+					List<Serializable> list = new ArrayList<Serializable>();
+					for (int i = 0; i < array.length(); i++) {
+						list.add((Serializable)gson.fromJson(array.get(i).toString(), t1));
+					}
+					s = (Serializable) list;
+				} else {
+					Log.v(debug, "IS NOT LIST");
+					s = (Serializable)gson.fromJson(response, t1);
+					Log.v(debug, "executeAndParse: Serializable " + s.toString());
+				}
+			}
 			
 			return s;
 		} catch (Exception e) {
@@ -106,7 +124,6 @@ public class RestProcessor {
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {
 		Log.v(debug, "sendIntentBroadcast: sending broadcast, object name " + obj.getClass().getName());
-		
 		Intent broadcastedIntent = new Intent(); 
 		broadcastedIntent.putExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME, obj);
 		broadcastedIntent.setAction(intentString);

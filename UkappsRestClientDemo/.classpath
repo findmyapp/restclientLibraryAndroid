@@ -6,6 +6,10 @@
 	<classpathentry kind="lib" path="/UkappsRestClient/lib/gson-1.6.jar"/>
 	<classpathentry kind="src" path="UkappsRestClient_src"/>
 	<classpathentry kind="src" path="UkappsContentProvider_src"/>
+	<classpathentry kind="lib" path="/UkappsRestClient/lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="/UkappsRestClient/lib/signpost-commonshttp4-1.2.1.1.jar"/>
+	<classpathentry kind="lib" path="/UkappsRestClient/lib/signpost-core-1.2.1.1.jar"/>
+	<classpathentry kind="lib" path="/UkappsRestClient/lib/signpost-jetty6-1.2.1.1.jar"/>
 	<classpathentry kind="src" path="UkappsDataModels_src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

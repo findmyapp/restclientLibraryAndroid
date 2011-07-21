@@ -8,6 +8,7 @@ import no.uka.findmyapp.android.rest.datamodels.models.Temperature;
 import android.content.ContentValues;
 
 public class TemperatureContentMapper implements IContentMapper {
+	@Override
 	public ContentValues mapValues(Serializable object) {
 		Temperature tempSample = (Temperature) object;
 		ContentValues contentValues = new ContentValues();

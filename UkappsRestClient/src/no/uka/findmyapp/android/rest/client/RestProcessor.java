@@ -77,7 +77,9 @@ public class RestProcessor {
 				}
 				//no.uka.findmyapp.android.rest.datamodels.models
 				Class theClass = Class.forName(returnType);
-				Type t1 = (Type) new TypeToken<Object>(){}.get(theClass).getType();;
+				;
+				new TypeToken<Object>(){};
+				Type t1 = TypeToken.get(theClass).getType();;
 				if(response.substring(0,1).equals("[")) {
 					Log.v(debug, "ISLIST");
 					JSONArray array = new JSONArray(response);
@@ -122,11 +124,6 @@ public class RestProcessor {
 			cr.insert(uri, cv);
 			
 		}
-		/*
-		if(ContentHelper.isList(object)) {
-			
-		} else {
-		}*/
 	}
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {

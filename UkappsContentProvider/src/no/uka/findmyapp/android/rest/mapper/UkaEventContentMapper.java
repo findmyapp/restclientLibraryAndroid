@@ -7,9 +7,12 @@ import java.util.List;
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.models.UkaEvent;
 import android.content.ContentValues;
+import android.util.Log;
 
 public class UkaEventContentMapper implements IContentMapper {
+	private static final String debug = "UkaEventContentMapper";
 
+	@Override
 	public ContentValues mapValues(Serializable temp) {
 		UkaEvent event = (UkaEvent) temp;
 		ContentValues contentValues = new ContentValues();
@@ -26,6 +29,7 @@ public class UkaEventContentMapper implements IContentMapper {
 		contentValues.put(UkaEventContract.SLUG, event.getSlug());
 		contentValues.put(UkaEventContract.AGE_LIMIT, event.getAgeLimit());
 		contentValues.put(UkaEventContract.DETAIL_PHOTO_ID, event.getDetailPhotoId()); 
+		contentValues.put(UkaEventContract.EVENT_TYPE, event.getEventType());
 		
 		contentValues.put(UkaEventContract.SHOWING_TIME, event.getShowingTime());
 		contentValues.put(UkaEventContract.PUBLISH_TIME, event.getPublishTime());
@@ -43,6 +47,7 @@ public class UkaEventContentMapper implements IContentMapper {
 		List<UkaEvent> ukaEventList = (List<UkaEvent>) object;
 		
 		for(UkaEvent event : ukaEventList) {
+			Log.v(debug, "EventType " + event.getEventType());
 			list.add(mapValues(event));
 		}
 		return list;

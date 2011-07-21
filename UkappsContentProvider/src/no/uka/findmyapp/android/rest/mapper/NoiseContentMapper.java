@@ -8,6 +8,7 @@ import no.uka.findmyapp.android.rest.datamodels.models.Noise;
 import android.content.ContentValues;
 
 public class NoiseContentMapper implements IContentMapper {
+	@Override
 	public ContentValues mapValues(Serializable object) {
 		Noise noiseSample = (Noise) object;
 		ContentValues contentValues = new ContentValues();

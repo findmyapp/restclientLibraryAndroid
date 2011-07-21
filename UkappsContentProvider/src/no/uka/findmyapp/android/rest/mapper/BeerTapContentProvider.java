@@ -8,6 +8,7 @@ import no.uka.findmyapp.android.rest.datamodels.models.BeerTap;
 import android.content.ContentValues;
 
 public class BeerTapContentProvider implements IContentMapper {
+	@Override
 	public ContentValues mapValues(Serializable object) {
 		BeerTap beertapSample = (BeerTap) object;
 		ContentValues contentValues = new ContentValues();

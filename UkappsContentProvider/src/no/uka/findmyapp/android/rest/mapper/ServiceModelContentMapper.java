@@ -8,6 +8,7 @@ import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import android.content.ContentValues;
 
 public class ServiceModelContentMapper implements IContentMapper {
+	@Override
 	public ContentValues mapValues(Serializable object) {
 		ServiceModel castedObject = (ServiceModel) object;
 		ContentValues contentValues = new ContentValues();

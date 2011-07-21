@@ -15,7 +15,7 @@ public class ContentHelper {
 	
 	public static ContentValues getContentValues(Serializable object) {
 		try {
-			IContentMapper contentMapper = (IContentMapper) getMapperClass(object, null).newInstance();
+			IContentMapper contentMapper = getMapperClass(object, null).newInstance();
 			return contentMapper.mapValues(object);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -34,7 +34,7 @@ public class ContentHelper {
 
 		try {
 			Log.v(debug, "Object debug " + object.toString());
-			IContentMapper contentMapper = (IContentMapper) getMapperClass(object, returnType).newInstance();
+			IContentMapper contentMapper = getMapperClass(object, returnType).newInstance();
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

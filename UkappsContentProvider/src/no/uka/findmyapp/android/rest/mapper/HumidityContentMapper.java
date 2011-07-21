@@ -9,6 +9,7 @@ import android.content.ContentValues;
 
 public class HumidityContentMapper implements IContentMapper {
 
+	@Override
 	public ContentValues mapValues(Serializable object) {
 		Humidity sample = (Humidity) object;
 		ContentValues contentValues = new ContentValues();

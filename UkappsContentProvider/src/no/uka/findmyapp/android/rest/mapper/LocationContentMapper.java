@@ -8,6 +8,7 @@ import no.uka.findmyapp.android.rest.datamodels.models.Location;
 import android.content.ContentValues;
 
 public class LocationContentMapper implements IContentMapper {
+	@Override
 	public ContentValues mapValues(Serializable object) {
 		Location temp = (Location) object;
 		ContentValues contentValues = new ContentValues();

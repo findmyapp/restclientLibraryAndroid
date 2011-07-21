@@ -59,7 +59,7 @@ public class RestServiceHelper {
 	public void callStartService(Context context, UkappsServices service) 
 			throws URISyntaxException, IllegalAccessException, InstantiationException {
 		Log.v(debug, "Innside callStartService, using UkappsSerivce");
-		ServiceModel sm = UkappServiceFactory.createServiceModel(service);
+		ServiceModel sm = UkappServiceFactory.createServiceModel(UkappsServices.UKAEVENTS);
 		Log.v(debug, sm.toString());
 		Log.v(debug, "callStartService: preparing ServiceModel: " + sm.toString());
 		

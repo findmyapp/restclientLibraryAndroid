@@ -26,7 +26,6 @@ public class UkappServiceFactory {
 				UkaEventContract.EVENT_CONTENT_URI,
 				IntentMessages.BROADCAST_INTENT_TOKEN, 
 				null);
-			
 		default:
 			break;
 		}

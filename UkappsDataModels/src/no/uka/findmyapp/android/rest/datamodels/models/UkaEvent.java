@@ -1,7 +1,5 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -463,16 +461,6 @@ public class UkaEvent implements Serializable {
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public String getStartTime(){
-		Timestamp time = new Timestamp(this.showingTime);
-		return (time.getHours() +":"+ time.getMinutes());
-	}
-	
-	public int getDayNumber(){
-		Timestamp time = new Timestamp(this.showingTime);
-		return (time.getDate());
 	}
 	
 	/* (non-Javadoc)

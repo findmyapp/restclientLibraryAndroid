@@ -1,6 +1,5 @@
 package no.uka.findmyapp.android.rest.datamodels.models;
 
-import android.content.ContentValues;
 
 public abstract class ProviderModel {
 	//protected ContentValues contentValues; 

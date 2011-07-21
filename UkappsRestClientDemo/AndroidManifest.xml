@@ -17,7 +17,7 @@
         </activity>
         
 		<provider android:name="no.uka.findmyapp.android.rest.providers.EventProvider" 
-			android:authorities="no.uka.findmyapp.android.rest.providers.demo" 
+			android:authorities="no.uka.findmyapp.android.rest.providers" 
 			android:exported="false"
 			android:enabled="true">
 			

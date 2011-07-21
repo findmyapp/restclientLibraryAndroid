@@ -3,7 +3,6 @@ package no.uka.findmyapp.android.rest.client;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
-import java.sql.Timestamp;
 
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 

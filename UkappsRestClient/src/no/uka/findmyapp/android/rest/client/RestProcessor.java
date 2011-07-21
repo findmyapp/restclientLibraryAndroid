@@ -2,7 +2,6 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Iterator;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
@@ -43,11 +42,11 @@ public class RestProcessor {
 				Serializable returnedObject = this.executeAndParse(serviceModel);
 				Log.v(debug, "callRest: executeAndParse, object name " + returnedObject.getClass().getName());
 
-				if(serviceModel.getBroadcastNotification() != null) 
-					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
 				if(serviceModel.getContentProviderUri() != null)
 					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject);
-			break;
+				if(serviceModel.getBroadcastNotification() != null) 
+					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
+				break;
 			case POST :
 				//TODO
 			break;

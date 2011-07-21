@@ -59,8 +59,8 @@ public class RestMethod {
 	 */
 	private HttpClient client; 
 	
-	private static final String CONSUMER_KEY = "tonr-consumer-key";
-	private static final String CONSUMER_SECRET = "SHHHHH!!!!!!!!!!";
+	private static final String CONSUMER_KEY = "key";
+	private static final String CONSUMER_SECRET = "secret";
 	private static final String REQUEST_TOKEN_ENDPOINT_URL = "http://10.0.2.2:8080/findmyapp/oauth/request_token";
 	private static final String ACCESS_TOKEN_ENDPOINT_URL = "http://10.0.2.2:8080/findmyapp/oauth/access_token";
 	private static final String AUTHORIZE_WEBSITE_URL = "http://10.0.2.2:8080/findmyapp/oauth/authorize";
@@ -111,7 +111,7 @@ public class RestMethod {
 	private HttpRequestBase setRequestHeaders(String expectedDataFormat, HttpRequestBase request) {
 		request.setHeader("Accept", expectedDataFormat);
 		request.setHeader("Content-type", expectedDataFormat);
-		request.setHeader("User-Agent", this.useragent);
+		//request.setHeader("User-Agent", this.useragent);
 		
 		return request; 
 	}

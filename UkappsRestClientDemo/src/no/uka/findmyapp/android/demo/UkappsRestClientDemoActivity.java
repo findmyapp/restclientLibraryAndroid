@@ -29,7 +29,6 @@ public class UkappsRestClientDemoActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
 		try {
 	        ReciveIntent intentReceiver = new ReciveIntent();
 			IntentFilter intentFilter = new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN);
@@ -39,6 +38,7 @@ public class UkappsRestClientDemoActivity extends Activity {
 			
 			this.getContentResolver()
 			.registerContentObserver(UkaEventContract.EVENT_CONTENT_URI, false, new MyContentObserver(handler));
+			
 			Log.v("DEBUG", "HERE1");
 			
 			List<String> list = new LinkedList<String>();

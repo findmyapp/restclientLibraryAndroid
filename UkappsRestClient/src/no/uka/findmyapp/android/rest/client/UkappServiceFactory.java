@@ -14,11 +14,15 @@ public class UkappServiceFactory {
 	
 	public static ServiceModel createServiceModel(UkappsServices service, String[] params) throws URISyntaxException, IllegalAccessException, InstantiationException {
 		ServiceModel sm = serviceModels.get(service.getMapperName());
-		Log.v("ASDA", sm.getUri().toString());
+		
 		String tempUri = sm.getUri().toString().replace("?", "%s");
 		sm.setUri(new URI(String.format(tempUri, params)));
-		Log.v("ASDA2", sm.getUri().toString());
-		
+
+		/*
+		String tempProviderUri = sm.getContentProviderUri().toString().replace("?", "%s");
+		sm.setContentProviderUri(new URI(String.format(tempProviderUri, R.string.app_name)));
+		*/
 		return sm;
 	}
+	
 }

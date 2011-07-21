@@ -71,12 +71,12 @@ public final class UkaEvents implements BaseColumns{
         /**
          * Path part for the event URI
          */
-        public static final String EVENTS_PATH = "/events";
+        public static final String EVENTS_PATH = "ukaprogram/ukaevents";
 
         /**
          * Path part for the event ID URI
          */
-        public static final String EVENTS_ID_PATH = "/event_samples/";
+        public static final String EVENTS_ID_PATH = "/ukaevent_samples/";
 
         /**
          * 0-relative position of a event ID segment in the path part of a event ID URI

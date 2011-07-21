@@ -92,7 +92,7 @@ public class RestServiceHelper {
 		Log.v(debug, "Internal: updatingServiceModel");
 		try {
 			ServiceModel sm = new ServiceModel(new URI(
-			"http://10.0.2.2:8080/findmyapp/serviceinfo/all"),
+			"http://findmyapp.net/findmyapp/serviceinfo/all"),
 			HttpType.GET, ServiceDataFormat.JSON, ServiceModel.class,
 			null, null, IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, null);
 			if(intentReceiver == null) {

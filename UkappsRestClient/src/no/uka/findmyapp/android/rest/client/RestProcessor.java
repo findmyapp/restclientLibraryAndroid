@@ -43,7 +43,7 @@ public class RestProcessor {
 				Serializable returnedObject = this.executeAndParse(serviceModel);
 				Log.v(debug, "callRest: executeAndParse, object name " + returnedObject.getClass().getName());
 				if(serviceModel.getContentProviderUri() != null)
-					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject);
+					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject, serviceModel.getReturnType());
 				if(serviceModel.getBroadcastNotification() != null) 
 					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
 			break;
@@ -102,24 +102,30 @@ public class RestProcessor {
 		}
 	}
 	
-	private void sendToContentProvider(Uri uri, Serializable object) {
+	private void sendToContentProvider(Uri uri, Serializable object, String returnType) {
 		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
 
 		ContentResolver cr = context.getContentResolver();
-		if(ContentHelper.isList(object)) {
-			List<ContentValues> list = ContentHelper.getContentValuesList(object);
-			
+		
+		if(object instanceof List) {
+			List<ContentValues> list = ContentHelper.getContentValuesList(object, returnType);
 			Log.v(debug, "parsing contentvalue array");
 			ContentValues[] cva = new ContentValues[list.size()];
 			for(ContentValues cv : list) {
 				cva[list.indexOf(cv)] = cv; 
 			}
 			Log.v(debug, cva.toString());
-			cr.bulkInsert(uri, cva);
+			cr.bulkInsert( Uri.parse("content://no.uka.findmyapp.android.rest.providers/ukaevent"), cva);
 		} else {
 			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
 			cr.insert(uri, cv);
+			
 		}
+		/*
+		if(ContentHelper.isList(object)) {
+			
+		} else {
+		}*/
 	}
 	
 	private void sendIntentBroadcast(String intentString, Serializable obj) {

@@ -34,6 +34,7 @@ public final class UkaEvents implements BaseColumns{
 	     */
 	    public static final String TABLE_NAME = "uka_events";
 	    
+	    //TODO FIX FAVOURITE FIELD
 		  /**
 		   * Create uka event table query
 		   */
@@ -47,19 +48,15 @@ public final class UkaEvents implements BaseColumns{
 			  + UkaEventContract.LEAD + " varchar(255), " 
 			  + UkaEventContract.TEXT + " varchar(255), "
 			  + UkaEventContract.PLACE + " varchar(30), "
+			  + UkaEventContract.FAVOURITE + " BOOLEAN, "
 			  + UkaEventContract.EVENT_TYPE + " varchar(30), "
 			  + UkaEventContract.IMAGE + " varchar(100), "
 			  + UkaEventContract.THUMBNAIL + " varchar(100), "
-			  + UkaEventContract.HIDDEN_FROM_LISTING + " boolean, "
-			  + UkaEventContract.SLUG + " varchar(50), "
 			  + UkaEventContract.AGE_LIMIT + " INTEGER, "
-			  + UkaEventContract.DETAIL_PHOTO_ID + " INTEGER, "
 			  + UkaEventContract.SHOWING_TIME + " TIMESTAMP, "
-			  + UkaEventContract.PUBLISH_TIME + " TIMESTAMP, "
-			  + UkaEventContract.NETSALE_FROM + " TIMESTAMP, "
-			  + UkaEventContract.NETSALE_TO + " TIMESTAMP, "
+			  + UkaEventContract.LOWEST_PRICE + " INTEGER, "
 			  + UkaEventContract.FREE + " BOOLEAN, "
-			  + UkaEventContract.CANCELED + " BOOLEAN"
+			  + UkaEventContract.CANCELED + " BOOLEAN"  
 			  + ");";
 		  
 		 /**
@@ -188,30 +185,17 @@ public final class UkaEvents implements BaseColumns{
 		public static final String THUMBNAIL = "thumbnail";
 		
         /**
-         * Column name for the 
-         * hidden_from_listing flag
-         * <P>Type: BOOLEAN</P>
-         */
-		public static final String HIDDEN_FROM_LISTING = "hiddden_from_listing";
-		
-        /**
-         * Column name for the slug
-         * <P>Type: VARCHAR(50)</P>
-         */
-		public static final String SLUG = "slug";
-		
-        /**
          * Column name for the age limit
          * <P>Type: SMALLINT</P>
          */
 		public static final String AGE_LIMIT = "age_limit";
 		
         /**
-         * Column name for the detail photo id
-         * <P>Type: INTEGER</P>
+         * Column name for the favourite flag
+         * <P>Type: SMALLINT</P>
          */
-		public static final String DETAIL_PHOTO_ID = "detail_photo_id";
-		
+		public static final String FAVOURITE = "favourite";
+
 		/**
          * Column name for the showing time timestamp
          * <P>Type: TIMESTAMP</P>
@@ -219,28 +203,16 @@ public final class UkaEvents implements BaseColumns{
         public static final String SHOWING_TIME = "showing_time";
         
         /**
-         * Column name for the publish time timestamp
-         * <P>Type: TIMESTAMP</P>
-         */
-        public static final String PUBLISH_TIME = "publish_time";
-        
-        /**
-         * Column name for thenetsaleFrom timestamp
-         * <P>Type: TIMESTAMP</P>
-         */
-        public static final String NETSALE_FROM = "netsale_from";
-        
-        /**
-         * Column name for the netsaleTo timestamp
-         * <P>Type: TIMESTAMP</P>
-         */
-        public static final String NETSALE_TO = "netsale_to";
-        
-        /**
          * Column name for the free flag 
          * <P>Type: BOOLEAN</P>
          */
 		public static final String FREE = "free";
+
+		/**
+         * Column name for the price column 
+         * <P>Type: INT</P>
+         */
+		public static final String LOWEST_PRICE = "lowest_price";
 		
 		 /**
          * Column name for the canceled flag

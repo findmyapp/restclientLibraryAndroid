@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class UkaEventContentMapper implements IContentMapper {
 	private static final String debug = "UkaEventContentMapper";
-
+//TODO fix age to favourite
 	@Override
 	public ContentValues mapValues(Serializable temp) {
 		UkaEvent event = (UkaEvent) temp;
@@ -25,19 +25,14 @@ public class UkaEventContentMapper implements IContentMapper {
 		contentValues.put(UkaEventContract.PLACE, event.getPlace());
 		contentValues.put(UkaEventContract.IMAGE, event.getImage());
 		contentValues.put(UkaEventContract.THUMBNAIL, event.getThumbnail());
-		contentValues.put(UkaEventContract.HIDDEN_FROM_LISTING, event.isHidden_from_listings());
-		contentValues.put(UkaEventContract.SLUG, event.getSlug());
 		contentValues.put(UkaEventContract.AGE_LIMIT, event.getAgeLimit());
-		contentValues.put(UkaEventContract.DETAIL_PHOTO_ID, event.getDetailPhotoId()); 
 		contentValues.put(UkaEventContract.EVENT_TYPE, event.getEventType());
-		
 		contentValues.put(UkaEventContract.SHOWING_TIME, event.getShowingTime());
-		contentValues.put(UkaEventContract.PUBLISH_TIME, event.getPublishTime());
-		contentValues.put(UkaEventContract.NETSALE_FROM, event.getNetsaleFrom());
-		contentValues.put(UkaEventContract.NETSALE_TO, event.getNetsaleTo());
-		
 		contentValues.put(UkaEventContract.FREE, event.isFree());
 		contentValues.put(UkaEventContract.CANCELED, event.isCanceled());
+		contentValues.put(UkaEventContract.FAVOURITE, event.isFavourite());
+		contentValues.put(UkaEventContract.LOWEST_PRICE, event.getPrice());
+		
 		return contentValues;
 	}
 

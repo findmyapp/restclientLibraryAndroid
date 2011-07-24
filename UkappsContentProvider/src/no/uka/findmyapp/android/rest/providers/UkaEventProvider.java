@@ -30,7 +30,7 @@ public class UkaEventProvider extends ContentProvider {
 	   /**
 	    * The database version
 	    */
-	   private static final int DATABASE_VERSION = 7;
+	   private static final int DATABASE_VERSION = 13;
 
 	   /**
 	    * A projection map used to select columns from the database
@@ -88,15 +88,12 @@ public class UkaEventProvider extends ContentProvider {
 	       ukaeventProjectionMap.put(UkaEventContract.EVENT_TYPE, UkaEventContract.EVENT_TYPE);
 	       ukaeventProjectionMap.put(UkaEventContract.IMAGE, UkaEventContract.IMAGE);	       
 	       ukaeventProjectionMap.put(UkaEventContract.THUMBNAIL, UkaEventContract.THUMBNAIL);
-	       ukaeventProjectionMap.put(UkaEventContract.HIDDEN_FROM_LISTING, UkaEventContract.HIDDEN_FROM_LISTING);	       
 	       ukaeventProjectionMap.put(UkaEventContract.AGE_LIMIT, UkaEventContract.AGE_LIMIT);
-	       ukaeventProjectionMap.put(UkaEventContract.DETAIL_PHOTO_ID, UkaEventContract.DETAIL_PHOTO_ID);
 	       ukaeventProjectionMap.put(UkaEventContract.SHOWING_TIME, UkaEventContract.SHOWING_TIME);
-	       ukaeventProjectionMap.put(UkaEventContract.PUBLISH_TIME, UkaEventContract.PUBLISH_TIME);
-	       ukaeventProjectionMap.put(UkaEventContract.NETSALE_FROM, UkaEventContract.NETSALE_FROM);
-	       ukaeventProjectionMap.put(UkaEventContract.NETSALE_TO, UkaEventContract.NETSALE_TO);
 	       ukaeventProjectionMap.put(UkaEventContract.FREE, UkaEventContract.FREE);
 	       ukaeventProjectionMap.put(UkaEventContract.CANCELED, UkaEventContract.CANCELED);
+	       ukaeventProjectionMap.put(UkaEventContract.FAVOURITE, UkaEventContract.FAVOURITE);
+	       ukaeventProjectionMap.put(UkaEventContract.LOWEST_PRICE, UkaEventContract.LOWEST_PRICE);
 	   }
 
 	   /**
@@ -132,7 +129,7 @@ public class UkaEventProvider extends ContentProvider {
 	      public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			  Log.v(debug, "Inside onUpgrade");
 
-	          Log.w("EventProvider", "Upgrading database, version:" + oldVersion + " to "
+	          Log.w(debug, "Upgrading database, version:" + oldVersion + " to "
 	                  + newVersion + ", the data is dropped");
 
 	          // Drops the table
@@ -219,7 +216,7 @@ public class UkaEventProvider extends ContentProvider {
 			 * a statement like "INSERT INTO temperature_table
 			 * (location_id) VALUES (NULL)" in this case.
 			 */
-			long rowId = db.insert(UkaEventContract.TABLE_NAME, UkaEventContract.SLUG, values);
+			long rowId = db.insert(UkaEventContract.TABLE_NAME, UkaEventContract.LEAD, values);
 			if(rowId > 0) {
 				Uri eventUri = ContentUris.withAppendedId(UkaEventContract.EVENT_CONTENT_URI, rowId);
 				getContext().getContentResolver().notifyChange(uri, null);

@@ -10,6 +10,11 @@ import java.sql.Timestamp;
  */
 public class UkaEvent implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6227101675595553954L;
+
 	/** The id. */
 	private int id;
 	
@@ -42,41 +47,24 @@ public class UkaEvent implements Serializable {
 
     /** The thumbnail. */
 	private String thumbnail;
-	
-    /** The hidden_from_listings. */
-	private boolean hidden_from_listings;
-	
-    /** The slug. */
-	private String slug;
-	
+
     /** The age limit. */
 	private int ageLimit;
-	
-    /** The detail photo id. */
-	private int detailPhotoId;
-	
 	
     /** The showing time. */
     private long showingTime;
     
-    /** The publish time. */
-    private long publishTime;
-    
-
-    /** The netsale from. */
-    private long netsaleFrom;
-    
-    /** The netsale to. */
-    private long netsaleTo;
-    
-    /** The free. */
+    /** The free flag */
 	private boolean free;
 	
-	 /** The canceled. */
+	 /** The canceled flag */
 	private boolean canceled;
 	
 	/** The price */
 	private int price; 
+	
+	/** The favourite flag */
+	private boolean favourite; 
 
 	/**
 	 * Gets the id.
@@ -277,42 +265,6 @@ public class UkaEvent implements Serializable {
 	}
 
 	/**
-	 * Checks if is hidden_from_listings.
-	 *
-	 * @return true, if is hidden_from_listings
-	 */
-	public boolean isHidden_from_listings() {
-		return hidden_from_listings;
-	}
-
-	/**
-	 * Sets the hidden_from_listings.
-	 *
-	 * @param hidden_from_listings the new hidden_from_listings
-	 */
-	public void setHidden_from_listings(boolean hidden_from_listings) {
-		this.hidden_from_listings = hidden_from_listings;
-	}
-
-	/**
-	 * Gets the slug.
-	 *
-	 * @return the slug
-	 */
-	public String getSlug() {
-		return slug;
-	}
-
-	/**
-	 * Sets the slug.
-	 *
-	 * @param slug the new slug
-	 */
-	public void setSlug(String slug) {
-		this.slug = slug;
-	}
-
-	/**
 	 * Gets the age limit.
 	 *
 	 * @return the age limit
@@ -331,24 +283,6 @@ public class UkaEvent implements Serializable {
 	}
 
 	/**
-	 * Gets the detail photo id.
-	 *
-	 * @return the detail photo id
-	 */
-	public int getDetailPhotoId() {
-		return detailPhotoId;
-	}
-
-	/**
-	 * Sets the detail photo id.
-	 *
-	 * @param detailPhotoId the new detail photo id
-	 */
-	public void setDetailPhotoId(int detailPhotoId) {
-		this.detailPhotoId = detailPhotoId;
-	}
-
-	/**
 	 * Gets the showing time.
 	 *
 	 * @return the showing time
@@ -359,103 +293,29 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the showing time.
-	 *
+	 * 
 	 * @param date the new showing time
 	 */
 	public void setShowingTime(long date) {
 		this.showingTime = date;
 	}
 
-	/**
-	 * Gets the publish time.
-	 *
-	 * @return the publish time
-	 */
-	public long getPublishTime() {
-		return publishTime;
-	}
-	
-	/**
-	 * Sets the publish time.
-	 *
-	 * @param publishTime the new publish time
-	 */
-	public void setPublishTime(long publishTime) {
-		this.publishTime = publishTime;
-	}
-
-	/**
-	 * Gets the netsale from.
-	 *
-	 * @return the netsale from
-	 */
-	public long getNetsaleFrom() {
-		return netsaleFrom;
-	}
-
-	/**
-	 * Sets the netsale from.
-	 *
-	 * @param netsaleFrom the new netsale from
-	 */
-	public void setNetsaleFrom(long netsaleFrom) {
-		this.netsaleFrom = netsaleFrom;
-	}
-
-	/**
-	 * Gets the netsale to.
-	 *
-	 * @return the netsale to
-	 */
-	public long getNetsaleTo() {
-		return netsaleTo;
-	}
-
-	/**
-	 * Sets the netsale to.
-	 *
-	 * @param netsaleTo the new netsale to
-	 */
-	public void setNetsaleTo(long netsaleTo) {
-		this.netsaleTo = netsaleTo;
-	}
-
-	/**
-	 * Checks if is free.
-	 *
-	 * @return true, if is free
-	 */
 	public boolean isFree() {
 		return free;
 	}
 
-	/**
-	 * Sets the free.
-	 *
-	 * @param free the new free
-	 */
 	public void setFree(boolean free) {
 		this.free = free;
 	}
 
-	/**
-	 * Checks if is canceled.
-	 *
-	 * @return true, if is canceled
-	 */
 	public boolean isCanceled() {
 		return canceled;
 	}
 
-	/**
-	 * Sets the canceled.
-	 *
-	 * @param canceled the new canceled
-	 */
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
 	}
-	
+
 	public int getPrice() {
 		return price;
 	}
@@ -464,29 +324,11 @@ public class UkaEvent implements Serializable {
 		this.price = price;
 	}
 
-	public String getStartTime(){
-		Timestamp time = new Timestamp(this.showingTime);
-		return (time.getHours() +":"+ time.getMinutes());
-	}
-	
-	public int getDayNumber(){
-		Timestamp time = new Timestamp(this.showingTime);
-		return (time.getDate());
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "UkaEvent [id=" + id + ", eventId=" + eventId + ", billingid="
-				+ billingid + ", entranceId=" + entranceId + ", title=" + title
-				+ ", lead=" + lead + ", text=" + text + ", place=" + place
-				+ ", eventType=" + eventType + ", image=" + image
-				+ ", thumbnail=" + thumbnail + ", hidden_from_listings="
-				+ hidden_from_listings + ", slug=" + slug + ", ageLimit="
-				+ ageLimit + ", detailPhotoId=" + detailPhotoId
-				+ ", free=" + free + ", canceled=" + canceled + "]";
+	public boolean isFavourite() {
+		return favourite;
 	}
 
+	public void setFavourite(boolean favourite) {
+		this.favourite = favourite;
+	}
 }

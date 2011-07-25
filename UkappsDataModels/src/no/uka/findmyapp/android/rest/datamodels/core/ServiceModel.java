@@ -19,63 +19,68 @@ import android.net.Uri;
  */
 /**
  * @author jostein.guldal
- *
+ * 
  */
-public class ServiceModel implements Serializable{
-	
+public class ServiceModel implements Serializable {
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8851427905103524899L;
-	
+
 	/** The uri. */
 	private URI uri;
-	
+
 	/** The http type. */
 	private HttpType httpType;
-	
+
 	/** The dataformat. */
-	private ServiceDataFormat dataformat; 
-	
+	private ServiceDataFormat dataformat;
+
 	/** The return type. */
 	private String returnType;
-	
+
 	/** The data. */
-	private Serializable data; 
-	
+	private Serializable data;
+
 	/** The content provider uri. */
-	private URI contentProviderUri; 
-	
+	private URI contentProviderUri;
+
 	/** The broadcast notification. */
-	private String broadcastNotification; 
-	
+	private String broadcastNotification;
+
 	/** The local identifier. */
 	private String localIdentifier;
-	
+
 	/**
 	 * Instantiates a new service model.
 	 */
-	public ServiceModel() { }
-	
+	public ServiceModel() {
+	}
+
 	/**
 	 * Instantiates a new service model.
-	 *
-	 * @param uri the URI of the REST service
-	 * @param httpType the http type to be used
-	 * @param dataformat the dataformat
-	 * @param returnType the return type expected
-	 * @param data the data
-	 * @param contentProviderUri the content provider uri
-	 * @param broadcastNotification the broadcast notification
-	 * @param localIdentifier the local identifier
-	 * @throws URISyntaxException the uRI syntax exception
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @param httpType
+	 *            the http type
+	 * @param dataformat
+	 *            the dataformat
+	 * @param returnType
+	 *            the return type
+	 * @param data
+	 *            the data
+	 * @param contentProviderUri
+	 *            the content provider uri
+	 * @param broadcastNotification
+	 *            the broadcast notification
+	 * @param localIdentifier
+	 *            the local identifier
+	 * @throws URISyntaxException
+	 *             the uRI syntax exception
 	 */
-	public ServiceModel(
-			URI uri, 
-			HttpType httpType,
-			ServiceDataFormat dataformat, 
-			Class returnType, 
-			Serializable data,
-			Uri contentProviderUri, 
-			String broadcastNotification, 
+	public ServiceModel(URI uri, HttpType httpType,
+			ServiceDataFormat dataformat, Class returnType, Serializable data,
+			Uri contentProviderUri, String broadcastNotification,
 			String localIdentifier) throws URISyntaxException {
 		super();
 		this.uri = uri;
@@ -83,124 +88,16 @@ public class ServiceModel implements Serializable{
 		this.dataformat = dataformat;
 		this.returnType = returnType.getName();
 		this.data = data;
-		if(contentProviderUri != null) {
+		if (contentProviderUri != null) {
 			this.contentProviderUri = new URI(contentProviderUri.toString());
 		}
 		this.broadcastNotification = broadcastNotification;
 		this.localIdentifier = localIdentifier;
 	}
-	
-	/**
-	 * Gets the uri.
-	 *
-	 * @return the uri
-	 */
-	public URI getUri() {
-		return uri;
-	}
-	
-	/**
-	 * Sets the uri.
-	 *
-	 * @param uri the new uri
-	 */
-	public void setUri(URI uri) {
-		this.uri = uri;
-	}
-	
-	/**
-	 * Gets the http type.
-	 *
-	 * @return the http type
-	 */
-	public HttpType getHttpType() {
-		return httpType;
-	}
-	
-	/**
-	 * Sets the http type.
-	 *
-	 * @param httpType the new http type
-	 */
-	public void setHttpType(HttpType httpType) {
-		this.httpType = httpType;
-	}
-	
-	/**
-	 * Gets the dataformat.
-	 *
-	 * @return the dataformat
-	 */
-	public ServiceDataFormat getDataformat() {
-		return dataformat;
-	}
-
-	/**
-	 * Sets the dataformat.
-	 *
-	 * @param dataformat the new dataformat
-	 */
-	public void setDataformat(ServiceDataFormat dataformat) {
-		this.dataformat = dataformat;
-	}
-
-	/**
-	 * Gets the return type.
-	 *
-	 * @return the return type
-	 */
-	public String getReturnType() {
-		return returnType;
-	}
-	
-	/**
-	 * Sets the return type.
-	 *
-	 * @param returnType the new return type
-	 */
-	public void setReturnType(String returnType) {
-		this.returnType = returnType;
-	}
-	
-	/**
-	 * Gets the data.
-	 *
-	 * @return the data
-	 */
-	public Serializable getData() {
-		return data;
-	}
-
-	/**
-	 * Sets the data.
-	 *
-	 * @param data the new data
-	 */
-	public void setData(Serializable data) {
-		this.data = data;
-	}
-
-	/**
-	 * Gets the content provider uri.
-	 *
-	 * @return the content provider uri
-	 */
-	public URI getContentProviderUri() {
-		return contentProviderUri;
-	}
-
-	/**
-	 * Sets the content provider uri.
-	 *
-	 * @param contentProvider the new content provider uri
-	 */
-	public void setContentProviderUri(URI contentProvider) {
-		this.contentProviderUri = contentProvider;
-	}
 
 	/**
 	 * Gets the broadcast notification.
-	 *
+	 * 
 	 * @return the broadcast notification
 	 */
 	public String getBroadcastNotification() {
@@ -208,17 +105,44 @@ public class ServiceModel implements Serializable{
 	}
 
 	/**
-	 * Sets the broadcast notification.
-	 *
-	 * @param broadcastNotification the new broadcast notification
+	 * Gets the content provider uri.
+	 * 
+	 * @return the content provider uri
 	 */
-	public void setBroadcastNotification(String broadcastNotification) {
-		this.broadcastNotification = broadcastNotification;
+	public URI getContentProviderUri() {
+		return contentProviderUri;
+	}
+
+	/**
+	 * Gets the data.
+	 * 
+	 * @return the data
+	 */
+	public Serializable getData() {
+		return data;
+	}
+
+	/**
+	 * Gets the dataformat.
+	 * 
+	 * @return the dataformat
+	 */
+	public ServiceDataFormat getDataformat() {
+		return dataformat;
+	}
+
+	/**
+	 * Gets the http type.
+	 * 
+	 * @return the http type
+	 */
+	public HttpType getHttpType() {
+		return httpType;
 	}
 
 	/**
 	 * Gets the local identifier.
-	 *
+	 * 
 	 * @return the local identifier
 	 */
 	public String getLocalIdentifier() {
@@ -226,15 +150,106 @@ public class ServiceModel implements Serializable{
 	}
 
 	/**
+	 * Gets the return type.
+	 * 
+	 * @return the return type
+	 */
+	public String getReturnType() {
+		return returnType;
+	}
+
+	/**
+	 * Gets the uri.
+	 * 
+	 * @return the uri
+	 */
+	public URI getUri() {
+		return uri;
+	}
+
+	/**
+	 * Sets the broadcast notification.
+	 * 
+	 * @param broadcastNotification
+	 *            the new broadcast notification
+	 */
+	public void setBroadcastNotification(String broadcastNotification) {
+		this.broadcastNotification = broadcastNotification;
+	}
+
+	/**
+	 * Sets the content provider uri.
+	 * 
+	 * @param contentProvider
+	 *            the new content provider uri
+	 */
+	public void setContentProviderUri(URI contentProvider) {
+		this.contentProviderUri = contentProvider;
+	}
+
+	/**
+	 * Sets the data.
+	 * 
+	 * @param data
+	 *            the new data
+	 */
+	public void setData(Serializable data) {
+		this.data = data;
+	}
+
+	/**
+	 * Sets the dataformat.
+	 * 
+	 * @param dataformat
+	 *            the new dataformat
+	 */
+	public void setDataformat(ServiceDataFormat dataformat) {
+		this.dataformat = dataformat;
+	}
+
+	/**
+	 * Sets the http type.
+	 * 
+	 * @param httpType
+	 *            the new http type
+	 */
+	public void setHttpType(HttpType httpType) {
+		this.httpType = httpType;
+	}
+
+	/**
 	 * Sets the local identifier.
-	 *
-	 * @param localIdentifier the new local identifier
+	 * 
+	 * @param localIdentifier
+	 *            the new local identifier
 	 */
 	public void setLocalIdentifier(String localIdentifier) {
 		this.localIdentifier = localIdentifier;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * Sets the return type.
+	 * 
+	 * @param returnType
+	 *            the new return type
+	 */
+	public void setReturnType(String returnType) {
+		this.returnType = returnType;
+	}
+
+	/**
+	 * Sets the uri.
+	 * 
+	 * @param uri
+	 *            the new uri
+	 */
+	public void setUri(URI uri) {
+		this.uri = uri;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -246,6 +261,5 @@ public class ServiceModel implements Serializable{
 				+ broadcastNotification + ", localIdentifier="
 				+ localIdentifier + "]";
 	}
-
 
 }

@@ -19,21 +19,36 @@ import android.util.Log;
  * The Class UkaEventContentMapper.
  */
 public class UkaEventContentMapper implements IContentMapper {
-	
+
 	/** The Constant debug. */
 	private static final String debug = "UkaEventContentMapper";
-//TODO fix age to favourite
-	/* (non-Javadoc)
- * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io.Serializable)
- */
-@Override
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#isList()
+	 */
+	@Override
+	public boolean isList() {
+		return false;
+	}
+
+	// TODO fix age to favourite
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io
+	 * .Serializable)
+	 */
+	@Override
 	public ContentValues mapValues(Serializable temp) {
 		UkaEvent event = (UkaEvent) temp;
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(UkaEventContract.ID, event.getId());
 		contentValues.put(UkaEventContract.BILLING_ID, event.getBillingid());
 		contentValues.put(UkaEventContract.ENTRANCE_ID, event.getEntranceId());
-		contentValues.put(UkaEventContract.TITLE, event.getTitle()); 
+		contentValues.put(UkaEventContract.TITLE, event.getTitle());
 		contentValues.put(UkaEventContract.LEAD, event.getLead());
 		contentValues.put(UkaEventContract.TEXT, event.getText());
 		contentValues.put(UkaEventContract.PLACE, event.getPlace());
@@ -41,35 +56,32 @@ public class UkaEventContentMapper implements IContentMapper {
 		contentValues.put(UkaEventContract.THUMBNAIL, event.getThumbnail());
 		contentValues.put(UkaEventContract.AGE_LIMIT, event.getAgeLimit());
 		contentValues.put(UkaEventContract.EVENT_TYPE, event.getEventType());
-		contentValues.put(UkaEventContract.SHOWING_TIME, event.getShowingTime());
+		contentValues
+				.put(UkaEventContract.SHOWING_TIME, event.getShowingTime());
 		contentValues.put(UkaEventContract.FREE, event.isFree());
 		contentValues.put(UkaEventContract.CANCELED, event.isCanceled());
 		contentValues.put(UkaEventContract.FAVOURITE, event.isFavourite());
 		contentValues.put(UkaEventContract.LOWEST_PRICE, event.getPrice());
-		
+
 		return contentValues;
 	}
 
-	/* (non-Javadoc)
-	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java.io.Serializable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java
+	 * .io.Serializable)
 	 */
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
 		List<ContentValues> list = new ArrayList<ContentValues>();
 		List<UkaEvent> ukaEventList = (List<UkaEvent>) object;
-		
-		for(UkaEvent event : ukaEventList) {
+
+		for (UkaEvent event : ukaEventList) {
 			Log.v(debug, "EventType " + event.getEventType());
 			list.add(mapValues(event));
 		}
 		return list;
-	}
-	
-	/* (non-Javadoc)
-	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#isList()
-	 */
-	@Override
-	public boolean isList() {
-		return false;
 	}
 }

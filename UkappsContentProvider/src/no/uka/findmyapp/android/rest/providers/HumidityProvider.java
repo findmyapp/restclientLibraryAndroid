@@ -7,8 +7,8 @@ package no.uka.findmyapp.android.rest.providers;
 
 import java.util.HashMap;
 
-import no.uka.findmyapp.android.rest.contracts.Location;
-import no.uka.findmyapp.android.rest.contracts.Location.LocationContract;
+import no.uka.findmyapp.android.rest.contracts.Humidity;
+import no.uka.findmyapp.android.rest.contracts.Humidity.HumidityTable;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -23,25 +23,25 @@ import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class LocationProvider.
+ * The Class HumidityProvider.
  */
-public class LocationProvider extends ContentProvider {
+public class HumidityProvider extends ContentProvider {
 
 	/**
-	 * The Class LocationDatabaseHelper.
+	 * The Class HumidityDatabaseHelper.
 	 */
-	private static class LocationDatabaseHelper extends SQLiteOpenHelper {
+	private static class HumidityDatabaseHelper extends SQLiteOpenHelper {
 
 		/** The Constant debug. */
-		private static final String debug = "LocationDatabaseHelper";
+		private static final String debug = "HumidityDatabaseHelper";
 
 		/**
-		 * Instantiates a new location database helper.
+		 * Instantiates a new humidity database helper.
 		 * 
 		 * @param context
 		 *            the context
 		 */
-		public LocationDatabaseHelper(Context context) {
+		public HumidityDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 			Log.v(debug, "Inside constructor");
 		}
@@ -56,7 +56,7 @@ public class LocationProvider extends ContentProvider {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			Log.v(debug, "Inside onCreate");
-			db.execSQL(LocationContract.CREATE_TABLE_QUERY);
+			db.execSQL(HumidityTable.CREATE_TABLE_QUERY);
 		}
 
 		// TODO Implement implement UKA-program caching
@@ -75,7 +75,7 @@ public class LocationProvider extends ContentProvider {
 					+ newVersion + ", the data is dropped");
 
 			// Drops the table
-			db.execSQL(LocationContract.DROP_TABLE_QUERY);
+			db.execSQL(HumidityTable.DROP_TABLE_QUERY);
 
 			// Recreates the database
 			onCreate(db);
@@ -83,61 +83,57 @@ public class LocationProvider extends ContentProvider {
 	}
 
 	/** The Constant debug. */
-	private static final String debug = "LocationProvider";
+	private static final String debug = "HumidityProvider";
 
 	/** The Constant DATABASE_NAME. */
-	private static final String DATABASE_NAME = "location.db";
+	private static final String DATABASE_NAME = "humidity.db";
 
 	/** The Constant DATABASE_VERSION. */
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 15;
 
-	/** The location projection map. */
-	private static HashMap<String, String> locationProjectionMap;
+	/** The humidity projection map. */
+	private static HashMap<String, String> humidityProjectionMap;
 
 	/*
 	 * Constants used by the Uri matcher to choose an action based on the
 	 * pattern of the incoming URI
 	 */
-	/** The Constant LOCATION. */
-	private static final int LOCATION = 1;
+	/** The Constant HUMIDITY. */
+	private static final int HUMIDITY = 1;
 
-	/** The Constant LOCATION_ID. */
-	private static final int LOCATION_ID = 2;
+	/** The Constant HUMIDITY_ID. */
+	private static final int HUMIDITY_ID = 2;
 
 	/** The Constant uriMatcher. */
 	private static final UriMatcher uriMatcher;
 
 	/** The db helper. */
-	private LocationDatabaseHelper dbHelper;
+	private HumidityDatabaseHelper dbHelper;
 
 	/**
 	 * Instantiates the needed statics.
 	 */
 	static {
-		/*
-		 * Initializes the URI matcher
-		 */
+		// initialize the UriMatcher
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-		// Setup the right patterns to the location "dir"
-		uriMatcher.addURI(Location.AUTHORITY, "location", LOCATION);
-
-		/*
-		 * Setup pattern to a spesific location by using the spesific of the
-		 * location
+		/**
+		 * Initializing the URI mapping for the sensor data.
 		 */
-		uriMatcher.addURI(Location.AUTHORITY, LocationContract.LOCATION_PATH
-				+ "#", LOCATION_ID);
+		uriMatcher.addURI(Humidity.AUTHORITY, "humidity_samples/", HUMIDITY);
+		uriMatcher
+				.addURI(Humidity.AUTHORITY, "humidity_samples/#", HUMIDITY_ID);
 
-		/*
-		 * Initializes a projection map that returns all columns
+		/**
+		 * Initializing the projection map for the humidity samples.
 		 */
-		locationProjectionMap = new HashMap<String, String>();
-		locationProjectionMap.put(LocationContract.ID, LocationContract.ID);
-		locationProjectionMap.put(LocationContract.LOCATIONNAME,
-				LocationContract.LOCATIONNAME);
-		locationProjectionMap.put(LocationContract.LOCATIONID,
-				LocationContract.LOCATIONID);
+		humidityProjectionMap = new HashMap<String, String>();
+
+		humidityProjectionMap.put(HumidityTable.ID, HumidityTable.ID);
+		humidityProjectionMap.put(HumidityTable.LOCATION_ID,
+				HumidityTable.LOCATION_ID);
+		humidityProjectionMap.put(HumidityTable.VALUE, HumidityTable.VALUE);
+		humidityProjectionMap.put(HumidityTable.DATE, HumidityTable.DATE);
 	}
 
 	/*
@@ -153,24 +149,18 @@ public class LocationProvider extends ContentProvider {
 		String finalWhere;
 
 		int count;
-
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			count = db.delete(LocationContract.TABLE_NAME, where, whereArgs);
-			break;
-		case LOCATION_ID:
-			finalWhere = LocationContract.ID
-					+ " = "
-					+ uri.getPathSegments().get(
-							LocationContract.LOCATION_ID_PATH_POSITION);
+		case HUMIDITY_ID:
+			finalWhere = HumidityTable.ID + "="
+					+ uri.getPathSegments().get(HumidityTable.ID_PATH_POSITION);
 
 			if (where != null) {
 				finalWhere = finalWhere + " AND " + where;
 			}
-
-			count = db.delete(LocationContract.TABLE_NAME, finalWhere,
-					whereArgs);
+		case HUMIDITY:
+			count = db.delete(HumidityTable.TABLE_NAME, where, whereArgs);
 			break;
+
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -189,10 +179,10 @@ public class LocationProvider extends ContentProvider {
 	public String getType(Uri uri) {
 		Log.v(debug, "Inside getType");
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			return LocationContract.CONTENT_TYPE_LOCATION;
-		case LOCATION_ID:
-			return LocationContract.CONTENT_ITEM_LOCATION;
+		case HUMIDITY:
+			return HumidityTable.CONTENT_TYPE;
+		case HUMIDITY_ID:
+			return HumidityTable.CONTENT_ITEM;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -201,13 +191,13 @@ public class LocationProvider extends ContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.content.ContentProvider#insert(android.net.Uri,
+	 * @see android.content.ContentProvider#insert (android.net.Uri,
 	 * android.content.ContentValues)
 	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		Log.v(debug, "Inside insert");
-		if (uriMatcher.match(uri) != LOCATION) {
+		if (uriMatcher.match(uri) != HUMIDITY) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
@@ -219,24 +209,23 @@ public class LocationProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		Log.v(debug, "insert: selected database " + db.toString());
-
-		Log.v(debug, "insert: insertvalues " + values.toString());
+		Log.v(debug, "Insert: selected database " + db.toString());
+		Log.v(debug, "Insert: insertvalues " + values.toString());
 
 		/*
 		 * The second insert() parameter is a nullColumnHack, a somewhat crappy
 		 * solution which is used to avoid queries like "INSERT INTO tablename;"
 		 * isn't declared illegal. Instead it automatically creates a statement
-		 * like "INSERT INTO temperature_table (location_id) VALUES (NULL)" in
-		 * this case.
+		 * like "INSERT INTO humidity_table (location_id) VALUES (NULL)" in this
+		 * case.
 		 */
-		long rowId = db.insert(LocationContract.TABLE_NAME,
-				LocationContract.SLUG, values);
+		long rowId = db.insert(HumidityTable.TABLE_NAME,
+				HumidityTable.LOCATION_ID, values);
 		if (rowId > 0) {
-			Uri contentUri = ContentUris.withAppendedId(
-					LocationContract.LOCATION_CONTENT_URI, rowId);
+			Uri humidityUri = ContentUris.withAppendedId(
+					HumidityTable.CONTENT_URI, rowId);
 			getContext().getContentResolver().notifyChange(uri, null);
-			return contentUri;
+			return humidityUri;
 		}
 
 		throw new IllegalArgumentException("InsertUnknown URI: " + uri);
@@ -250,7 +239,7 @@ public class LocationProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		Log.v(debug, "Inside onCreate");
-		dbHelper = new LocationDatabaseHelper(getContext());
+		dbHelper = new HumidityDatabaseHelper(getContext());
 
 		// Returns true by default, throws exceptions if something fails
 		return true;
@@ -268,18 +257,16 @@ public class LocationProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		Log.v(debug, "Inside query");
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-		qb.setTables(LocationContract.TABLE_NAME);
+		qb.setTables(HumidityTable.TABLE_NAME);
 
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			qb.setProjectionMap(locationProjectionMap);
+		case HUMIDITY:
+			qb.setProjectionMap(humidityProjectionMap);
 			break;
-		case LOCATION_ID:
-			qb.setProjectionMap(locationProjectionMap);
-			qb.appendWhere(LocationContract.ID
-					+ "="
-					+ uri.getPathSegments().get(
-							LocationContract.LOCATION_ID_PATH_POSITION));
+		case HUMIDITY_ID:
+			qb.setProjectionMap(humidityProjectionMap);
+			qb.appendWhere(HumidityTable.ID + "="
+					+ uri.getPathSegments().get(HumidityTable.ID_PATH_POSITION));
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -290,8 +277,8 @@ public class LocationProvider extends ContentProvider {
 		Cursor cursor = qb.query(db, projection, selection, selectionArgs,
 				null, null, sortOrder);
 
-		// Tells the Cursor what URI to watch, so it knows when its source data
-		// changes
+		// Tells the Cursor what URI to watch, so it
+		// knows when its source data changes
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
 		return cursor;
@@ -306,26 +293,25 @@ public class LocationProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String where,
 			String[] whereArgs) {
-		Log.v(debug, "inside update");
+		Log.v(debug, "Inside update");
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int count;
 		String finalWhere;
 
+		Log.v(debug, "update: values " + values.toString() + " where " + where
+				+ " whereArgs " + whereArgs[0]);
+
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			count = db.update(LocationContract.TABLE_NAME, values, where,
-					whereArgs);
-			break;
-		case LOCATION_ID:
-			String id = uri.getPathSegments().get(
-					LocationContract.LOCATION_ID_PATH_POSITION);
-			finalWhere = LocationContract.ID + " = " + id;
+		case HUMIDITY_ID:
+			String eventId = uri.getPathSegments().get(
+					HumidityTable.ID_PATH_POSITION);
+			finalWhere = HumidityTable.ID + "=" + eventId;
 
 			if (where != null) {
 				finalWhere = finalWhere + " AND " + where;
 			}
-
-			count = db.update(LocationContract.TABLE_NAME, values, finalWhere,
+		case HUMIDITY:
+			count = db.update(HumidityTable.TABLE_NAME, values, where,
 					whereArgs);
 			break;
 		default:

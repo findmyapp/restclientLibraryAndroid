@@ -7,8 +7,8 @@ package no.uka.findmyapp.android.rest.providers;
 
 import java.util.HashMap;
 
-import no.uka.findmyapp.android.rest.contracts.Location;
-import no.uka.findmyapp.android.rest.contracts.Location.LocationContract;
+import no.uka.findmyapp.android.rest.contracts.Noise;
+import no.uka.findmyapp.android.rest.contracts.Noise.NoiseTable;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -23,25 +23,25 @@ import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class LocationProvider.
+ * The Class NoiseProvider.
  */
-public class LocationProvider extends ContentProvider {
+public class NoiseProvider extends ContentProvider {
 
 	/**
-	 * The Class LocationDatabaseHelper.
+	 * The Class NoiseDatabaseHelper.
 	 */
-	private static class LocationDatabaseHelper extends SQLiteOpenHelper {
+	private static class NoiseDatabaseHelper extends SQLiteOpenHelper {
 
 		/** The Constant debug. */
-		private static final String debug = "LocationDatabaseHelper";
+		private static final String debug = "NoiseDatabaseHelper";
 
 		/**
-		 * Instantiates a new location database helper.
+		 * Instantiates a new noise database helper.
 		 * 
 		 * @param context
 		 *            the context
 		 */
-		public LocationDatabaseHelper(Context context) {
+		public NoiseDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 			Log.v(debug, "Inside constructor");
 		}
@@ -56,10 +56,9 @@ public class LocationProvider extends ContentProvider {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			Log.v(debug, "Inside onCreate");
-			db.execSQL(LocationContract.CREATE_TABLE_QUERY);
+			db.execSQL(NoiseTable.CREATE_TABLE_QUERY);
 		}
 
-		// TODO Implement implement UKA-program caching
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -75,7 +74,7 @@ public class LocationProvider extends ContentProvider {
 					+ newVersion + ", the data is dropped");
 
 			// Drops the table
-			db.execSQL(LocationContract.DROP_TABLE_QUERY);
+			db.execSQL(NoiseTable.DROP_TABLE_QUERY);
 
 			// Recreates the database
 			onCreate(db);
@@ -83,61 +82,60 @@ public class LocationProvider extends ContentProvider {
 	}
 
 	/** The Constant debug. */
-	private static final String debug = "LocationProvider";
+	private static final String debug = "NoiseProvider";
 
 	/** The Constant DATABASE_NAME. */
-	private static final String DATABASE_NAME = "location.db";
+	private static final String DATABASE_NAME = "noise.db";
 
 	/** The Constant DATABASE_VERSION. */
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 15;
 
-	/** The location projection map. */
-	private static HashMap<String, String> locationProjectionMap;
+	/** The noise projection map. */
+	private static HashMap<String, String> noiseProjectionMap;
 
 	/*
 	 * Constants used by the Uri matcher to choose an action based on the
 	 * pattern of the incoming URI
 	 */
-	/** The Constant LOCATION. */
-	private static final int LOCATION = 1;
+	/** The Constant NOISE. */
+	private static final int NOISE = 1;
 
-	/** The Constant LOCATION_ID. */
-	private static final int LOCATION_ID = 2;
+	/** The Constant NOISE_ID. */
+	private static final int NOISE_ID = 2;
 
 	/** The Constant uriMatcher. */
 	private static final UriMatcher uriMatcher;
 
 	/** The db helper. */
-	private LocationDatabaseHelper dbHelper;
+	private NoiseDatabaseHelper dbHelper;
 
 	/**
 	 * Instantiates the needed statics.
 	 */
 	static {
-		/*
-		 * Initializes the URI matcher
-		 */
+		// initialize the UriMatcher
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-		// Setup the right patterns to the location "dir"
-		uriMatcher.addURI(Location.AUTHORITY, "location", LOCATION);
-
-		/*
-		 * Setup pattern to a spesific location by using the spesific of the
-		 * location
+		/**
+		 * Initializing the URI mapping for the sensor data.
 		 */
-		uriMatcher.addURI(Location.AUTHORITY, LocationContract.LOCATION_PATH
-				+ "#", LOCATION_ID);
+		uriMatcher.addURI(Noise.AUTHORITY, "noise_samples/", NOISE);
+		uriMatcher.addURI(Noise.AUTHORITY, "noise_samples/#", NOISE_ID);
 
-		/*
-		 * Initializes a projection map that returns all columns
+		/**
+		 * Initializing the projection map for the noise samples.
 		 */
-		locationProjectionMap = new HashMap<String, String>();
-		locationProjectionMap.put(LocationContract.ID, LocationContract.ID);
-		locationProjectionMap.put(LocationContract.LOCATIONNAME,
-				LocationContract.LOCATIONNAME);
-		locationProjectionMap.put(LocationContract.LOCATIONID,
-				LocationContract.LOCATIONID);
+		noiseProjectionMap = new HashMap<String, String>();
+
+		noiseProjectionMap.put(NoiseTable.ID, NoiseTable.ID);
+		noiseProjectionMap.put(NoiseTable.LOCATION_ID, NoiseTable.LOCATION_ID);
+		noiseProjectionMap.put(NoiseTable.AVERAGE, NoiseTable.AVERAGE);
+		noiseProjectionMap.put(NoiseTable.MIN, NoiseTable.MIN);
+		noiseProjectionMap.put(NoiseTable.MAX, NoiseTable.MAX);
+		noiseProjectionMap.put(NoiseTable.STANDARD_DEVIATION,
+				NoiseTable.STANDARD_DEVIATION);
+		noiseProjectionMap.put(NoiseTable.SAMPLES, NoiseTable.SAMPLES);
+		noiseProjectionMap.put(NoiseTable.DATE, NoiseTable.DATE);
 	}
 
 	/*
@@ -153,24 +151,18 @@ public class LocationProvider extends ContentProvider {
 		String finalWhere;
 
 		int count;
-
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			count = db.delete(LocationContract.TABLE_NAME, where, whereArgs);
-			break;
-		case LOCATION_ID:
-			finalWhere = LocationContract.ID
-					+ " = "
-					+ uri.getPathSegments().get(
-							LocationContract.LOCATION_ID_PATH_POSITION);
+		case NOISE_ID:
+			finalWhere = NoiseTable.ID + "="
+					+ uri.getPathSegments().get(NoiseTable.ID_PATH_POSITION);
 
 			if (where != null) {
 				finalWhere = finalWhere + " AND " + where;
 			}
-
-			count = db.delete(LocationContract.TABLE_NAME, finalWhere,
-					whereArgs);
+		case NOISE:
+			count = db.delete(NoiseTable.TABLE_NAME, where, whereArgs);
 			break;
+
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -189,10 +181,10 @@ public class LocationProvider extends ContentProvider {
 	public String getType(Uri uri) {
 		Log.v(debug, "Inside getType");
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			return LocationContract.CONTENT_TYPE_LOCATION;
-		case LOCATION_ID:
-			return LocationContract.CONTENT_ITEM_LOCATION;
+		case NOISE:
+			return NoiseTable.CONTENT_TYPE;
+		case NOISE_ID:
+			return NoiseTable.CONTENT_ITEM;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -201,13 +193,13 @@ public class LocationProvider extends ContentProvider {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.content.ContentProvider#insert(android.net.Uri,
+	 * @see android.content.ContentProvider#insert (android.net.Uri,
 	 * android.content.ContentValues)
 	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues initialValues) {
 		Log.v(debug, "Inside insert");
-		if (uriMatcher.match(uri) != LOCATION) {
+		if (uriMatcher.match(uri) != NOISE) {
 			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
 
@@ -219,24 +211,23 @@ public class LocationProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		Log.v(debug, "insert: selected database " + db.toString());
-
-		Log.v(debug, "insert: insertvalues " + values.toString());
+		Log.v(debug, "Insert: selected database " + db.toString());
+		Log.v(debug, "Insert: insertvalues " + values.toString());
 
 		/*
 		 * The second insert() parameter is a nullColumnHack, a somewhat crappy
 		 * solution which is used to avoid queries like "INSERT INTO tablename;"
 		 * isn't declared illegal. Instead it automatically creates a statement
-		 * like "INSERT INTO temperature_table (location_id) VALUES (NULL)" in
-		 * this case.
+		 * like "INSERT INTO noise_table (location_id) VALUES (NULL)" in this
+		 * case.
 		 */
-		long rowId = db.insert(LocationContract.TABLE_NAME,
-				LocationContract.SLUG, values);
+		long rowId = db.insert(NoiseTable.TABLE_NAME, NoiseTable.LOCATION_ID,
+				values);
 		if (rowId > 0) {
-			Uri contentUri = ContentUris.withAppendedId(
-					LocationContract.LOCATION_CONTENT_URI, rowId);
+			Uri noiseUri = ContentUris.withAppendedId(NoiseTable.CONTENT_URI,
+					rowId);
 			getContext().getContentResolver().notifyChange(uri, null);
-			return contentUri;
+			return noiseUri;
 		}
 
 		throw new IllegalArgumentException("InsertUnknown URI: " + uri);
@@ -250,7 +241,7 @@ public class LocationProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		Log.v(debug, "Inside onCreate");
-		dbHelper = new LocationDatabaseHelper(getContext());
+		dbHelper = new NoiseDatabaseHelper(getContext());
 
 		// Returns true by default, throws exceptions if something fails
 		return true;
@@ -268,18 +259,16 @@ public class LocationProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		Log.v(debug, "Inside query");
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-		qb.setTables(LocationContract.TABLE_NAME);
+		qb.setTables(NoiseTable.TABLE_NAME);
 
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			qb.setProjectionMap(locationProjectionMap);
+		case NOISE:
+			qb.setProjectionMap(noiseProjectionMap);
 			break;
-		case LOCATION_ID:
-			qb.setProjectionMap(locationProjectionMap);
-			qb.appendWhere(LocationContract.ID
-					+ "="
-					+ uri.getPathSegments().get(
-							LocationContract.LOCATION_ID_PATH_POSITION));
+		case NOISE_ID:
+			qb.setProjectionMap(noiseProjectionMap);
+			qb.appendWhere(NoiseTable.ID + "="
+					+ uri.getPathSegments().get(NoiseTable.ID_PATH_POSITION));
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -290,8 +279,8 @@ public class LocationProvider extends ContentProvider {
 		Cursor cursor = qb.query(db, projection, selection, selectionArgs,
 				null, null, sortOrder);
 
-		// Tells the Cursor what URI to watch, so it knows when its source data
-		// changes
+		// Tells the Cursor what URI to watch, so it
+		// knows when its source data changes
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
 		return cursor;
@@ -306,27 +295,25 @@ public class LocationProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String where,
 			String[] whereArgs) {
-		Log.v(debug, "inside update");
+		Log.v(debug, "Inside update");
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int count;
 		String finalWhere;
 
+		Log.v(debug, "update: values " + values.toString() + " where " + where
+				+ " whereArgs " + whereArgs[0]);
+
 		switch (uriMatcher.match(uri)) {
-		case LOCATION:
-			count = db.update(LocationContract.TABLE_NAME, values, where,
-					whereArgs);
-			break;
-		case LOCATION_ID:
-			String id = uri.getPathSegments().get(
-					LocationContract.LOCATION_ID_PATH_POSITION);
-			finalWhere = LocationContract.ID + " = " + id;
+		case NOISE_ID:
+			String eventId = uri.getPathSegments().get(
+					NoiseTable.ID_PATH_POSITION);
+			finalWhere = NoiseTable.ID + "=" + eventId;
 
 			if (where != null) {
 				finalWhere = finalWhere + " AND " + where;
 			}
-
-			count = db.update(LocationContract.TABLE_NAME, values, finalWhere,
-					whereArgs);
+		case NOISE:
+			count = db.update(NoiseTable.TABLE_NAME, values, where, whereArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);

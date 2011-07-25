@@ -10,25 +10,26 @@ package no.uka.findmyapp.android.rest.datamodels.constants;
  * The Enum ServiceDataFormat.
  */
 public enum ServiceDataFormat {
-	
+
 	/** The JSON. */
 	JSON("application/json");
-	
+
 	/** The value. */
 	String value;
-	
+
 	/**
 	 * Instantiates a new service data format.
-	 *
-	 * @param value the value
+	 * 
+	 * @param value
+	 *            the value
 	 */
 	private ServiceDataFormat(String value) {
 		this.value = value;
 	}
-	
+
 	/**
 	 * Gets the value.
-	 *
+	 * 
 	 * @return the value
 	 */
 	public String getValue() {

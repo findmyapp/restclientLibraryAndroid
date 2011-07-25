@@ -18,29 +18,11 @@ import android.util.Log;
 /**
  * The Class UkaProgramContentMapper.
  */
-public class UkaProgramContentMapper implements IContentMapper  {
-	
-	/* (non-Javadoc)
-	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java.io.Serializable)
-	 */
-	@Override
-	public List<ContentValues> mapValuesList(Serializable object) {
+public class UkaProgramContentMapper implements IContentMapper {
 
-		UkaProgram up = (UkaProgram) object;
-	
-		List<ContentValues> events = new ArrayList<ContentValues>();
-		
-		for(UkaEvent event : up.getEvents()) {
-			Log.v("event", event.toString());
-			UkaEventContentMapper u = new UkaEventContentMapper();
-			ContentValues ue = u.mapValues(event);
-			events.add(ue);
-		}
-	
-		return events;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#isList()
 	 */
 	@Override
@@ -48,13 +30,41 @@ public class UkaProgramContentMapper implements IContentMapper  {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io.Serializable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io
+	 * .Serializable)
 	 */
 	@Override
 	public ContentValues mapValues(Serializable object) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java
+	 * .io.Serializable)
+	 */
+	@Override
+	public List<ContentValues> mapValuesList(Serializable object) {
+
+		UkaProgram up = (UkaProgram) object;
+
+		List<ContentValues> events = new ArrayList<ContentValues>();
+
+		for (UkaEvent event : up.getEvents()) {
+			Log.v("event", event.toString());
+			UkaEventContentMapper u = new UkaEventContentMapper();
+			ContentValues ue = u.mapValues(event);
+			events.add(ue);
+		}
+
+		return events;
 	}
 
 }

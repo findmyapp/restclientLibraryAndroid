@@ -17,30 +17,10 @@ import android.content.ContentValues;
  * The Class LocationContentMapper.
  */
 public class LocationContentMapper implements IContentMapper {
-	
-	/* (non-Javadoc)
-	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io.Serializable)
-	 */
-	@Override
-	public ContentValues mapValues(Serializable object) {
-		Location temp = (Location) object;
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(LocationContract.LOCATIONNAME, temp.getLocationName());
-		contentValues.put(LocationContract.LOCATIONID, temp.getLocationId());
 
-		return contentValues;
-	}
-
-	/* (non-Javadoc)
-	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java.io.Serializable)
-	 */
-	@Override
-	public List<ContentValues> mapValuesList(Serializable object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#isList()
 	 */
 	@Override
@@ -49,5 +29,35 @@ public class LocationContentMapper implements IContentMapper {
 		return false;
 	}
 
-}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io
+	 * .Serializable)
+	 */
+	@Override
+	public ContentValues mapValues(Serializable object) {
+		Location temp = (Location) object;
+		ContentValues contentValues = new ContentValues();
+		contentValues
+				.put(LocationContract.LOCATIONNAME, temp.getLocationName());
+		contentValues.put(LocationContract.LOCATIONID, temp.getLocationId());
 
+		return contentValues;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java
+	 * .io.Serializable)
+	 */
+	@Override
+	public List<ContentValues> mapValuesList(Serializable object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

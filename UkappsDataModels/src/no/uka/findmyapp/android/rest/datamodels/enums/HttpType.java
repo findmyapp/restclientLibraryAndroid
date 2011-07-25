@@ -4,8 +4,6 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 package no.uka.findmyapp.android.rest.datamodels.enums;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Enum HttpType.
  *

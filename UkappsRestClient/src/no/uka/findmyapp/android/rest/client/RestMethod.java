@@ -5,8 +5,11 @@
  */
 package no.uka.findmyapp.android.rest.client;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URI;
 
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
@@ -17,11 +20,16 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 
 // TODO: Auto-generated Javadoc
@@ -33,44 +41,29 @@ public class RestMethod {
 	/** Default HTTP status response codes. */
 	private final int HTTP_STATUS_OK = 200;
 	
-	/** The HTT p_ statu s_ no t_ modified. */
+	/** The HTTP status not modified. */
 	private final int HTTP_STATUS_NOT_MODIFIED = 304;
 	
-	/** The HTT p_ statu s_ ba d_ request. */
+	/** The HTTP status bad request. */
 	private final int HTTP_STATUS_BAD_REQUEST = 400; 
 	
-	/** The HTT p_ statu s_ unauthorized. */
+	/** The HTTP status unauthorized. */
 	private final int HTTP_STATUS_UNAUTHORIZED = 401; 
 	
-	/** The HTT p_ statu s_ forbidden. */
+	/** The HTTP status forbidden. */
 	private final int HTTP_STATUS_FORBIDDEN = 403; 
 	
-	/** The HTT p_ statu s_ no t_ found. */
+	/** The HTTP status not_ found. */
 	private final int HTTP_STATUS_NOT_FOUND = 404; 
 	
-	/** The HTT p_ statu s_ timeout. */
+	/** The HTTP status timeout. */
 	private final int HTTP_STATUS_TIMEOUT = 408;
 	
-	/** The HTT p_ statu s_ interna l_ serve r_ error. */
+	/** The HTTP status internal server error. */
 	private final int HTTP_STATUS_INTERNAL_SERVER_ERROR = 500; 
 	
-	/** The UNHANDLE d_ statu s_ code. */
+	/** The UNHANDLED status code. */
 	private final int UNHANDLED_STATUS_CODE = 666; 
-	
-	/** Default user-agent set to Mozilla Firefox Windows version. {@link #setRequestHeaders(String, HttpGet)} */
-	private String useragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0"; 
-	
-	/**
-	 * Shared buffer used by {@link #getUrlContent(String)} when reading results
-	 * from an API request.
-	 */
-	private static byte[] streamBuffer = new byte[512];
-	
-	/** URL to the REST service server {@link #RestClient(String)},. {@link #RestClient(String)} {@link #RestClient(String, String)} */
-	private URI uri; 
-	
-	/** Instance HTTP client. */
-	private HttpClient client; 
 	
 	/** The Constant CONSUMER_KEY. */
 	private static final String CONSUMER_KEY = "key";
@@ -79,29 +72,46 @@ public class RestMethod {
 	private static final String CONSUMER_SECRET = "secret";
 	
 	/** The Constant REQUEST_TOKEN_ENDPOINT_URL. */
-	private static final String REQUEST_TOKEN_ENDPOINT_URL = "http://10.0.2.2:8080/findmyapp/oauth/request_token";
+	private static final String REQUEST_TOKEN_ENDPOINT_URL = "http://findmyapp.net/findmyapp/oauth/request_token";
 	
 	/** The Constant ACCESS_TOKEN_ENDPOINT_URL. */
-	private static final String ACCESS_TOKEN_ENDPOINT_URL = "http://10.0.2.2:8080/findmyapp/oauth/access_token";
+	private static final String ACCESS_TOKEN_ENDPOINT_URL = "http://findmyapp.net/findmyapp/oauth/access_token";
 	
 	/** The Constant AUTHORIZE_WEBSITE_URL. */
-	private static final String AUTHORIZE_WEBSITE_URL = "http://10.0.2.2:8080/findmyapp/oauth/authorize";
+	private static final String AUTHORIZE_WEBSITE_URL = "http://findmyapp.net/findmyapp/oauth/authorize";
+	
+	
+	/** Default user-agent set to Mozilla Firefox Windows version. {@link #setRequestHeaders(String, HttpGet)} */
+	private String mUseragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0"; 
+	
+	/**
+	 * Shared buffer used by {@link #getUrlContent(String)} when reading results
+	 * from an API request.
+	 */
+	private static byte[] mStreamBuffer = new byte[512];
+	
+	/** URL to the REST service server {@link #RestClient(String)},. {@link #RestClient(String)} {@link #RestClient(String, String)} */
+	private URI mUri; 
+	
+	/** Instance HTTP client. */
+	private HttpClient mClient; 
 	
 	/** The provider. */
-	private OAuthProvider provider;
+	private OAuthProvider mProvider;
 	
 	/** The consumer. */
-	private OAuthConsumer consumer;
+	private OAuthConsumer mConsumer;
 	
 	/**
 	 * Instantiates a new rest method.
 	 */
 	public RestMethod() {
-		provider = new CommonsHttpOAuthProvider(
-                REQUEST_TOKEN_ENDPOINT_URL, ACCESS_TOKEN_ENDPOINT_URL,
+		mProvider = new CommonsHttpOAuthProvider(
+                REQUEST_TOKEN_ENDPOINT_URL, 
+                ACCESS_TOKEN_ENDPOINT_URL,
                 AUTHORIZE_WEBSITE_URL);
 
-        consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
+        mConsumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY,
                                              CONSUMER_SECRET);
 	}
 	
@@ -111,8 +121,7 @@ public class RestMethod {
 	 * @param uri the uri
 	 */
 	public RestMethod(URI uri) {
-		this();
-		this.uri = uri; 
+		mUri = uri; 
 	}
 
 	/**
@@ -121,7 +130,7 @@ public class RestMethod {
 	 * @return the useragent
 	 */
 	public String getUseragent() {
-		return useragent;
+		return mUseragent;
 	}
 
 	/**
@@ -130,7 +139,7 @@ public class RestMethod {
 	 * @return the uri
 	 */
 	public URI getUri() {
-		return this.uri;
+		return mUri;
 	}
 
 	/**
@@ -139,7 +148,7 @@ public class RestMethod {
 	 * @param uri the new uri
 	 */
 	public void setUri(URI uri) {
-		this.uri = uri;
+		mUri = uri;
 	}
 
 	/**
@@ -148,7 +157,7 @@ public class RestMethod {
 	 * @param useragent the new useragent
 	 */
 	public void setUseragent(String useragent) {
-		this.useragent = useragent;
+		mUseragent = useragent;
 	}
 
 	/**
@@ -159,9 +168,9 @@ public class RestMethod {
 	 * @throws Exception the exception
 	 */
 	public String get(ServiceDataFormat serviceDataFormat) throws Exception {
-		HttpGet request = new HttpGet(this.uri);
+		HttpGet request = new HttpGet(this.mUri);
 		
-		return this.execute(setRequestHeaders(serviceDataFormat.getValue(), request));
+		return this.executeGet(setRequestHeaders(serviceDataFormat.getValue(), request, mUseragent));
 	}
 	
 	/**
@@ -171,14 +180,64 @@ public class RestMethod {
 	 * @param request the request
 	 * @return the http request base
 	 */
-	private HttpRequestBase setRequestHeaders(String expectedDataFormat, HttpRequestBase request) {
+	private HttpRequestBase setRequestHeaders(String expectedDataFormat, HttpRequestBase request, String useragent) {
 		request.setHeader("Accept", expectedDataFormat);
 		request.setHeader("Content-type", expectedDataFormat);
-		//request.setHeader("User-Agent", this.useragent);
+		request.setHeader("User-Agent", useragent);
+		
+		return request; 
+	}
+	
+	private HttpRequestBase setPostHeaders(HttpRequestBase request, String useragent) {
+		request.setHeader("User-Agent", useragent);
 		
 		return request; 
 	}
 
+	public String post(String data) throws Exception {
+		HttpPost post = new HttpPost(this.mUri);
+		setPostHeaders(post, mUseragent);
+		
+		return executePost(post, data); 
+	}
+	
+	private String executePost(HttpPost post, String data) throws Exception {
+		try{
+			StringEntity entity = new StringEntity(data, "UTF-8");
+	    	post.setEntity(entity); 
+	    	HttpResponse response = mClient.execute(post);
+
+			StatusLine status = response.getStatusLine();
+			if (status.getStatusCode() != HTTP_STATUS_OK) {
+				this.throwHttpStatusException(status.getStatusCode());
+			} 
+			
+            if (response != null) {
+    			response.getEntity();
+    			InputStream inputStream = entity.getContent();
+    	
+    			ByteArrayOutputStream content = new ByteArrayOutputStream();
+    	
+    			// Read response into a buffered stream
+    			int readBytes = 0;
+    			while ((readBytes = inputStream.read(mStreamBuffer)) != -1) {
+    				content.write(mStreamBuffer, 0, readBytes);
+    			}
+    	
+    			// Return result from buffered stream
+    			return new String(content.toByteArray());
+            }
+            else {
+            	// Return nothing if successful without response 
+            	return "[]"; 
+            }
+		}
+		//TODO Fix errorhandling
+		catch (Exception e) {
+			throw new Exception(e);
+		}
+	}
+	
 	/**
 	 * Execute.
 	 *
@@ -186,17 +245,17 @@ public class RestMethod {
 	 * @return the string
 	 * @throws Exception the exception
 	 */
-	private String execute(HttpRequestBase request) throws Exception {
+	private String executeGet(HttpRequestBase request) throws Exception {
 		try {
-			this.client = new DefaultHttpClient();
-			consumer.sign(request);
-			HttpResponse response = this.client.execute(request);
+			this.mClient = new DefaultHttpClient();
+			mConsumer.sign(request);
+			HttpResponse response = this.mClient.execute(request);
 
 			// Check if server response is valid
 			StatusLine status = response.getStatusLine();
 			if (status.getStatusCode() != HTTP_STATUS_OK) {
 				this.throwHttpStatusException(status.getStatusCode());
-			}
+			} 
 	
 			// Pull content stream from response
 			HttpEntity entity = response.getEntity();
@@ -206,8 +265,8 @@ public class RestMethod {
 	
 			// Read response into a buffered stream
 			int readBytes = 0;
-			while ((readBytes = inputStream.read(streamBuffer)) != -1) {
-				content.write(streamBuffer, 0, readBytes);
+			while ((readBytes = inputStream.read(mStreamBuffer)) != -1) {
+				content.write(mStreamBuffer, 0, readBytes);
 			}
 	
 			// Return result from buffered stream
@@ -248,6 +307,11 @@ public class RestMethod {
 	 * The Class HTTPStatusException.
 	 */
 	public static class HTTPStatusException extends Exception {
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4485462910566178510L;
 		
 		/** The status code. */
 		private int statusCode; 

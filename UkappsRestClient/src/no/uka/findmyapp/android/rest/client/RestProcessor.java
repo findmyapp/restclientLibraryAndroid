@@ -12,6 +12,7 @@ import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
+import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import no.uka.findmyapp.android.rest.helpers.ContentHelper;
 
 import org.json.JSONArray;
@@ -79,13 +80,16 @@ public class RestProcessor {
 				}
 			break;
 			case POST :
-				//TODO
-			break;
-			case DELETE :
-				//TODO
-			break;
-			case PUT :
-				//TODO
+				Serializable postReturnedObject = this.executeAndParse(serviceModel);
+				Log.v(debug, "callRest: executeAndParse, object name " + postReturnedObject.getClass().getName());
+				if(serviceModel.getContentProviderUri() != null) {
+					Log.v(debug, "callRest using content provider " + serviceModel.getContentProviderUri().toString());
+					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), postReturnedObject, serviceModel.getReturnType());
+				}
+				if(serviceModel.getBroadcastNotification() != null) {
+					Log.v(debug, "callRest broadcasting notification " + serviceModel.getBroadcastNotification());
+					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), postReturnedObject);
+				}
 			break;
 		}
 	}
@@ -101,7 +105,7 @@ public class RestProcessor {
 		String response = "";
 		try {
 			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());
-			response = restMethod.get(serviceModel.getDataformat());
+			response = execute(serviceModel);
 			Log.v(debug, "executeAndParse: Response " + response);
 			Serializable s = null;
 			
@@ -139,6 +143,17 @@ public class RestProcessor {
 			
 			return e; 
 		}
+	}
+	
+	private String execute(ServiceModel serviceModel) throws Exception {
+		if(serviceModel.getHttpType() == HttpType.GET) {
+			return restMethod.get(serviceModel.getDataformat());
+		}
+		else if (serviceModel.getHttpType() == HttpType.POST) {
+			Gson gson = new Gson();
+			return restMethod.post(gson.toJson(serviceModel.getData()));
+		}
+		throw new Exception("Unknown HTTP-type"); 
 	}
 	
 	/**

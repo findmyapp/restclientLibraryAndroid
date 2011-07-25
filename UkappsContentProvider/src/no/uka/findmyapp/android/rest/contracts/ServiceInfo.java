@@ -1,34 +1,45 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.contracts;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServiceInfo.
+ */
 public final class ServiceInfo implements BaseColumns{
+	
+	/**
+	 * Instantiates a new service info.
+	 */
 	private ServiceInfo() {}
-    /**
-     * Defines the authority part of the URI
-     */
+    
+    /** Defines the authority part of the URI. */
 	public static final String AUTHORITY = "no.uka.findmyapp.android.rest.providers"; 
 	
-    /**
-     * The scheme prefix
-     */
+    /** The scheme prefix. */
 	public static final String SCHEME = "content://";
 
-    /** 
-     * Event table contract 
+    /**
+     * Event table contract.
      */
 	public static class ServiceInfoContract implements BaseColumns {
 		
 		// This class cannot be instantiated
+		/**
+		 * Instantiates a new service info contract.
+		 */
 		private ServiceInfoContract() {}
-	    /**
-	     * The event table 
-	     */
+	    
+    	/** The event table. */
 	    public static final String TABLE_NAME = "serviceinfo";
-		  /**
-		   * Create uka event table query
-		   */
+		  
+  		/** Create uka event table query. */
 		  public static final String CREATE_TABLE_QUERY =
 			  "CREATE TABLE " + ServiceInfoContract.TABLE_NAME + " ("	
 			  + ServiceInfoContract.ID + " INTEGER PRIMARY KEY, "
@@ -41,31 +52,21 @@ public final class ServiceInfo implements BaseColumns{
 			  + ServiceInfoContract.SLUG + " varchar(50), "
 			  + ");";
 		  
-		 /**
-		  * Drop uka events table
-		  */
+		 /** Drop uka events table. */
 		public static final String DROP_TABLE_QUERY = 
 			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 		
-	    /**
-	     * The default sort order for this table
-	     */
+	    /** The default sort order for this table. */
 	    public static final String DEFAULT_SORT_ORDER = "modified DESC";
 		
-        /**
-         * Path part for the event URI
-         */
+        /** Path part for the event URI. */
         public static final String SERVICEINFO_PATH = "/serviceinfo";
 
 
-        /**
-         * 0-relative position of a event ID segment in the path part of a event ID URI
-         */
+        /** 0-relative position of a event ID segment in the path part of a event ID URI. */
         public static final int SERVICEINFO_ID_PATH_POSITION = 1;
 
-        /**
-         * The content:// style URL for this table
-         */
+        /** The content:// style URL for this table. */
         public static final Uri SERVICEINFO_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + SERVICEINFO_PATH);
 
         /**
@@ -91,34 +92,19 @@ public final class ServiceInfo implements BaseColumns{
 		 /*
          * Database columns 
          */
-        /**
-         * Column name for the id
-         * <P>Type: INTEGER</P>
-         */
+        /** Column name for the id <P>Type: INTEGER</P>. */
 		public static final String ID = "_id";
 		
-        /**
-         * Column name for the event id
-         * <P>Type: INTEGER</P>
-         */
+        /** Column name for the event id <P>Type: INTEGER</P>. */
 		public static final String URI = "uri";
 		
-        /**
-         * Column name for the billing id
-         * <P>Type: INTEGER</P>
-         */
+        /** Column name for the billing id <P>Type: INTEGER</P>. */
 		public static final String HTTPTYPE = "httptype";
 		
-        /**
-         * Column name for the entrance id
-         * <P>Type: INTEGER</P>
-         */
+        /** Column name for the entrance id <P>Type: INTEGER</P>. */
 		public static final String DATAFORMAT = "dataformat";
 		
-        /**
-         * Column name for the event title
-         * <P>Type: VARCHAR(255)</P>
-         */
+        /** Column name for the event title <P>Type: VARCHAR(255)</P>. */
 		public static final String RETURNTYPE = "returnType";
 		
 		/**
@@ -128,16 +114,10 @@ public final class ServiceInfo implements BaseColumns{
 		 */
 		public static final String CONTENTPROVIDER_URI = "contentProviderUri"; 
 		
-		/**
-		 * Column name for the event description
-		 * <P>Type: VARCHAR(255)</P>
-		 */
+		/** Column name for the event description <P>Type: VARCHAR(255)</P>. */
 		public static final String BROADCAST_NOTIFICATION = "broadcastNotification";
 
-        /**
-         * Column name for the slug
-         * <P>Type: VARCHAR(50)</P>
-         */
+        /** Column name for the slug <P>Type: VARCHAR(50)</P>. */
 		public static final String SLUG = "slug";
 	}
 	

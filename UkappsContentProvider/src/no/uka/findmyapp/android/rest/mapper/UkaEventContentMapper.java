@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
@@ -9,14 +14,23 @@ import no.uka.findmyapp.android.rest.datamodels.models.UkaEvent;
 import android.content.ContentValues;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UkaEventContentMapper.
+ */
 public class UkaEventContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
 	private static final String debug = "UkaEventContentMapper";
 //TODO fix age to favourite
-	@Override
+	/* (non-Javadoc)
+ * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValues(java.io.Serializable)
+ */
+@Override
 	public ContentValues mapValues(Serializable temp) {
 		UkaEvent event = (UkaEvent) temp;
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(UkaEventContract.EVENT_ID, event.getEventId());
+		contentValues.put(UkaEventContract.ID, event.getId());
 		contentValues.put(UkaEventContract.BILLING_ID, event.getBillingid());
 		contentValues.put(UkaEventContract.ENTRANCE_ID, event.getEntranceId());
 		contentValues.put(UkaEventContract.TITLE, event.getTitle()); 
@@ -36,6 +50,9 @@ public class UkaEventContentMapper implements IContentMapper {
 		return contentValues;
 	}
 
+	/* (non-Javadoc)
+	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java.io.Serializable)
+	 */
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
 		List<ContentValues> list = new ArrayList<ContentValues>();
@@ -48,6 +65,9 @@ public class UkaEventContentMapper implements IContentMapper {
 		return list;
 	}
 	
+	/* (non-Javadoc)
+	 * @see no.uka.findmyapp.android.rest.mapper.IContentMapper#isList()
+	 */
 	@Override
 	public boolean isList() {
 		return false;

@@ -1,6 +1,10 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.datamodels.models;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -10,16 +14,11 @@ import java.sql.Timestamp;
  */
 public class UkaEvent implements Serializable {
 	
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6227101675595553954L;
 
 	/** The id. */
 	private int id;
-	
-    /** The event id. */
-	private int eventId;
 	
     /** The billingid. */
 	private int billingid;
@@ -54,16 +53,16 @@ public class UkaEvent implements Serializable {
     /** The showing time. */
     private long showingTime;
     
-    /** The free flag */
+    /** The free flag. */
 	private boolean free;
 	
-	 /** The canceled flag */
+	 /** The canceled flag. */
 	private boolean canceled;
 	
-	/** The price */
+	/** The price. */
 	private int price; 
 	
-	/** The favourite flag */
+	/** The favourite flag. */
 	private boolean favourite; 
 
 	/**
@@ -82,24 +81,6 @@ public class UkaEvent implements Serializable {
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * Gets the event id.
-	 *
-	 * @return the event id
-	 */
-	public int getEventId() {
-		return eventId;
-	}
-
-	/**
-	 * Sets the event id.
-	 *
-	 * @param eventId the new event id
-	 */
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
 	}
 
 	/**
@@ -300,34 +281,74 @@ public class UkaEvent implements Serializable {
 		this.showingTime = date;
 	}
 
+	/**
+	 * Checks if is free.
+	 *
+	 * @return true, if is free
+	 */
 	public boolean isFree() {
 		return free;
 	}
 
+	/**
+	 * Sets the free.
+	 *
+	 * @param free the new free
+	 */
 	public void setFree(boolean free) {
 		this.free = free;
 	}
 
+	/**
+	 * Checks if is canceled.
+	 *
+	 * @return true, if is canceled
+	 */
 	public boolean isCanceled() {
 		return canceled;
 	}
 
+	/**
+	 * Sets the canceled.
+	 *
+	 * @param canceled the new canceled
+	 */
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
 	}
 
+	/**
+	 * Gets the price.
+	 *
+	 * @return the price
+	 */
 	public int getPrice() {
 		return price;
 	}
 
+	/**
+	 * Sets the price.
+	 *
+	 * @param price the new price
+	 */
 	public void setPrice(int price) {
 		this.price = price;
 	}
 
+	/**
+	 * Checks if is favourite.
+	 *
+	 * @return true, if is favourite
+	 */
 	public boolean isFavourite() {
 		return favourite;
 	}
 
+	/**
+	 * Sets the favourite.
+	 *
+	 * @param favourite the new favourite
+	 */
 	public void setFavourite(boolean favourite) {
 		this.favourite = favourite;
 	}

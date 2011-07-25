@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.providers;
 
 import java.util.HashMap;
@@ -19,6 +24,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
 /**
  * A sensor content provider which provides access to sensor sample value
  * database. This sensor database contains temperature, noise, humdity and
@@ -31,40 +37,61 @@ public class SensorProvider extends ContentProvider {
 	
 	
 	// Debug tag
+	/** The Constant debug. */
 	private static final String debug = "SensorProvider";
 	
-	/**
-	 * The local event database name
-	 */
+	/** The local event database name. */
 	private static final String DATABASE_NAME = "sensors.db";
 
-	/**
-	 * The database version
-	 */
+	/** The database version. */
 	private static final int DATABASE_VERSION = 1;
 
+	/** The db helper. */
 	private DatabaseHelper dbHelper;
 
 	/*
 	 * URI patterns constants
 	 */
+	/** The Constant TEMPERATURE. */
 	private static final int TEMPERATURE = 1;
+	
+	/** The Constant TEMPERATURE_ID. */
 	private static final int TEMPERATURE_ID = 2;
+	
+	/** The Constant HUMIDITY. */
 	private static final int HUMIDITY = 3;
+	
+	/** The Constant HUMIDITY_ID. */
 	private static final int HUMIDITY_ID = 4;
+	
+	/** The Constant NOISE. */
 	private static final int NOISE = 5;
+	
+	/** The Constant NOISE_ID. */
 	private static final int NOISE_ID = 6;
+	
+	/** The Constant BEERTAP. */
 	private static final int BEERTAP = 7;
+	
+	/** The Constant BEERTAP_ID. */
 	private static final int BEERTAP_ID = 8;
 
 	/*
 	 * UriMatcher
 	 */
+	/** The Constant uriMatcher. */
 	private static final UriMatcher uriMatcher;
 
+	/** The Constant temperatureProjectionMap. */
 	private static final HashMap<String, String> temperatureProjectionMap;
+	
+	/** The Constant humidityProjectionMap. */
 	private static final HashMap<String, String> humidityProjectionMap;
+	
+	/** The Constant noiseProjectionMap. */
 	private static final HashMap<String, String> noiseProjectionMap;
+	
+	/** The Constant beerTapProjectionMap. */
 	private static final HashMap<String, String> beerTapProjectionMap;
 
 	static {
@@ -128,6 +155,9 @@ public class SensorProvider extends ContentProvider {
 		beerTapProjectionMap.put(BeerTapTable.DATE, BeerTapTable.DATE);
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.content.ContentProvider#onCreate()
+	 */
 	@Override
 	public boolean onCreate() {
 		Log.d(debug, this + " CREATED");
@@ -141,6 +171,9 @@ public class SensorProvider extends ContentProvider {
 		return b;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.content.ContentProvider#getType(android.net.Uri)
+	 */
 	@Override
 	public String getType(Uri uri) {
 		Log.d(debug, "getType()URI: " + uri);
@@ -166,6 +199,9 @@ public class SensorProvider extends ContentProvider {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.content.ContentProvider#delete(android.net.Uri, java.lang.String, java.lang.String[])
+	 */
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		int count = 0;
@@ -210,6 +246,9 @@ public class SensorProvider extends ContentProvider {
 		return count;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.content.ContentProvider#insert(android.net.Uri, android.content.ContentValues)
+	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues initValues) {
 		Log.v(debug, "insert: uri " + uri.toString()); 
@@ -243,6 +282,18 @@ public class SensorProvider extends ContentProvider {
 		return retUri; 
 	}
 
+	/**
+	 * Insert row in table.
+	 *
+	 * @param uri the uri
+	 * @param initValues the init values
+	 * @param createTableQuery the create table query
+	 * @param dropTableQuery the drop table query
+	 * @param tableName the table name
+	 * @param nullColumn the null column
+	 * @param contentProviderUri the content provider uri
+	 * @return the uri
+	 */
 	private Uri insertRowInTable(Uri uri, ContentValues initValues, String createTableQuery, 
 			String dropTableQuery, String tableName, String nullColumn, 
 			Uri contentProviderUri) {
@@ -279,6 +330,9 @@ public class SensorProvider extends ContentProvider {
 		throw new IllegalArgumentException("InsertUnknown URI: " + uri);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.content.ContentProvider#query(android.net.Uri, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String)
+	 */
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
@@ -331,6 +385,9 @@ public class SensorProvider extends ContentProvider {
 		return c;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.content.ContentProvider#update(android.net.Uri, android.content.ContentValues, java.lang.String, java.lang.String[])
+	 */
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		int count = 0;
@@ -376,6 +433,15 @@ public class SensorProvider extends ContentProvider {
 		return count;
 	}
 
+	/**
+	 * Sets the where arguments for spesific sample item.
+	 *
+	 * @param uri the uri
+	 * @param selection the selection
+	 * @param idPathPositionInUri the id path position in uri
+	 * @param tableIdColumnName the table id column name
+	 * @return the string
+	 */
 	private String setWhereArgumentsForSpesificSampleItem(Uri uri, String selection, int idPathPositionInUri, String tableIdColumnName) {
 		String itemId = uri.getPathSegments().get(idPathPositionInUri);
 		String finalSelection = tableIdColumnName + " = " + itemId; 
@@ -387,6 +453,17 @@ public class SensorProvider extends ContentProvider {
 		return finalSelection; 
 	}
 
+	/**
+	 * Update table.
+	 *
+	 * @param tableName the table name
+	 * @param createTableQuery the create table query
+	 * @param dropTableQuery the drop table query
+	 * @param values the values
+	 * @param selection the selection
+	 * @param selectionArgs the selection args
+	 * @return the int
+	 */
 	private int updateTable(String tableName, String createTableQuery, String dropTableQuery, 
 			ContentValues values, String selection, String[] selectionArgs) {
 		int count;
@@ -397,6 +474,16 @@ public class SensorProvider extends ContentProvider {
 		return count;
 	}
 	
+	/**
+	 * Delete from table.
+	 *
+	 * @param tableName the table name
+	 * @param createTableQuery the create table query
+	 * @param dropTableQuery the drop table query
+	 * @param selection the selection
+	 * @param selectionArgs the selection args
+	 * @return the int
+	 */
 	private int deleteFromTable(String tableName, String createTableQuery, String dropTableQuery, 
 			String selection, String[] selectionArgs) {
 		int count;
@@ -407,14 +494,33 @@ public class SensorProvider extends ContentProvider {
 		return count;
 	}
 
+	/**
+	 * The Class DatabaseHelper.
+	 */
 	public class DatabaseHelper extends SQLiteOpenHelper {
+		
+		/** The create table query. */
 		private String createTableQuery;
+		
+		/** The drop table query. */
 		private String dropTableQuery;
 		
+		/**
+		 * Instantiates a new database helper.
+		 *
+		 * @param context the context
+		 */
 		public DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		}
 		
+		/**
+		 * Instantiates a new database helper.
+		 *
+		 * @param context the context
+		 * @param createTableQuery the create table query
+		 * @param dropTableQuery the drop table query
+		 */
 		public DatabaseHelper(Context context, String createTableQuery,
 				String dropTableQuery) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -424,12 +530,17 @@ public class SensorProvider extends ContentProvider {
 
 		/**
 		 * Creates the database table when the object is created.
+		 *
+		 * @param db the db
 		 */
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(this.createTableQuery);
 		}
 
+		/* (non-Javadoc)
+		 * @see android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase, int, int)
+		 */
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			Log.w(debug, "Upgrading database, version:" + oldVersion

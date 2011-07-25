@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.datamodels.core;
 
 import java.io.Serializable;
@@ -42,6 +47,7 @@ public class ServiceModel implements Serializable{
 	/** The broadcast notification. */
 	private String broadcastNotification; 
 	
+	/** The local identifier. */
 	private String localIdentifier;
 	
 	/**
@@ -54,11 +60,12 @@ public class ServiceModel implements Serializable{
 	 *
 	 * @param uri the URI of the REST service
 	 * @param httpType the http type to be used
-	 * @param dataformat the dataformat 
+	 * @param dataformat the dataformat
 	 * @param returnType the return type expected
 	 * @param data the data
 	 * @param contentProviderUri the content provider uri
 	 * @param broadcastNotification the broadcast notification
+	 * @param localIdentifier the local identifier
 	 * @throws URISyntaxException the uRI syntax exception
 	 */
 	public ServiceModel(
@@ -209,14 +216,27 @@ public class ServiceModel implements Serializable{
 		this.broadcastNotification = broadcastNotification;
 	}
 
+	/**
+	 * Gets the local identifier.
+	 *
+	 * @return the local identifier
+	 */
 	public String getLocalIdentifier() {
 		return localIdentifier;
 	}
 
+	/**
+	 * Sets the local identifier.
+	 *
+	 * @param localIdentifier the new local identifier
+	 */
 	public void setLocalIdentifier(String localIdentifier) {
 		this.localIdentifier = localIdentifier;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "ServiceModel [uri=" + uri + ", httpType=" + httpType

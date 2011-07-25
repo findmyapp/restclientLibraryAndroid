@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.contracts;
 
 //TODO check table definition datavalues
@@ -5,6 +10,7 @@ package no.uka.findmyapp.android.rest.contracts;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+// TODO: Auto-generated Javadoc
 /**
  * Defines a contract between the Sensor content provider and its clients.
  * Clients should only use information given by this "contract" to fetch
@@ -13,33 +19,31 @@ import android.provider.BaseColumns;
 public final class Sensors implements BaseColumns{
 	
 	// This class cannot be instantiated
+	/**
+	 * Instantiates a new sensors.
+	 */
 	private Sensors() {}
 
-    /**
-     * The scheme part for this provider's URI
-     */
+    /** The scheme part for this provider's URI. */
 	public static final String AUTHORITY = "no.uka.findmyapp.SensorProvider"; 
 	
-    /**
-     * The scheme part for this provider's URI
-     */
+    /** The scheme part for this provider's URI. */
 	public static final String SCHEME = "content://";
 
-    /** 
-     * Temperature table contract 
+    /**
+     * Temperature table contract.
      */
 	public static class TemperatureTable implements BaseColumns {
 		// This class cannot be instantiated
+		/**
+		 * Instantiates a new temperature table.
+		 */
 		private TemperatureTable() {}
 		
-		/**
-		 *  Table name
-		 */
+		/** Table name. */
 		public static final String TABLE_NAME = "temperature_sample"; 
 		
-		/**
-		 * Create table query
-		 */
+		/** Create table query. */
 		public static final String CREATE_TABLE_QUERY = 
 			  "CREATE TABLE " + TABLE_NAME + " ("	
 			  + TemperatureTable.ID + " INTEGER PRIMARY KEY, "
@@ -48,33 +52,23 @@ public final class Sensors implements BaseColumns{
 			  + TemperatureTable.DATE + " TIMESTAMP "
 			  + ");"; 
 		
-		/**
-		 * Drop table query
-		 */
+		/** Drop table query. */
 		public static final String DROP_TABLE_QUERY =
 			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 		
 		/*
 		 * URI section
 		 */
-        /**
-         * Path part for the temperature samples URI
-         */
+        /** Path part for the temperature samples URI. */
         private static final String PATH = "/temperature_samples";
 
-        /**
-         * Path part for the temperature ID URI
-         */
+        /** Path part for the temperature ID URI. */
         private static final String PATH_ID = "/temperature_samples/";
 
-        /**
-         * 0-relative position of a temperature ID segment in the path part of a temperature ID URI
-         */
+        /** 0-relative position of a temperature ID segment in the path part of a temperature ID URI. */
         public static final int ID_PATH_POSITION = 1;
 
-        /**
-         * The content:// style URL for this table
-         */
+        /** The content:// style URL for this table. */
         public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH);
 
         /**
@@ -107,46 +101,33 @@ public final class Sensors implements BaseColumns{
         /*
          * Column definitions
          */
-        /**
-         * Column name for the id of the sample
-         * <P>Type: TEXT</P>
-         */
+        /** Column name for the id of the sample <P>Type: TEXT</P>. */
 		public static final String ID = "_id";
 		
-		/**
-		 * Column name for the location id
-		 * <P>Type: INTEGER</P>
-		 */
+		/** Column name for the location id <P>Type: INTEGER</P>. */
 		public static final String LOCATION_ID = "location_id"; 
 		
-		/**
-		 * Column name for the sample value
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the sample value <P>Type: FLOAT</P>. */
 		public static final String VALUE = "value";
 		
-        /**
-         * Column name for the sampling time
-         * <P>Type: TIMESTAMP</P>
-         */
+        /** Column name for the sampling time <P>Type: TIMESTAMP</P>. */
 		public static final String DATE = "date";
 	}
 	
-    /** 
-     * Humidity table contract 
+    /**
+     * Humidity table contract.
      */
 	public static class HumidityTable implements BaseColumns {
 		// This class cannot be instantiated
+		/**
+		 * Instantiates a new humidity table.
+		 */
 		private HumidityTable() {}
 		
-		/**
-		 *  Table name
-		 */
+		/** Table name. */
 		public static final String TABLE_NAME = "humidity_sample"; 
 		
-		/**
-		 * Create table query
-		 */
+		/** Create table query. */
 		public static final String CREATE_TABLE_QUERY = 
 			  "CREATE TABLE " + TABLE_NAME + " ("	
 			  + HumidityTable.ID + " INTEGER PRIMARY KEY, "
@@ -155,33 +136,23 @@ public final class Sensors implements BaseColumns{
 			  + HumidityTable.DATE + " TIMESTAMP "
 			  + ");"; 
 		
-		/**
-		 * Drop table query
-		 */
+		/** Drop table query. */
 		public static final String DROP_TABLE_QUERY =
 			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
 		/*
 		 * URI section
 		 */
-        /**
-         * Path part for the humidity samples URI
-         */
+        /** Path part for the humidity samples URI. */
         private static final String PATH = "/humidity_samples";
 
-        /**
-         * Path part for the humidity ID URI
-         */
+        /** Path part for the humidity ID URI. */
         private static final String PATH_ID = "/humidity_samples/";
 
-        /**
-         * 0-relative position of a humidity ID segment in the path part of a humidity ID URI
-         */
+        /** 0-relative position of a humidity ID segment in the path part of a humidity ID URI. */
         public static final int ID_PATH_POSITION = 1;
 
-        /**
-         * The content:// style URL for this table
-         */
+        /** The content:// style URL for this table. */
         public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH);
 
         /**
@@ -214,46 +185,33 @@ public final class Sensors implements BaseColumns{
         /*
          * Column definitions
          */
-        /**
-         * Column name for the id of the sample
-         * <P>Type: TEXT</P>
-         */
+        /** Column name for the id of the sample <P>Type: TEXT</P>. */
 		public static final String ID = "_id";
 		
-		/**
-		 * Column name for the location id
-		 * <P>Type: INTEGER</P>
-		 */
+		/** Column name for the location id <P>Type: INTEGER</P>. */
 		public static final String LOCATION_ID = "location_id"; 
 		
-		/**
-		 * Column name for the sample value
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the sample value <P>Type: FLOAT</P>. */
 		public static final String VALUE = "value";
 		
-        /**
-         * Column name for the sampling time
-         * <P>Type: DATETIME</P>
-         */
+        /** Column name for the sampling time <P>Type: DATETIME</P>. */
 		public static final String DATE = "date";
 	}
 	
-    /** 
-     * Noise table contract 
+    /**
+     * Noise table contract.
      */
 	public static class NoiseTable implements BaseColumns {
 		// This class cannot be instantiated
+		/**
+		 * Instantiates a new noise table.
+		 */
 		private NoiseTable() {}
 		
-		/**
-		 *  Table name
-		 */
+		/** Table name. */
 		public static final String TABLE_NAME = "noise_sample";
 		
-		/**
-		 * Create table query
-		 */
+		/** Create table query. */
 		public static final String CREATE_TABLE_QUERY = 
 			  "CREATE TABLE " + TABLE_NAME + " ("	
 			  + NoiseTable.ID + " INTEGER PRIMARY KEY, "
@@ -266,36 +224,26 @@ public final class Sensors implements BaseColumns{
 			  + NoiseTable.DATE + " TIMESTAMP "
 			  + ");"; 
 		
-		/**
-		 * Drop table query
-		 */
+		/** Drop table query. */
 		public static final String DROP_TABLE_QUERY =
 			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 		
 		/*
 		 * URI Definitions
 		 */
-        /**
-         * Path parts for the URIs
-         */
+        /** Path parts for the URIs. */
         /**
          * Path part for the noise samples URI
          */
         private static final String PATH = "/noise_samples";
 
-        /**
-         * Path part for the noise ID URI
-         */
+        /** Path part for the noise ID URI. */
         private static final String PATH_ID = "/noise_samples/";
 
-        /**
-         * 0-relative position of a noise ID segment in the path part of a noise ID URI
-         */
+        /** 0-relative position of a noise ID segment in the path part of a noise ID URI. */
         public static final int ID_PATH_POSITION = 1;
 
-        /**
-         * The content:// style URL for this table
-         */
+        /** The content:// style URL for this table. */
         public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH);
 
         /**
@@ -329,70 +277,45 @@ public final class Sensors implements BaseColumns{
          * Column definitions
          */
 
-        /**
-         * Column name for the id of the sample
-         * <P>Type: TEXT</P>
-         */
+        /** Column name for the id of the sample <P>Type: TEXT</P>. */
 		public static final String ID = "_id";
 		
-		/**
-		 * Column name for the location id
-		 * <P>Type: INTEGER</P>
-		 */
+		/** Column name for the location id <P>Type: INTEGER</P>. */
 		public static final String LOCATION_ID = "location_id"; 
 		
-		/**
-		 * Column name for the average noise sample
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the average noise sample <P>Type: FLOAT</P>. */
 		public static final String AVERAGE = "average";
 		
-		/**
-		 * Column name for the maximum noise sample
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the maximum noise sample <P>Type: FLOAT</P>. */
 		public static final String MAX = "max";
 		
-		/**
-		 * Column name for the minimum noise sample
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the minimum noise sample <P>Type: FLOAT</P>. */
 		public static final String MIN = "min";
 		
-		/**
-		 * Column name for the standard deviation
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the standard deviation <P>Type: FLOAT</P>. */
 		public static final String STANDARD_DEVIATION = "standard_deviation";
 		
-		/**
-		 * Column name for the sample value array
-		 * <P>Type: String</P>
-		 */
+		/** Column name for the sample value array <P>Type: String</P>. */
 		public static final String SAMPLES = "samples";
 		
-        /**
-         * Column name for the sampling time
-         * <P>Type: TIMESTAMP</P>
-         */
+        /** Column name for the sampling time <P>Type: TIMESTAMP</P>. */
 		public static final String DATE = "date";
 	}
 	
-    /** 
-     * Beertap table contract 
+    /**
+     * Beertap table contract.
      */
 	public static class BeerTapTable implements BaseColumns {
 		// This class cannot be instantiated
+		/**
+		 * Instantiates a new beer tap table.
+		 */
 		private BeerTapTable() {}
 		
-		/**
-		 *  Table name
-		 */
+		/** Table name. */
 		public static final String TABLE_NAME = "beertap_sample";
 		
-		/**
-		 * Create table query
-		 */
+		/** Create table query. */
 		public static final String CREATE_TABLE_QUERY = 
 			  "CREATE TABLE " + TABLE_NAME + " ("	
 			  + BeerTapTable.ID + " INTEGER PRIMARY KEY, "
@@ -402,36 +325,26 @@ public final class Sensors implements BaseColumns{
 			  + BeerTapTable.VALUE + " FLOAT "
 			  + ");"; 
 		
-		/**
-		 * Drop table query
-		 */
+		/** Drop table query. */
 		public static final String DROP_TABLE_QUERY =
 			"DROP TABLE IF EXISTS" + TABLE_NAME + ";";
 		
 		/*
 		 * URI Definitions
 		 */
-        /**
-         * Path parts for the URIs
-         */
+        /** Path parts for the URIs. */
         /**
          * Path part for the beertap samples URI
          */
         private static final String PATH = "/beertap_samples";
 
-        /**
-         * Path part for the beertap ID URI
-         */
+        /** Path part for the beertap ID URI. */
         private static final String PATH_ID = "/beertap_samples/";
 
-        /**
-         * 0-relative position of a beertap ID segment in the path part of a beertap ID URI
-         */
+        /** 0-relative position of a beertap ID segment in the path part of a beertap ID URI. */
         public static final int ID_PATH_POSITION = 1;
 
-        /**
-         * The content:// style URL for this table
-         */
+        /** The content:// style URL for this table. */
         public static final Uri CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH);
 
         /**
@@ -465,22 +378,13 @@ public final class Sensors implements BaseColumns{
          * Column definitions
          */
 
-        /**
-         * Column name for the id of the sample
-         * <P>Type: TEXT</P>
-         */
+        /** Column name for the id of the sample <P>Type: TEXT</P>. */
 		public static final String ID = "_id";
 		
-        /**
-         * Column name for the sampling time
-         * <P>Type: TIMESTAMP</P>
-         */
+        /** Column name for the sampling time <P>Type: TIMESTAMP</P>. */
 		public static final String DATE = "date";
 		
-		/**
-		 * Column name for the location id
-		 * <P>Type: INTEGER</P>
-		 */
+		/** Column name for the location id <P>Type: INTEGER</P>. */
 		public static final String LOCATION_ID = "location_id"; 
 		
 		/**
@@ -489,10 +393,7 @@ public final class Sensors implements BaseColumns{
 		 */
 		public static final String BEER_TOWER_NUM = "beer_tower_num";
 		
-		/**
-		 * Column name for the sample value
-		 * <P>Type: FLOAT</P>
-		 */
+		/** Column name for the sample value <P>Type: FLOAT</P>. */
 		public static final String VALUE = "value";
 	}
 }

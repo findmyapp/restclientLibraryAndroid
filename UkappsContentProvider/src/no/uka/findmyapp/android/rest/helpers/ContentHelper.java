@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.helpers;
 
 import java.io.Serializable;
@@ -7,12 +12,27 @@ import no.uka.findmyapp.android.rest.mapper.IContentMapper;
 import android.content.ContentValues;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ContentHelper.
+ */
 public class ContentHelper {
+	
+	/** The Constant debug. */
 	private static final String debug = "ContentHelper";
 	
+	/** The Constant MAPPER_POSTFIX. */
 	private static final String MAPPER_POSTFIX = "ContentMapper";
+	
+	/** The Constant MAPPER_PREFIX. */
 	private static final String MAPPER_PREFIX = "no.uka.findmyapp.android.rest.mapper.";
 	
+	/**
+	 * Gets the content values.
+	 *
+	 * @param object the object
+	 * @return the content values
+	 */
 	public static ContentValues getContentValues(Serializable object) {
 		try {
 			IContentMapper contentMapper = getMapperClass(object, null).newInstance();
@@ -30,6 +50,13 @@ public class ContentHelper {
 		return null;
 	}
 	
+	/**
+	 * Gets the content values list.
+	 *
+	 * @param object the object
+	 * @param returnType the return type
+	 * @return the content values list
+	 */
 	public static List<ContentValues> getContentValuesList(Serializable object, String returnType) {
 
 		try {
@@ -67,6 +94,14 @@ public class ContentHelper {
 		return false;
 	}
 	*/
+	/**
+	 * Gets the mapper class.
+	 *
+	 * @param object the object
+	 * @param returnType the return type
+	 * @return the mapper class
+	 * @throws ClassNotFoundException the class not found exception
+	 */
 	@SuppressWarnings("unchecked")
 	private static Class<IContentMapper> getMapperClass(Serializable object, String returnType) throws ClassNotFoundException {
 		Log.v("ContentHelper", "trying to getMapperClass for: " +returnType);

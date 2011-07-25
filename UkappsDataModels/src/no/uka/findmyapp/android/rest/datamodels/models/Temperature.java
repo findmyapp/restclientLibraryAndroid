@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
@@ -21,6 +26,7 @@ public class Temperature implements Serializable {
 	/** The value. */
 	private float value;
 	
+	/** The date. */
 	private long date;
 	
 	/**
@@ -76,14 +82,28 @@ public class Temperature implements Serializable {
 	public void setValue(float value) {
 		this.value = value;
 	}
+	
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public long getDate() {
 		return date;
 	}
 	
+	/**
+	 * Sets the date.
+	 *
+	 * @param date the new date
+	 */
 	public void setDate(long date) {
 		this.date = date;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Temperature [id=" + id + ", locationId=" + locationId

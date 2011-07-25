@@ -1,83 +1,192 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Noise.
+ */
 public class Noise implements Serializable {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 7042725896751783303L;
 
+	/** The id. */
 	private int id;
+	
+	/** The location id. */
 	private int locationId;
+	
+	/** The average. */
 	private float average; 
+	
+	/** The max. */
 	private float max; 
+	
+	/** The min. */
 	private float min; 
+	
+	/** The standard deviation. */
 	private float standardDeviation;
+	
+	/** The samples. */
 	private String samples; 
+	
+	/** The date. */
 	private long date;
 	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the location id.
+	 *
+	 * @return the location id
+	 */
 	public int getLocationId() {
 		return locationId;
 	}
 
+	/**
+	 * Sets the location id.
+	 *
+	 * @param locationId the new location id
+	 */
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
 	}
 
+	/**
+	 * Gets the average.
+	 *
+	 * @return the average
+	 */
 	public float getAverage() {
 		return average;
 	}
 
+	/**
+	 * Sets the average.
+	 *
+	 * @param average the new average
+	 */
 	public void setAverage(float average) {
 		this.average = average;
 	}
 
+	/**
+	 * Gets the max.
+	 *
+	 * @return the max
+	 */
 	public float getMax() {
 		return max;
 	}
 
+	/**
+	 * Sets the max.
+	 *
+	 * @param max the new max
+	 */
 	public void setMax(float max) {
 		this.max = max;
 	}
 
+	/**
+	 * Gets the min.
+	 *
+	 * @return the min
+	 */
 	public float getMin() {
 		return min;
 	}
 
+	/**
+	 * Sets the min.
+	 *
+	 * @param min the new min
+	 */
 	public void setMin(float min) {
 		this.min = min;
 	}
 
+	/**
+	 * Gets the standard deviation.
+	 *
+	 * @return the standard deviation
+	 */
 	public float getStandardDeviation() {
 		return standardDeviation;
 	}
 
+	/**
+	 * Sets the standard deviation.
+	 *
+	 * @param standardDeviation the new standard deviation
+	 */
 	public void setStandardDeviation(float standardDeviation) {
 		this.standardDeviation = standardDeviation;
 	}
 
+	/**
+	 * Gets the samples.
+	 *
+	 * @return the samples
+	 */
 	public String getSamples() {
 		return samples;
 	}
 
+	/**
+	 * Sets the samples.
+	 *
+	 * @param samples the new samples
+	 */
 	public void setSamples(String samples) {
 		this.samples = samples;
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public long getDate() {
 		return date;
 	}
 
+	/**
+	 * Sets the date.
+	 *
+	 * @param date the new date
+	 */
 	public void setDate(long date) {
 		this.date = date;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Temperature [id=" + id + ", locationId=" + locationId

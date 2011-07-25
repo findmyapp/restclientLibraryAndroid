@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
@@ -22,13 +27,29 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RestProcessor.
+ */
 public class RestProcessor {
+	
+	/** The Constant debug. */
 	private static final String debug = "RestProcessor"; 
 	
+	/** The rest method. */
 	private RestMethod restMethod;
+	
+	/** The gson. */
 	private Gson gson;
+	
+	/** The context. */
 	private Context context; 
 	
+	/**
+	 * Instantiates a new rest processor.
+	 *
+	 * @param context the context
+	 */
 	public RestProcessor(Context context) {
 		Log.v(debug, "Inside RestProcessor creator");
 		
@@ -37,16 +58,25 @@ public class RestProcessor {
 		this.context = context; 
 	}
 	
+	/**
+	 * Call rest.
+	 *
+	 * @param serviceModel the service model
+	 */
 	public void callRest(ServiceModel serviceModel) {
 		Log.v(debug, "Inside callRest");
 		switch(serviceModel.getHttpType()) {
 			case GET :
 				Serializable returnedObject = this.executeAndParse(serviceModel);
 				Log.v(debug, "callRest: executeAndParse, object name " + returnedObject.getClass().getName());
-				if(serviceModel.getContentProviderUri() != null)
+				if(serviceModel.getContentProviderUri() != null) {
+					Log.v(debug, "callRest using content provider " + serviceModel.getContentProviderUri().toString());
 					this.sendToContentProvider(Uri.parse(serviceModel.getContentProviderUri().toString()), returnedObject, serviceModel.getReturnType());
-				if(serviceModel.getBroadcastNotification() != null) 
+				}
+				if(serviceModel.getBroadcastNotification() != null) {
+					Log.v(debug, "callRest broadcasting notification " + serviceModel.getBroadcastNotification());
 					this.sendIntentBroadcast(serviceModel.getBroadcastNotification(), returnedObject);
+				}
 			break;
 			case POST :
 				//TODO
@@ -60,6 +90,12 @@ public class RestProcessor {
 		}
 	}
 	
+	/**
+	 * Execute and parse.
+	 *
+	 * @param serviceModel the service model
+	 * @return the serializable
+	 */
 	private Serializable executeAndParse(ServiceModel serviceModel) {
 		restMethod.setUri(serviceModel.getUri());
 		String response = "";
@@ -77,19 +113,19 @@ public class RestProcessor {
 				}
 				//no.uka.findmyapp.android.rest.datamodels.models
 				Class theClass = Class.forName(returnType);
-				;
 				new TypeToken<Object>(){};
 				Type t1 = TypeToken.get(theClass).getType();;
 				if(response.substring(0,1).equals("[")) {
-					Log.v(debug, "ISLIST");
+					Log.v(debug, "executeAndParse: Is list");
 					JSONArray array = new JSONArray(response);
 					List<Serializable> list = new ArrayList<Serializable>();
 					for (int i = 0; i < array.length(); i++) {
 						list.add((Serializable)gson.fromJson(array.get(i).toString(), t1));
 					}
 					s = (Serializable) list;
+					Log.v(debug, "executeAndParse: Serializable " + s.toString());
 				} else {
-					Log.v(debug, "IS NOT LIST");
+					Log.v(debug, "executeAndParse: Is not list");
 					s = (Serializable)gson.fromJson(response, t1);
 					Log.v(debug, "executeAndParse: Serializable " + s.toString());
 				}
@@ -105,6 +141,13 @@ public class RestProcessor {
 		}
 	}
 	
+	/**
+	 * Send to content provider.
+	 *
+	 * @param uri the uri
+	 * @param object the object
+	 * @param returnType the return type
+	 */
 	private void sendToContentProvider(Uri uri, Serializable object, String returnType) {
 		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
 
@@ -126,6 +169,12 @@ public class RestProcessor {
 		}
 	}
 	
+	/**
+	 * Send intent broadcast.
+	 *
+	 * @param intentString the intent string
+	 * @param obj the obj
+	 */
 	private void sendIntentBroadcast(String intentString, Serializable obj) {
 		Log.v(debug, "sendIntentBroadcast: sending broadcast, object name " + obj.getClass().getName());
 		Intent broadcastedIntent = new Intent(); 

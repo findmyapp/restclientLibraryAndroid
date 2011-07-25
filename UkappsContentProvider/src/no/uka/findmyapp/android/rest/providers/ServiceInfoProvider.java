@@ -1,3 +1,8 @@
+/* 
+ * Copyright (c) 2011 Accenture
+ * Licensed under the MIT open source license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 package no.uka.findmyapp.android.rest.providers;
 
 import java.util.HashMap;
@@ -16,37 +21,35 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServiceInfoProvider.
+ */
 public class ServiceInfoProvider extends ContentProvider {
-	   /**
-	    * Debug tag
-	    */
+	   
+   	/** Debug tag. */
 		private static final String debug = "ServiceInfoProvider";
 	
-	   /**
-	    * The local serviceModel database name
-	    */
+	   /** The local serviceModel database name. */
 	   private static final String DATABASE_NAME = "serviceinfo.db";
 
-	   /**
-	    * The database version
-	    */
+	   /** The database version. */
 	   private static final int DATABASE_VERSION = 1;
 
-	   /**
-	    * A projection map used to select columns from the database
-	    */
+	   /** A projection map used to select columns from the database. */
 	   private static HashMap<String, String> serviceInfoProjectionMap;
 
 	   /*
 	    * Constants used by the Uri matcher to choose an action based on the pattern
 	    * of the incoming URI
 	    */
-	   private static final int SERVICEMODEL = 1;
-	   private static final int SERVICEMODEL_ID = 2;
+	   /** The Constant SERVICEMODEL. */
+   	private static final int SERVICEMODEL = 1;
+	   
+   	/** The Constant SERVICEMODEL_ID. */
+   	private static final int SERVICEMODEL_ID = 2;
 
-	   /**
-	    * A UriMatcher instance
-	    */
+	   /** A UriMatcher instance. */
 	   private static final UriMatcher uriMatcher;
 
 	   /**
@@ -92,17 +95,26 @@ public class ServiceInfoProvider extends ContentProvider {
 	    * deleting tables
 	    */
 	  private static class ServiceInfoDatabaseHelper extends SQLiteOpenHelper {
-		  private static final String debug = "ServiceInfoDatabaseHelper";
+		  
+  		/** The Constant debug. */
+  		private static final String debug = "ServiceInfoDatabaseHelper";
 
-	      public ServiceInfoDatabaseHelper(Context context) {
+	      /**
+      	 * Instantiates a new service info database helper.
+      	 *
+      	 * @param context the context
+      	 */
+      	public ServiceInfoDatabaseHelper(Context context) {
 	          super(context, DATABASE_NAME, null, DATABASE_VERSION);
 			  Log.v(debug, "Inside constructor");
 	      }
 
 	      /**
-	       * Creates the database table when the 
-	       * object is created.
-	       */
+      	 * Creates the database table when the
+      	 * object is created.
+      	 *
+      	 * @param db the db
+      	 */
 	      @Override
 	      public void onCreate(SQLiteDatabase db) {
 			  Log.v(debug, "Inside onCreate");
@@ -111,10 +123,14 @@ public class ServiceInfoProvider extends ContentProvider {
 
 	      //TODO Implement implement UKA-program caching
 	      /**
-	       * The database drops all the data while upgrading. 
-	       * The method is not implemented with the possibility
-	       * to store data between different program sessions.
-	       */
+      	 * The database drops all the data while upgrading.
+      	 * The method is not implemented with the possibility
+      	 * to store data between different program sessions.
+      	 *
+      	 * @param db the db
+      	 * @param oldVersion the old version
+      	 * @param newVersion the new version
+      	 */
 	      @Override
 	      public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			  Log.v(debug, "Inside onUpgrade");
@@ -130,7 +146,10 @@ public class ServiceInfoProvider extends ContentProvider {
 	      }
 	  }
 
-	  @Override
+	  /* (non-Javadoc)
+  	 * @see android.content.ContentProvider#onCreate()
+  	 */
+  	@Override
 	  public boolean onCreate() {
 		  Log.v(debug, "Inside onCreate");
 	      dbHelper = new ServiceInfoDatabaseHelper(getContext());
@@ -139,7 +158,10 @@ public class ServiceInfoProvider extends ContentProvider {
 	      return true;
 	  }
 
-	  @Override
+	  /* (non-Javadoc)
+  	 * @see android.content.ContentProvider#query(android.net.Uri, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String)
+  	 */
+  	@Override
 	  public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		  Log.v(debug, "Inside query");
 	      SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
@@ -167,7 +189,10 @@ public class ServiceInfoProvider extends ContentProvider {
 	      return cursor;
 	  }
 
-	  @Override
+	  /* (non-Javadoc)
+  	 * @see android.content.ContentProvider#getType(android.net.Uri)
+  	 */
+  	@Override
 	  public String getType(Uri uri) {
 		  Log.v(debug, "Inside getType");
 	      switch (uriMatcher.match(uri)) {
@@ -180,7 +205,10 @@ public class ServiceInfoProvider extends ContentProvider {
 	      }
 	   }
 
-	   @Override
+	   /* (non-Javadoc)
+   	 * @see android.content.ContentProvider#insert(android.net.Uri, android.content.ContentValues)
+   	 */
+   	@Override
 	   public Uri insert(Uri uri, ContentValues initialValues) {
 		Log.v(debug, "Inside insert");
 	       if (uriMatcher.match(uri) != SERVICEMODEL) {
@@ -217,7 +245,10 @@ public class ServiceInfoProvider extends ContentProvider {
 			throw new IllegalArgumentException("InsertUnknown URI: " + uri);
 	   }
 
-	   @Override
+	   /* (non-Javadoc)
+   	 * @see android.content.ContentProvider#delete(android.net.Uri, java.lang.String, java.lang.String[])
+   	 */
+   	@Override
 	   public int delete(Uri uri, String where, String[] whereArgs) {
 			  Log.v(debug, "Inside delete");
 	       SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -247,7 +278,10 @@ public class ServiceInfoProvider extends ContentProvider {
 	       return count;
 	   }
 
-	   @Override
+	   /* (non-Javadoc)
+   	 * @see android.content.ContentProvider#update(android.net.Uri, android.content.ContentValues, java.lang.String, java.lang.String[])
+   	 */
+   	@Override
 	   public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
 			  Log.v(debug, "inside update");
 	       SQLiteDatabase db = dbHelper.getWritableDatabase();

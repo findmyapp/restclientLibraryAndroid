@@ -29,7 +29,9 @@ import android.util.Log;
 public class RestIntentService extends IntentService {
     
     /** The Constant debug. */
-    public static final String debug = "RestIntentService";
+    private static final String debug = "RestIntentService";
+    
+    private static final String SERVICE_NAME = "RestIntentService";
     
     /** The rest processor. */
     private RestProcessor restProcessor;
@@ -38,7 +40,7 @@ public class RestIntentService extends IntentService {
      * Instantiates a new rest intent service.
      */
     public RestIntentService() {
-        super("RestIntentService");
+        super(SERVICE_NAME);
         this.restProcessor = new RestProcessor(this);
     }
 

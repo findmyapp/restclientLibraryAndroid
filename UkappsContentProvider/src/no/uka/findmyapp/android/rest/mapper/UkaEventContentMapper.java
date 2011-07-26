@@ -56,12 +56,14 @@ public class UkaEventContentMapper implements IContentMapper {
 		contentValues.put(UkaEventContract.THUMBNAIL, event.getThumbnail());
 		contentValues.put(UkaEventContract.AGE_LIMIT, event.getAgeLimit());
 		contentValues.put(UkaEventContract.EVENT_TYPE, event.getEventType());
-		contentValues
-				.put(UkaEventContract.SHOWING_TIME, event.getShowingTime());
+		contentValues.put(UkaEventContract.SHOWING_TIME, event.getShowingTime());
 		contentValues.put(UkaEventContract.FREE, event.isFree());
 		contentValues.put(UkaEventContract.CANCELED, event.isCanceled());
 		contentValues.put(UkaEventContract.FAVOURITE, event.isFavourite());
 		contentValues.put(UkaEventContract.LOWEST_PRICE, event.getPrice());
+		contentValues.put(UkaEventContract.SPOTIFY_STRING, event.getSpotifyString());
+		contentValues.put(UkaEventContract.UPDATED_DATE, event.getUpdatedDate());
+		contentValues.put(UkaEventContract.PLACE_STRING, event.getPlaceString());
 
 		return contentValues;
 	}

@@ -32,23 +32,26 @@ public final class UkaEvents implements BaseColumns {
 				+ UkaEventContract.ID + " INTEGER, "
 				+ UkaEventContract.BILLING_ID + " INTEGER, "
 				+ UkaEventContract.ENTRANCE_ID + " INTEGER, "
-				+ UkaEventContract.TITLE + " varchar(255), "
-				+ UkaEventContract.LEAD + " varchar(255), "
-				+ UkaEventContract.TEXT + " varchar(255), "
-				+ UkaEventContract.PLACE + " varchar(30), "
+				+ UkaEventContract.TITLE + " VARCHAR(255), "
+				+ UkaEventContract.LEAD + " VARCHAR(255), "
+				+ UkaEventContract.TEXT + " VARCHAR(255), "
+				+ UkaEventContract.PLACE + " VARCHAR(30), "
 				+ UkaEventContract.FAVOURITE + " BOOLEAN, "
-				+ UkaEventContract.EVENT_TYPE + " varchar(30), "
-				+ UkaEventContract.IMAGE + " varchar(100), "
-				+ UkaEventContract.THUMBNAIL + " varchar(100), "
+				+ UkaEventContract.EVENT_TYPE + " VARCHAR(30), "
+				+ UkaEventContract.IMAGE + " VARCHAR(100), "
+				+ UkaEventContract.THUMBNAIL + " VARCHAR(100), "
 				+ UkaEventContract.AGE_LIMIT + " INTEGER, "
 				+ UkaEventContract.SHOWING_TIME + " TIMESTAMP, "
 				+ UkaEventContract.LOWEST_PRICE + " INTEGER, "
 				+ UkaEventContract.FREE + " BOOLEAN, "
+				+ UkaEventContract.SPOTIFY_STRING + " VARCHAR(50), "
+				+ UkaEventContract.UPDATED_DATE + " TIMESTAMP, "
+				+ UkaEventContract.PLACE_STRING + " VARCHAR(50), "
 				+ UkaEventContract.CANCELED + " BOOLEAN" + ");";
 
 		/** The Constant DROP_TABLE_QUERY. */
-		public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS "
-				+ TABLE_NAME + ";";
+		public static final String DROP_TABLE_QUERY = 
+			"DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
 		/** The Constant EVENTS_PATH. */
 		public static final String EVENTS_PATH = "/ukaevents";
@@ -129,7 +132,13 @@ public final class UkaEvents implements BaseColumns {
 		public static final String LOWEST_PRICE = "lowest_price";
 
 		/** The Constant CANCELED. */
+		public static final String SPOTIFY_STRING = "spotify_string";
+		
+		public static final String UPDATED_DATE = "update_date";
+		
 		public static final String CANCELED = "canceled";
+		
+		public static final String PLACE_STRING = "places_string";
 
 		// This class cannot be instantiated
 		/**

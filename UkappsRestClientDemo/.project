@@ -32,16 +32,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>UkappsContentProvider_src</name>
-			<type>2</type>
-			<locationURI>_android_UkappsContentProvider_a5d4ae42/src</locationURI>
-		</link>
-		<link>
-			<name>UkappsDataModels_src</name>
-			<type>2</type>
-			<locationURI>_android_UkappsDataModels_5b5a32fc/src</locationURI>
-		</link>
-		<link>
 			<name>UkappsRestClient_src</name>
 			<type>2</type>
 			<locationURI>_android_UkappsRestClient_7c6ce107/src</locationURI>

@@ -63,6 +63,12 @@ public class UkaEvent implements Serializable {
 
 	/** The favourite. */
 	private boolean favourite;
+	
+	private String spotifyString; 
+	
+	private String placeString; 
+	
+	private long updatedDate; 
 
 	/**
 	 * Gets the age limit.
@@ -366,5 +372,29 @@ public class UkaEvent implements Serializable {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getSpotifyString() {
+		return spotifyString;
+	}
+
+	public void setSpotifyString(String spotifyString) {
+		this.spotifyString = spotifyString;
+	}
+
+	public String getPlaceString() {
+		return placeString;
+	}
+
+	public void setPlaceString(String placeString) {
+		this.placeString = placeString;
+	}
+
+	public long getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(long dateUpdated) {
+		this.updatedDate = updatedDate;
 	}
 }

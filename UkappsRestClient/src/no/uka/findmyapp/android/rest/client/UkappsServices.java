@@ -1,11 +1,10 @@
-/* 
+/**
  * Copyright (c) 2011 Accenture
  * Licensed under the MIT open source license
  * http://www.opensource.org/licenses/mit-license.php
  */
 package no.uka.findmyapp.android.rest.client;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum UkappsServices.
  *
@@ -16,6 +15,8 @@ public enum UkappsServices {
 	
 	/** First thing. */
 	UKAEVENTS("getUkaProgramForDate"),
+	
+	LOCATION_GET_ALL_LOCATIONS("getLocationAllLocations"),
 	
 	/** S thing. */
 	TEMPERATURE_SAMPLE("");

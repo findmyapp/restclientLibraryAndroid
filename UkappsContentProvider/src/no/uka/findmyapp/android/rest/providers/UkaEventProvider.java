@@ -27,61 +27,6 @@ import android.util.Log;
  */
 public class UkaEventProvider extends ContentProvider {
 
-	/**
-	 * The Class EventsDatabaseHelper.
-	 */
-	private static class EventsDatabaseHelper extends SQLiteOpenHelper {
-
-		/** The Constant debug. */
-		private static final String debug = "EventesDatabaseHelper";
-
-		/**
-		 * Instantiates a new events database helper.
-		 * 
-		 * @param context
-		 *            the context
-		 */
-		public EventsDatabaseHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			Log.v(debug, "Inside constructor");
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * android.database.sqlite.SQLiteOpenHelper#onCreate(android.database
-		 * .sqlite.SQLiteDatabase)
-		 */
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			Log.v(debug, "Inside onCreate");
-			db.execSQL(UkaEventContract.CREATE_TABLE_QUERY);
-		}
-
-		// TODO Implement implement UKA-program caching
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database
-		 * .sqlite.SQLiteDatabase, int, int)
-		 */
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.v(debug, "Inside onUpgrade");
-
-			Log.w(debug, "Upgrading database, version:" + oldVersion + " to "
-					+ newVersion + ", the data is dropped");
-
-			// Drops the table
-			db.execSQL(UkaEventContract.DROP_TABLE_QUERY);
-
-			// Recreates the database
-			onCreate(db);
-		}
-	}
-
 	/** The Constant debug. */
 	private static final String debug = "UkaEventProvider";
 
@@ -89,7 +34,7 @@ public class UkaEventProvider extends ContentProvider {
 	private static final String DATABASE_NAME = "ukaevents.db";
 
 	/** The Constant DATABASE_VERSION. */
-	private static final int DATABASE_VERSION = 15;
+	private static final int DATABASE_VERSION = 17;
 
 	/** The ukaevent projection map. */
 	private static HashMap<String, String> ukaeventProjectionMap;
@@ -133,15 +78,18 @@ public class UkaEventProvider extends ContentProvider {
 		ukaeventProjectionMap = new HashMap<String, String>();
 		ukaeventProjectionMap.put(UkaEventContract.PRIMARY_KEY,
 				UkaEventContract.PRIMARY_KEY);
-		ukaeventProjectionMap.put(UkaEventContract.ID, UkaEventContract.ID);
+		ukaeventProjectionMap.put(UkaEventContract.ID, 
+				UkaEventContract.ID);
 		ukaeventProjectionMap.put(UkaEventContract.BILLING_ID,
 				UkaEventContract.BILLING_ID);
 		ukaeventProjectionMap.put(UkaEventContract.ENTRANCE_ID,
 				UkaEventContract.ENTRANCE_ID);
 		ukaeventProjectionMap.put(UkaEventContract.TITLE,
 				UkaEventContract.TITLE);
-		ukaeventProjectionMap.put(UkaEventContract.LEAD, UkaEventContract.LEAD);
-		ukaeventProjectionMap.put(UkaEventContract.TEXT, UkaEventContract.TEXT);
+		ukaeventProjectionMap.put(UkaEventContract.LEAD, 
+				UkaEventContract.LEAD);
+		ukaeventProjectionMap.put(UkaEventContract.TEXT, 
+				UkaEventContract.TEXT);
 		ukaeventProjectionMap.put(UkaEventContract.PLACE,
 				UkaEventContract.PLACE);
 		ukaeventProjectionMap.put(UkaEventContract.EVENT_TYPE,
@@ -154,9 +102,16 @@ public class UkaEventProvider extends ContentProvider {
 				UkaEventContract.AGE_LIMIT);
 		ukaeventProjectionMap.put(UkaEventContract.SHOWING_TIME,
 				UkaEventContract.SHOWING_TIME);
-		ukaeventProjectionMap.put(UkaEventContract.FREE, UkaEventContract.FREE);
+		ukaeventProjectionMap.put(UkaEventContract.FREE, 
+				UkaEventContract.FREE);
 		ukaeventProjectionMap.put(UkaEventContract.CANCELED,
 				UkaEventContract.CANCELED);
+		ukaeventProjectionMap.put(UkaEventContract.SPOTIFY_STRING, 
+				UkaEventContract.SPOTIFY_STRING);
+		ukaeventProjectionMap.put(UkaEventContract.UPDATED_DATE, 
+				UkaEventContract.UPDATED_DATE);
+		ukaeventProjectionMap.put(UkaEventContract.PLACE_STRING, 
+				UkaEventContract.PLACE_STRING);
 		ukaeventProjectionMap.put(UkaEventContract.FAVOURITE,
 				UkaEventContract.FAVOURITE);
 		ukaeventProjectionMap.put(UkaEventContract.LOWEST_PRICE,
@@ -352,5 +307,60 @@ public class UkaEventProvider extends ContentProvider {
 		getContext().getContentResolver().notifyChange(uri, null);
 
 		return count;
+	}
+
+	/**
+	 * The Class EventsDatabaseHelper.
+	 */
+	private static class EventsDatabaseHelper extends SQLiteOpenHelper {
+
+		/** The Constant debug. */
+		private static final String debug = "EventesDatabaseHelper";
+
+		/**
+		 * Instantiates a new events database helper.
+		 * 
+		 * @param context
+		 *            the context
+		 */
+		public EventsDatabaseHelper(Context context) {
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			Log.v(debug, "Inside constructor");
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * android.database.sqlite.SQLiteOpenHelper#onCreate(android.database
+		 * .sqlite.SQLiteDatabase)
+		 */
+		@Override
+		public void onCreate(SQLiteDatabase db) {
+			Log.v(debug, "Inside onCreate");
+			db.execSQL(UkaEventContract.CREATE_TABLE_QUERY);
+		}
+
+		// TODO Implement implement UKA-program caching
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database
+		 * .sqlite.SQLiteDatabase, int, int)
+		 */
+		@Override
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.v(debug, "Inside onUpgrade");
+
+			Log.w(debug, "Upgrading database, version:" + oldVersion + " to "
+					+ newVersion + ", the data is dropped");
+
+			// Drops the table
+			db.execSQL(UkaEventContract.DROP_TABLE_QUERY);
+
+			// Recreates the database
+			onCreate(db);
+		}
 	}
 }

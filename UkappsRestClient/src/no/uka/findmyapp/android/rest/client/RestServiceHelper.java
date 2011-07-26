@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import no.uka.findmyapp.android.rest.client.RestIntentService;
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
@@ -86,13 +87,14 @@ public class RestServiceHelper {
 	public void callStartService(Context context, ServiceModel serviceModel) {
 		Log.v(debug, "Inside callStarteService, using ServiceModel");
 		Intent selectIntent = new Intent(context, RestIntentService.class);
-		Log.v(debug, "Internal: callStarteService: selectIntent created");
-		
+		Log.v(debug, "callStartService(internal): selectIntent created");
+		Log.v(debug, "callStartService: servicemodel " + serviceModel.toString());
 		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
-		Log.v(debug, "Internal: callStarteService: serivce model added to intent");
-		
+		Log.v(debug, "callStartService(internal): serivce model added to intent");
+		Log.v(debug, "callStartService(internal): intent package: " + selectIntent.getExtras().toString()); 
+
 		context.startService(selectIntent);
-		Log.v(debug, "Internal: callStarteService: context.startSerivce() called");
+		Log.v(debug, "callStartService(internal): context.startSerivce() called");
 	}
 
 	/**
@@ -141,10 +143,12 @@ public class RestServiceHelper {
 			ServiceDataFormat.JSON, ServiceModel.class,
 			null, 
 			null, 
-			IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, null);
+			IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, 
+			null);
 			
 			if(sIntentReceiver == null) {
 				this.registerBroadCastListener(context);
+				Log.v(debug, "getUpdatedServiceModelInfo: servicemodel " + sm.toString());
 				this.callStartService(context, sm);
 			}
 		} catch (URISyntaxException e) {

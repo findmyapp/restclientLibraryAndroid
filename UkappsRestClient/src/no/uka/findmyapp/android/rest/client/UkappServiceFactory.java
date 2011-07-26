@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
-import android.net.Uri;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -55,17 +54,14 @@ public class UkappServiceFactory {
 	 * @throws IllegalAccessException the illegal access exception
 	 * @throws InstantiationException the instantiation exception
 	 */
-	public static ServiceModel createServiceModel(UkappsServices service, URI contentProvider, String[] params) throws URISyntaxException, IllegalAccessException, InstantiationException {
+	public static ServiceModel createServiceModel(UkappsServices service, URI contentProvider, 
+			String[] params) throws URISyntaxException, IllegalAccessException, InstantiationException {
 		ServiceModel sm = serviceModels.get(service.getMapperName());
 		sm.setContentProviderUri(contentProvider);
 		
 		String tempUri = sm.getUri().toString().replace("?", "%s");
 		sm.setUri(new URI(String.format(tempUri, params)));
 
-		/*
-		String tempProviderUri = sm.getContentProviderUri().toString().replace("?", "%s");
-		sm.setContentProviderUri(new URI(String.format(tempProviderUri, R.string.app_name)));
-		*/
 		return sm;
 	}
 	

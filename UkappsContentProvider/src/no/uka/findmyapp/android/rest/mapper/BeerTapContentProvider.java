@@ -39,11 +39,9 @@ public class BeerTapContentProvider implements IContentMapper {
 	public ContentValues mapValues(Serializable object) {
 		BeerTap beertapSample = (BeerTap) object;
 		ContentValues contentValues = new ContentValues();
-		contentValues.put(BeerTapTable.LOCATION_ID,
-				beertapSample.getLocationId());
+		contentValues.put(BeerTapTable.LOCATION_ID, beertapSample.getLocation());
 		contentValues.put(BeerTapTable.VALUE, beertapSample.getValue());
-		contentValues.put(BeerTapTable.BEER_TOWER_NUM,
-				beertapSample.getBeerTowerNum());
+		contentValues.put(BeerTapTable.BEER_TOWER_NUM, beertapSample.getTapnr());
 		contentValues.put(BeerTapTable.DATE, beertapSample.getDate());
 
 		return contentValues;

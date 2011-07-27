@@ -57,6 +57,10 @@ public class RestServiceHelper {
 	/** The buffer. */
 	private static List<RequestBuffer> sBuffer;
 	
+	private static String sKey; 
+	
+	private static String sSecret; 
+	
 	/**
 	 * Instantiates a new rest service helper.
 	 */
@@ -75,6 +79,18 @@ public class RestServiceHelper {
 			return INSTANCE;
 		}
 		return INSTANCE;
+	}
+	
+	public static void setCredentials(String key, String secret) 
+		throws RestServiceException {
+		if(key == null && secret == null) {
+			sKey = key; 
+			sSecret = secret; 
+		}
+		else {
+			throw new RestServiceException(
+					"Set API security credentials");
+		}
 	}
 
 	/**

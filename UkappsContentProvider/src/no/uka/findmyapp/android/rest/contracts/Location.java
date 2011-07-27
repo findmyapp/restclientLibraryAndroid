@@ -24,10 +24,12 @@ public final class Location implements BaseColumns {
 
 		/** The Constant CREATE_TABLE_QUERY. */
 		public static final String CREATE_TABLE_QUERY = "CREATE TABLE "
-				+ LocationContract.TABLE_NAME + " (" + LocationContract.ID
-				+ " INTEGER PRIMARY KEY, " + LocationContract.LOCATIONNAME
-				+ " varchar(255), " + LocationContract.LOCATIONID
-				+ " INTEGER);";
+				+ LocationContract.TABLE_NAME + " (" 
+				+ LocationContract.ID + " INTEGER PRIMARY KEY, " 
+				+ LocationContract.LOCATION_ID + " INTEGER, " 
+				+ LocationContract.LOCATION_STRING_ID + " VARCHAR(30), "
+				+ LocationContract.LOCATION_NAME + " VARCHAR(30)" 
+				+ ");";
 
 		/** The Constant DROP_TABLE_QUERY. */
 		public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS "
@@ -66,11 +68,13 @@ public final class Location implements BaseColumns {
 		 * Database columns
 		 */
 
-		/** The Constant LOCATIONNAME. */
-		public static final String LOCATIONNAME = "location_name";
-
-		/** The Constant LOCATIONID. */
-		public static final String LOCATIONID = "location_id";
+		/** The Constant LOCATION_ID. */
+		public static final String LOCATION_ID = "location_id";
+		
+		public static final String LOCATION_STRING_ID = "location_string_id";
+		
+		/** The Constant LOCATION_NAME. */
+		public static final String LOCATION_NAME = "location_name";
 
 		/** The Constant SLUG. */
 		public static final String SLUG = "slug";

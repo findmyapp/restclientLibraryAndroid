@@ -134,10 +134,13 @@ public class LocationProvider extends ContentProvider {
 		 */
 		locationProjectionMap = new HashMap<String, String>();
 		locationProjectionMap.put(LocationContract.ID, LocationContract.ID);
-		locationProjectionMap.put(LocationContract.LOCATIONNAME,
-				LocationContract.LOCATIONNAME);
-		locationProjectionMap.put(LocationContract.LOCATIONID,
-				LocationContract.LOCATIONID);
+		locationProjectionMap.put(LocationContract.LOCATION_ID,
+				LocationContract.LOCATION_ID);
+		locationProjectionMap.put(LocationContract.LOCATION_STRING_ID, 
+				LocationContract.LOCATION_STRING_ID);
+		locationProjectionMap.put(LocationContract.LOCATION_NAME,
+				LocationContract.LOCATION_NAME);
+
 	}
 
 	/*

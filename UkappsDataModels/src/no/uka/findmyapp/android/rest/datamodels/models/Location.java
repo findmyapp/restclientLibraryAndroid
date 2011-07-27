@@ -11,29 +11,25 @@ public class Location implements Serializable{
 
 	private static final long serialVersionUID = -2475513849744509031L;
 
-	private String locationName;
 	private int locationId;
-	
-	public Location() {}
-	
-	public Location(int locationId) {
-		this.locationId = locationId;
-	}
-
-	public Location(String locationName, int locationId) {
-		this.locationName = locationName;
-		this.locationId = locationId;
-	}
-	public String getLocationName() {
-		return locationName;
-	}
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
-	}
+	private String locationStringId;
+	private int locationName;
 	public int getLocationId() {
 		return locationId;
 	}
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
 	}
+	public String getLocationStringId() {
+		return locationStringId;
+	}
+	public void setLocationStringId(String locationStringId) {
+		this.locationStringId = locationStringId;
+	}
+	public int getLocationName() {
+		return locationName;
+	}
+	public void setLocationName(int locationName) {
+		this.locationName = locationName;
+	} 
 }

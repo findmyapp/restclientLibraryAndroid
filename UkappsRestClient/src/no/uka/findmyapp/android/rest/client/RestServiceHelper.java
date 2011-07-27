@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import no.uka.findmyapp.android.rest.client.RestIntentService;
 import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
@@ -87,14 +86,14 @@ public class RestServiceHelper {
 	public void callStartService(Context context, ServiceModel serviceModel) {
 		Log.v(debug, "Inside callStarteService, using ServiceModel");
 		Intent selectIntent = new Intent(context, RestIntentService.class);
-		Log.v(debug, "callStartService(internal): selectIntent created");
+		
 		Log.v(debug, "callStartService: servicemodel " + serviceModel.toString());
 		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
-		Log.v(debug, "callStartService(internal): serivce model added to intent");
-		Log.v(debug, "callStartService(internal): intent package: " + selectIntent.getExtras().toString()); 
-
+		
+		Log.v(debug, "callStartService: intent package: " + selectIntent.getExtras().toString()); 
 		context.startService(selectIntent);
-		Log.v(debug, "callStartService(internal): context.startSerivce() called");
+
+		Log.v(debug, "callStartService: context.startSerivce() called");
 	}
 
 	/**
@@ -111,20 +110,17 @@ public class RestServiceHelper {
 			URI contentProviderURI, String[] params) throws URISyntaxException, 
 			IllegalAccessException, InstantiationException {
 		if(!sUpdatedServiceModels && !sUpdatingServiceModels) {
-			Log.v(debug, "init updatedServiceModels");
+			Log.v(debug, "callStartService: init updatedServiceModels");
 			sUpdatingServiceModels = true;
 			sBuffer.add(new RequestBuffer(context, service, contentProviderURI,  params));
+		
 			getUpdatedServiceModelInfo(context);
-			return;
-		} else if(sUpdatedServiceModels) {
-			Log.v(debug, "Internal: Innside callStartService, using UkappsSerivce");
+		} 
+		else if(sUpdatedServiceModels) {
 			ServiceModel sm = UkappServiceFactory.createServiceModel(service, contentProviderURI, params);
-			Log.v(debug, sm.toString());
-			Log.v(debug,
-					"Internal: callStartService: preparing ServiceModel: " + sm.toString());
+			Log.v(debug, "Internal: callStartService: preparing ServiceModel: " + sm.toString());
+			
 			this.callStartService(context, sm);
-			Log.v(debug,
-					"Internal: callStarteService: called callStartService with ServiceModel");
 		}
 	}
 
@@ -135,24 +131,25 @@ public class RestServiceHelper {
 	 * @return the updated service model info
 	 */
 	private void getUpdatedServiceModelInfo(Context context) {
-		Log.v(debug, "Internal: updatingServiceModel");
+		Log.v(debug, "updatingServiceModel");
 		try {
-			ServiceModel sm = new ServiceModel(new URI(
-			SERVICE_MODEL_PROVIDER_SERVICE_URI),
-			HttpType.GET, 
-			ServiceDataFormat.JSON, ServiceModel.class,
-			null, 
-			null, 
-			IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, 
-			null);
+			ServiceModel sm = new ServiceModel(
+				new URI(SERVICE_MODEL_PROVIDER_SERVICE_URI),
+				HttpType.GET, 
+				ServiceDataFormat.JSON, ServiceModel.class,
+				null, 
+				null, 
+				IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, 
+				null);
 			
 			if(sIntentReceiver == null) {
+				Log.v(debug, "getUpdatedServiceModelInfo: intent receiver=null servicemodel " + sm.toString());
 				this.registerBroadCastListener(context);
-				Log.v(debug, "getUpdatedServiceModelInfo: servicemodel " + sm.toString());
 				this.callStartService(context, sm);
 			}
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+		} 
+		//TODO Add error handling
+		catch (URISyntaxException e) {
 			e.printStackTrace();
 			Log.v(debug, e.getLocalizedMessage());
 		}
@@ -166,7 +163,8 @@ public class RestServiceHelper {
 	private void registerBroadCastListener(Context context) {
 		Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
 		sIntentReceiver = new ServiceModelReceiver();
-		IntentFilter intentFilter = new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
+		IntentFilter intentFilter = 
+			new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
 		context.registerReceiver(sIntentReceiver, intentFilter);
 	}
 
@@ -191,38 +189,50 @@ public class RestServiceHelper {
 		 */
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.v(debug, "Internal: received broadcast");
-			if (intent.getAction().equals(
-					IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL)) {
-				Log.v(debug, "Internal: is right token");
+			Log.v(debug, "ServiceModelReceiver: received broadcast");
+			if (intentMessageIdentifiedByBoadcasatToken(intent)) {
 				unregisterBroadCastListener(context);
 				sUpdatedServiceModels = true;
+				
 				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME);
 				List<ServiceModel> serviceModels = (List<ServiceModel>) obj;
-				Map<String, ServiceModel> serviceModelsMap = new HashMap<String, ServiceModel>();
-				for(ServiceModel s : serviceModels) {
-					serviceModelsMap.put(s.getLocalIdentifier(), s);
-					Log.v(debug, s.toString());
-				}
-				UkappServiceFactory.serviceModels = serviceModelsMap;
 				
-				for(RequestBuffer b : sBuffer) {
-					try {
-						callStartService(b.getContext(), b.getUkappsServices(), 
-								b.getContentProvider(), b.getParams());
-					} catch (URISyntaxException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				UkappServiceFactory.serviceModels = hashMapServiceModel(serviceModels);
+				
+				callBufferedRequests();
 			}
 			
+		}
+
+		//TODO Add exception handling
+		private void callBufferedRequests( ) {
+			for(RequestBuffer b : sBuffer) {
+				try {
+					callStartService(b.getContext(), b.getUkappsServices(), 
+							b.getContentProvider(), b.getParams());
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		private boolean intentMessageIdentifiedByBoadcasatToken(Intent intent) {
+			return intent.getAction().equals(
+					IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
+		}
+
+		private Map<String, ServiceModel> hashMapServiceModel(
+				List<ServiceModel> serviceModels ) {
+			Map<String, ServiceModel> serviceModelsMap = new HashMap<String, ServiceModel>();
+			for(ServiceModel sm : serviceModels) {
+				serviceModelsMap.put(sm.getLocalIdentifier(), sm);
+				Log.v(debug, "hashMapServiceModel serviceModel mapped: " + sm.toString());
+			}
+			return serviceModelsMap;
 		}
 	}
 	

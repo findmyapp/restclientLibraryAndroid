@@ -13,13 +13,10 @@ import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import android.net.Uri;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ServiceModel.
- */
-/**
+ *
  * @author jostein.guldal
- * 
  */
 public class ServiceModel implements Serializable {
 

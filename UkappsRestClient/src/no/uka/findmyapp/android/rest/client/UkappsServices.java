@@ -12,34 +12,35 @@ package no.uka.findmyapp.android.rest.client;
  */
 
 public enum UkappsServices {
-	
 	/** First thing. */
-	UKAEVENTS("getUkaProgramForDate"),
-	
-	LOCATION_GET_ALL_LOCATIONS("getLocationAllLocations"),
-	
-	/** S thing. */
-	TEMPERATURE_SAMPLE("");
-	
-	/** The mapper name. */
-	String mapperName;
-	
-	/**
-	 * Instantiates a new ukapps services.
-	 *
-	 * @param mapperName the mapper name
-	 */
-	UkappsServices(String mapperName) {
-		this.mapperName = mapperName;
-	}
-	
-	
-	/**
-	 * Gets the mapper name.
-	 *
-	 * @return the mapper name
-	 */
-	public String getMapperName() {
-		return mapperName;
-	}
+	GET_ALL_FACTS,
+	//GET_ALL_USER_LOCATIONS,
+	GET_ALL_LOCATIONS,
+	//GET_APPSTORE_LIST_FOR_PLATFORM,
+	GET_HUMIDITY_DATA,
+	GET_EVENTS_ON_PLACE,
+	GET_FRIENDS_ATTENDING_EVENT,
+	GET_NEXT_UKA_EVENT,
+	//GET_LOCATION_OF_FRIENDS,
+	GET_NOISE_DATA,
+	GET_POSITION_BASED_ON_WLAN_SIGNALS,
+	GET_PRIVACY,
+	GET_RANDOM_FACT,
+	GET_TEMPERATURE_DATA,
+	//GET_UKA_EVENTS_TODAY,
+	//GET_UKA_EVENTS_TOMORROW,
+	//GET_UKA_EVENT_BY_ID,
+	//GET_UKA_PROGRAM_START_END_DATE,
+	GET_UKA_PROGRAM_FOR_DATE,
+	GET_UKA_PROGRAM_PLACES,
+	GET_USER_LOCATION,
+	GET_USER_COUNT_AT_LOCATION,
+	GET_USER_COUNT_AT_ALL_LOCATIONS,
+	//GET_USERS_AT_LOCATION,
+	//LOCATION_GET_ALL_LOCATIONS,
+	//REGISTER_USER_LOCATION,
+	//REGISTER_SAMPLE,
+	//SEARCH_FOR_UKA_PROGRAM_BY_NAME,
+	SET_TEMPERATURE_DATA,
+	UKAEVENTS;
 }

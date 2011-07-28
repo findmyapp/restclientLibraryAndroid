@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import android.net.Uri;
 
@@ -29,11 +28,11 @@ public class ServiceModel implements Serializable {
 	/** The http type. */
 	private HttpType httpType;
 
-	/** The dataformat. */
-	private ServiceDataFormat dataformat;
-
 	/** The return type. */
 	private String returnType;
+	
+	/** The parameters needed */
+	private String[] parameters; 
 
 	/** The data. */
 	private Serializable data;
@@ -43,9 +42,6 @@ public class ServiceModel implements Serializable {
 
 	/** The broadcast notification. */
 	private String broadcastNotification;
-
-	/** The local identifier. */
-	private String localIdentifier;
 
 	/**
 	 * Instantiates a new service model.
@@ -75,21 +71,17 @@ public class ServiceModel implements Serializable {
 	 * @throws URISyntaxException
 	 *             the uRI syntax exception
 	 */
-	public ServiceModel(URI uri, HttpType httpType,
-			ServiceDataFormat dataformat, Class returnType, Serializable data,
-			Uri contentProviderUri, String broadcastNotification,
-			String localIdentifier) throws URISyntaxException {
+	public ServiceModel(URI uri, HttpType httpType, Class returnType, Serializable data,
+			Uri contentProviderUri, String broadcastNotification) throws URISyntaxException {
 		super();
 		this.uri = uri;
 		this.httpType = httpType;
-		this.dataformat = dataformat;
 		this.returnType = returnType.getName();
 		this.data = data;
 		if (contentProviderUri != null) {
 			this.contentProviderUri = new URI(contentProviderUri.toString());
 		}
 		this.broadcastNotification = broadcastNotification;
-		this.localIdentifier = localIdentifier;
 	}
 
 	/**
@@ -120,30 +112,12 @@ public class ServiceModel implements Serializable {
 	}
 
 	/**
-	 * Gets the dataformat.
-	 * 
-	 * @return the dataformat
-	 */
-	public ServiceDataFormat getDataformat() {
-		return dataformat;
-	}
-
-	/**
 	 * Gets the http type.
 	 * 
 	 * @return the http type
 	 */
 	public HttpType getHttpType() {
 		return httpType;
-	}
-
-	/**
-	 * Gets the local identifier.
-	 * 
-	 * @return the local identifier
-	 */
-	public String getLocalIdentifier() {
-		return localIdentifier;
 	}
 
 	/**
@@ -195,16 +169,6 @@ public class ServiceModel implements Serializable {
 	}
 
 	/**
-	 * Sets the dataformat.
-	 * 
-	 * @param dataformat
-	 *            the new dataformat
-	 */
-	public void setDataformat(ServiceDataFormat dataformat) {
-		this.dataformat = dataformat;
-	}
-
-	/**
 	 * Sets the http type.
 	 * 
 	 * @param httpType
@@ -212,16 +176,6 @@ public class ServiceModel implements Serializable {
 	 */
 	public void setHttpType(HttpType httpType) {
 		this.httpType = httpType;
-	}
-
-	/**
-	 * Sets the local identifier.
-	 * 
-	 * @param localIdentifier
-	 *            the new local identifier
-	 */
-	public void setLocalIdentifier(String localIdentifier) {
-		this.localIdentifier = localIdentifier;
 	}
 
 	/**
@@ -249,14 +203,22 @@ public class ServiceModel implements Serializable {
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
+	
+
+	public String[] getParameters( ) {
+		return parameters;
+	}
+
+	public void setParameters(String[] parameters ) {
+		this.parameters = parameters;
+	}	
+	
 	@Override
 	public String toString() {
 		return "ServiceModel [uri=" + uri + ", httpType=" + httpType
-				+ ", dataformat=" + dataformat + ", returnType=" + returnType
+				+ ", returnType=" + returnType
 				+ ", data=" + data + ", contentProviderUri="
 				+ contentProviderUri + ", broadcastNotification="
-				+ broadcastNotification + ", localIdentifier="
-				+ localIdentifier + "]";
+				+ broadcastNotification + "]";
 	}
-
 }

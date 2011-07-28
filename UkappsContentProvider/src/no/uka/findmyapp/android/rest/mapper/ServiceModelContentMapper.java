@@ -44,8 +44,6 @@ public class ServiceModelContentMapper implements IContentMapper {
 				.toString());
 		contentValues.put(ServiceInfoContract.HTTPTYPE, castedObject
 				.getHttpType().toString());
-		contentValues.put(ServiceInfoContract.DATAFORMAT, castedObject
-				.getDataformat().getValue());
 		contentValues.put(ServiceInfoContract.RETURNTYPE,
 				castedObject.getReturnType());
 		contentValues.put(ServiceInfoContract.CONTENTPROVIDER_URI, castedObject

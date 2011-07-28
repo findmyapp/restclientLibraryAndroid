@@ -6,6 +6,7 @@
 package no.uka.findmyapp.android.rest.helpers;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.mapper.IContentMapper;
@@ -61,8 +62,7 @@ public class ContentHelper {
 	 *            the return type
 	 * @return the content values list
 	 */
-	public static List<ContentValues> getContentValuesList(Serializable object,
-			String returnType) {
+	public static List<ContentValues> getContentValuesList(Serializable object, Class returnType) {
 
 		try {
 			Log.v(debug, "Object debug " + object.toString());
@@ -105,17 +105,22 @@ public class ContentHelper {
 	 *             the class not found exception
 	 */
 	@SuppressWarnings("unchecked")
-	private static Class<IContentMapper> getMapperClass(Serializable object,
-			String returnType) throws ClassNotFoundException {
-		Log.v("ContentHelper", "trying to getMapperClass for: " + returnType);
+	private static Class<IContentMapper> getMapperClass(Serializable object, Class clazz) throws ClassNotFoundException {
+		Log.v(debug, "trying to getMapperClass for: " + object.getClass().getName());
+		
 		String classString;
-		if (returnType == null) {
+		
+		if (clazz == null) {
 			classString = MAPPER_PREFIX + object.getClass().getSimpleName()
-					+ MAPPER_POSTFIX;
-		} else {
-			classString = MAPPER_PREFIX + returnType + MAPPER_POSTFIX;
+			+ MAPPER_POSTFIX;
+		} 
+		else {
+			Log.d(debug, object.toString()); 
+			classString = MAPPER_PREFIX + clazz.getSimpleName() + MAPPER_POSTFIX;
 		}
-
+		
+		Log.v(debug, clazz.getSimpleName());
+		
 		Log.v("ContentHelper", "trying to getMapperClass for: " + classString);
 		Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class
 				.forName(classString);

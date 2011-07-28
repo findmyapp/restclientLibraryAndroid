@@ -37,18 +37,16 @@ public class ContentHelper {
 	 */
 	public static ContentValues getContentValues(Serializable object) {
 		try {
-			IContentMapper contentMapper = getMapperClass(object, null)
-					.newInstance();
+			IContentMapper contentMapper = 
+				getMapperClass(object, null).newInstance();
+			Log.v(debug, "type of contentMapper: " + contentMapper.getClass().getCanonicalName());
 			return contentMapper.mapValues(object);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Class not found exception " + e.getMessage()); 
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: IllegalAccessException " + e.getMessage()); 
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Instantiation Exception " + e.getMessage());
 		}
 		return null;
 	}
@@ -65,19 +63,20 @@ public class ContentHelper {
 	public static List<ContentValues> getContentValuesList(Serializable object, Class returnType) {
 
 		try {
-			Log.v(debug, "Object debug " + object.toString());
-			IContentMapper contentMapper = getMapperClass(object, returnType)
-					.newInstance();
+			IContentMapper contentMapper = 
+				getMapperClass(object, returnType).newInstance();
+			
+			Log.e(debug, "--------------------------------------------");
+			Log.v(debug, "getContentValuesList: return " + contentMapper.mapValuesList(object));
+			Log.e(debug, "--------------------------------------------");
+
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Class not found exception " + e.getMessage()); 
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: IllegalAccessException " + e.getMessage()); 
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Instantiation Exception " + e.getMessage()); 
 		}
 		return null;
 	}
@@ -111,19 +110,36 @@ public class ContentHelper {
 		String classString;
 		
 		if (clazz == null) {
+			Log.e(debug, "--------------------------------------------");
+			Log.d(debug, "class type: "  + object.toString()); 
+			Log.e(debug, "--------------------------------------------");
 			classString = MAPPER_PREFIX + object.getClass().getSimpleName()
 			+ MAPPER_POSTFIX;
+			
+			Log.v(debug, "classString: " + classString);
 		} 
 		else {
-			Log.d(debug, object.toString()); 
 			classString = MAPPER_PREFIX + clazz.getSimpleName() + MAPPER_POSTFIX;
+			Log.e(debug, "--------------------------------------------");
+			Log.v(debug, "classString: " + classString);
+			Log.e(debug, "--------------------------------------------");
 		}
 		
 		Log.v(debug, clazz.getSimpleName());
 		
 		Log.v("ContentHelper", "trying to getMapperClass for: " + classString);
-		Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class
-				.forName(classString);
+		Class<IContentMapper> mapperClass;
+		try {
+			mapperClass = (Class<IContentMapper>) Class.forName(classString);
+		} catch (ClassNotFoundException e) {
+			Log.e(debug, "getMapperClass: " + e.getLocalizedMessage());
+			throw e; 
+		}
+		Log.e(debug, "--------------------------------------------");
+		Log.w(debug, "getMapperClass: return " + mapperClass);
+		Log.e(debug, "--------------------------------------------");
+
+
 		return mapperClass;
 	}
 }

@@ -12,8 +12,9 @@ public class Location implements Serializable{
 	private static final long serialVersionUID = -2475513849744509031L;
 
 	private int locationId;
-	private String locationStringId;
-	private int locationName;
+	private String stringId;
+	private String locationName;
+	
 	public int getLocationId() {
 		return locationId;
 	}
@@ -21,15 +22,15 @@ public class Location implements Serializable{
 		this.locationId = locationId;
 	}
 	public String getLocationStringId() {
-		return locationStringId;
+		return stringId;
 	}
 	public void setLocationStringId(String locationStringId) {
-		this.locationStringId = locationStringId;
+		this.stringId = locationStringId;
 	}
-	public int getLocationName() {
+	public String getLocationName() {
 		return locationName;
 	}
-	public void setLocationName(int locationName) {
+	public void setLocationName(String locationName) {
 		this.locationName = locationName;
 	} 
 }

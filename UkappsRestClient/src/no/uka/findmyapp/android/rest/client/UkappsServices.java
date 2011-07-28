@@ -13,6 +13,7 @@ package no.uka.findmyapp.android.rest.client;
 
 public enum UkappsServices {
 	/** First thing. */
+	
 	GET_ALL_FACTS,
 	//GET_ALL_USER_LOCATIONS,
 	GET_ALL_LOCATIONS,

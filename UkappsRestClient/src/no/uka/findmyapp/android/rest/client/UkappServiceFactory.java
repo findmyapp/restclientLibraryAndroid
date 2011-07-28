@@ -29,9 +29,6 @@ public class UkappServiceFactory {
 	
 	private static final String debug = "createServiceModel";
 	
-	/** The servicemodels. */
-	public static Map<String, ServiceModel> serviceModels;
-	
 	/**
 	 * Creates a new UkappService object.
 	 *

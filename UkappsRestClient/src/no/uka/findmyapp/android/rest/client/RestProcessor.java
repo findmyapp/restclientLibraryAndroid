@@ -237,36 +237,45 @@ public class RestProcessor {
 	/**
 	 * Send to content provider.
 	 *
-	 * @param uri the uri
+	 * @param contentProviderUri the uri
 	 * @param object the object
 	 * @param returnType the return type
 	 */
-	private void sendToContentProvider(Uri uri, Serializable object, String returnType) {
+	private void sendToContentProvider(Uri contentProviderUri, Serializable object, String returnType) {
 		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
+		Log.v(debug, "sendToContentProvider: returnType " + returnType);
 
 		ContentResolver cr = mContext.getContentResolver();
-		
+	
+		Log.v(debug, "object " + object.toString());
 		if(object instanceof List) {
-
 			Class theClass = null;
 			try {
 				theClass = Class.forName(returnType);
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			List<ContentValues> list = ContentHelper.getContentValuesList(object, theClass);
-			Log.v(debug, "parsing contentvalue array");
+			Log.e(debug, "contentValueList return: " 
+					+ ContentHelper.getContentValuesList(object, theClass));
+			
+			List<ContentValues> list = 
+					ContentHelper.getContentValuesList(object, theClass);
+			
+			Log.v(debug, "// parsing contentvalue list to contentvalues array");
+			Log.v(debug, "sizeof arraylist " + list.size());
+			
 			ContentValues[] cva = new ContentValues[list.size()];
 			for(ContentValues cv : list) {
 				cva[list.indexOf(cv)] = cv; 
 			}
-			Log.v(debug, cva.toString());
-			cr.bulkInsert( UkaEventContract.EVENT_CONTENT_URI, cva);
+			Log.v(debug, "ContentValues array toString: " + cva.toString());
+			
+			Log.v(debug, "// bulk inserts the contentvalue array");
+			cr.bulkInsert(contentProviderUri, cva);
 		} else {
 			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
-			cr.insert(uri, cv);
+			cr.insert(contentProviderUri, cv);
 		}
 	}
 	

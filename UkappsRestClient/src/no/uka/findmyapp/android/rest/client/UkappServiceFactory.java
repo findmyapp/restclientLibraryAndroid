@@ -142,7 +142,7 @@ public class UkappServiceFactory {
 	
 				case GET_UKA_PROGRAM_PLACES: 
 					model = new ServiceModel(
-						new URI("http://findmyapp.net/findmyapp/program/?/places"),
+						new URI("http://findmyapp.net/findmyapp/program/uka11/places"),
 						HttpType.GET,
 						String.class,
 						null,
@@ -167,7 +167,6 @@ public class UkappServiceFactory {
 						null,
 						"no.uka.findmyapp.android.demo.BROADCAST_INTENT_TOKEN"); 
 					return model; 
-					
 					
 				/* SET SERVICES */
 				case SET_TEMPERATURE_DATA: 

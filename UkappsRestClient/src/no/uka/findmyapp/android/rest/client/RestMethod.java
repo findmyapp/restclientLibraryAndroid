@@ -280,6 +280,7 @@ public class RestMethod
 				return ""; 
 			}
 			
+			Log.v(debug, post.getURI().toString());
 	    	HttpResponse response = mClient.execute(post);
 
 			StatusLine status = response.getStatusLine();

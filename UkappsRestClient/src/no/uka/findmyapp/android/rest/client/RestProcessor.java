@@ -169,9 +169,11 @@ public class RestProcessor {
 	}
 	
 	private URI createURI(ServiceModel serviceModel, String userToken) {
+		Log.v(debug, "createURI servicemodel parameters " + serviceModel.getParameters().toString());
 		String tempUri = serviceModel.getUri().toString().replace("?", "%s");
 		tempUri = String.format(tempUri, serviceModel.getParameters());
 		tempUri = tempUri + "?token=" + userToken; 
+		Log.v(debug, "URI with params " + tempUri);
 		URI returURI;
 		try {
 			returURI = new URI(tempUri);

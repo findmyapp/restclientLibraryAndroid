@@ -32,5 +32,7 @@ public final class IntentMessages {
 	public static final String BROADCAST_RETURN_VALUE_NAME = "serialized.data.return.package";
 
 	public static final String BROADCAST_HTTP_STATUS_EXCEPTION = "http-exception";
+	
+	public static final String BROADCAST_UPDATE_NOTIFICATION = "updated";
 }
 

@@ -186,7 +186,6 @@ public class RestProcessor {
 	private String httpRequest(ServiceModel serviceModel)
 			throws HTTPStatusException {
 		String response = "";
-
 			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());
 			try {
 				response = execute(serviceModel);

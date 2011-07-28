@@ -302,10 +302,6 @@ public class RestMethod
     			// Return result from buffered stream
     			return new String(content.toByteArray());
             }
-            else {
-            	// Return nothing if successful without response 
-            	return "[]"; 
-            }
 		}
 		catch (UnsupportedEncodingException e) {
 			Log.e(debug, "Unsupported encoding: " + e.getMessage());
@@ -318,6 +314,7 @@ public class RestMethod
 		catch (HTTPStatusException e) {
 			throw e; 
 		}
+		return null;
 	}
 	
 	/**
@@ -337,6 +334,8 @@ public class RestMethod
 	
 	private HttpRequestBase setPostHeaders(HttpRequestBase request, String useragent) {
 		request.setHeader("User-Agent", useragent);
+		request.setHeader("Accept", sDataFormat);
+		request.setHeader("Content-type", sDataFormat);
 		
 		return request; 
 	}

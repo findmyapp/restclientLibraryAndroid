@@ -41,7 +41,7 @@ public class LocationContentMapper implements IContentMapper {
 		Location temp = (Location) object;
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(LocationContract.LOCATION_ID, temp.getLocationId());
-		contentValues.put(LocationContract.LOCATION_STRING_ID, LocationContract.LOCATION_STRING_ID);
+		contentValues.put(LocationContract.LOCATION_STRING_ID, temp.getLocationStringId());
 		contentValues.put(LocationContract.LOCATION_NAME, temp.getLocationName());
 
 		return contentValues;

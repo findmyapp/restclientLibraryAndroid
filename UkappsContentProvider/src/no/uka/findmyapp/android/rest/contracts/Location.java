@@ -27,7 +27,7 @@ public final class Location implements BaseColumns {
 				+ LocationContract.TABLE_NAME + " (" 
 				+ LocationContract.ID + " INTEGER PRIMARY KEY, " 
 				+ LocationContract.LOCATION_ID + " INTEGER, " 
-				+ LocationContract.LOCATION_STRING_ID + " VARCHAR(30), "
+				+ LocationContract.LOCATION_STRING_ID + " VARCHAR(30) UNIQUE, "
 				+ LocationContract.LOCATION_NAME + " VARCHAR(30)" 
 				+ ");";
 

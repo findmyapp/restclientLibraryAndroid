@@ -55,12 +55,18 @@ public class RestIntentService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
     	Log.v(debug,"Inside onHandleIntent");
-        Log.v(debug, "" + new Date() + ", In onHandleIntent for thread id = " + Thread.currentThread().getId());
+        Log.v(debug, "" + new Date() + ", In onHandleIntent for thread id = " 
+        		+ Thread.currentThread().getId());
 
         Bundle bundle = intent.getExtras();
+        
         Log.v(debug, "onHandleIntent bundle recived");
-        ServiceModel serviceModel = (ServiceModel) bundle.get(IntentMessages.SERVICE_MODEL_PACKAGE);
-        Credentials credentials = (Credentials) bundle.get(IntentMessages.CREDENTIALS_PACKAGE);
+        
+        ServiceModel serviceModel = (ServiceModel)
+        	bundle.get(IntentMessages.SERVICE_MODEL_PACKAGE);
+        
+        Credentials credentials = (Credentials) 
+        	bundle.get(IntentMessages.CREDENTIALS_PACKAGE);
         
         createRestProcessor(credentials);
         

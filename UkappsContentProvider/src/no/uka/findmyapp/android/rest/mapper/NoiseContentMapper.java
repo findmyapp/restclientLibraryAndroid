@@ -68,7 +68,6 @@ public class NoiseContentMapper implements IContentMapper {
 		List<ContentValues> list = new ArrayList<ContentValues>();
 
 		for (Noise noise : noiseList) {
-			Log.v(debug, "Noise " + noise.getAverage());
 			list.add(mapValues(noise));
 		}
 		return list;

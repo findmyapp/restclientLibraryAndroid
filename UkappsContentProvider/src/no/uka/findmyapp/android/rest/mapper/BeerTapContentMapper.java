@@ -63,7 +63,6 @@ public class BeerTapContentMapper implements IContentMapper {
 		List<ContentValues> list = new ArrayList<ContentValues>();
 
 		for (BeerTap beerTap : beerTapList) {
-			Log.v(debug, "BeerTap " + beerTap.getValue());
 			list.add(mapValues(beerTap));
 		}
 		return list;

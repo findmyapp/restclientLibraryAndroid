@@ -62,7 +62,6 @@ public class TemperatureContentMapper implements IContentMapper {
 		List<ContentValues> list = new ArrayList<ContentValues>();
 
 		for (Temperature temp : temperatureList) {
-			Log.v(debug, "Temperature " + temp.getValue());
 			list.add(mapValues(temp));
 		}
 		return list;

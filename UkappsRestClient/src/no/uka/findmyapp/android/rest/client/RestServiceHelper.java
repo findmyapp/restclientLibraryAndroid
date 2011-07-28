@@ -90,8 +90,7 @@ public class RestServiceHelper {
 			}
 
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, e.getMessage());
 		}
 		return true;
 	}
@@ -121,9 +120,9 @@ public class RestServiceHelper {
 			throw new RestServiceException(RestHelperException.NO_CREDENTIALS);
 		}
 		try {
-			Log.v(debug, "mordi");
 			//TODO dasdf
 			sm = UkappServiceFactory.createServiceModel(service);
+			Log.v(debug, "callStartService: sm.toString " + sm.toString());
 			if (contentProviderURI != null)
 				sm.setContentProviderUri(contentProviderURI);
 
@@ -217,7 +216,7 @@ public class RestServiceHelper {
 			if (intentMessageIdentifiedByBoadcasatToken(intent)) {
 				unregisterBroadCastListenerForUserAuth(context);
 
-				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME);
+				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_PAYLOAD_ID);
 				setUserToken((String) obj);
 			}
 

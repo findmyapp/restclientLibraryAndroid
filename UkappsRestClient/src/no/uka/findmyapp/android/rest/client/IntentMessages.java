@@ -29,7 +29,7 @@ public final class IntentMessages {
 	public static final String BROADCAST_INTENT_TOKEN_USERAUTH = "no.uka.findmyapp.android.demo.BROADCAST_INTENT_TOKEN_USERAUTH";
 	
 	/** The Constant BROADCAST_RETURN_VALUE_NAME. */
-	public static final String BROADCAST_RETURN_VALUE_NAME = "serialized.data.return.package";
+	public static final String BROADCAST_RETURN_PAYLOAD_ID = "serialized.data.return.package";
 
 	public static final String BROADCAST_HTTP_STATUS_EXCEPTION = "http-exception";
 	

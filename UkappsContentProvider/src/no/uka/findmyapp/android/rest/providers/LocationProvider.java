@@ -233,8 +233,8 @@ public class LocationProvider extends ContentProvider {
 		 * like "INSERT INTO temperature_table (location_id) VALUES (NULL)" in
 		 * this case.
 		 */
-		long rowId = db.insert(LocationContract.TABLE_NAME,
-				LocationContract.SLUG, values);
+		long rowId = db.insertWithOnConflict(LocationContract.TABLE_NAME,
+				null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		if (rowId > 0) {
 			Uri contentUri = ContentUris.withAppendedId(
 					LocationContract.LOCATION_CONTENT_URI, rowId);

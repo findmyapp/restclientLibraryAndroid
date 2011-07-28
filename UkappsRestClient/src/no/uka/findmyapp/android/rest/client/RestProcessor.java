@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
 import android.net.Uri;
 import android.util.Log;
 
@@ -81,12 +83,13 @@ public class RestProcessor {
 		try {
 			switch(serviceModel.getHttpType()) {
 				case GET :
-				Serializable returnedObject;
-					returnedObject = executeAndParse(serviceModel, userToken);
+					Serializable returnedObject
+						= executeAndParse(serviceModel, userToken);
 					saveAndReturnData(serviceModel, returnedObject);
 				break;
 				case POST :
-					Serializable postReturnedObject = executeAndParse(serviceModel, userToken);
+					Serializable postReturnedObject 
+						= executeAndParse(serviceModel, userToken);
 					saveAndReturnData(serviceModel, postReturnedObject);
 				break;
 			}
@@ -134,7 +137,6 @@ public class RestProcessor {
 		mRestMethod.setUri(createURI(serviceModel, userToken));
 		String response = httpRequest(serviceModel);
 			
-		Log.v(debug, "executeAndParse: Response " + response);
 		Serializable s = null;
 		
 		if(serviceModel.getReturnType() != null) {
@@ -169,11 +171,17 @@ public class RestProcessor {
 	}
 	
 	private URI createURI(ServiceModel serviceModel, String userToken) {
-		Log.v(debug, "createURI servicemodel parameters " + serviceModel.getParameters().toString());
-		String tempUri = serviceModel.getUri().toString().replace("?", "%s");
-		tempUri = String.format(tempUri, serviceModel.getParameters());
-		tempUri = tempUri + "?token=" + userToken; 
+		String tempUri; 
+		if(serviceModel.getParameters() != null) {
+			tempUri = serviceModel.getUri().toString().replace("??", "%s");
+			tempUri = String.format(tempUri, serviceModel.getParameters());
+		}
+		else {
+			tempUri = serviceModel.getUri().toString();
+		}
+		tempUri = tempUri + "?token=" + URLEncoder.encode(userToken);
 		Log.v(debug, "URI with params " + tempUri);
+		
 		URI returURI;
 		try {
 			returURI = new URI(tempUri);
@@ -243,7 +251,9 @@ public class RestProcessor {
 	 * @param object the object
 	 * @param returnType the return type
 	 */
-	private void sendToContentProvider(Uri contentProviderUri, Serializable object, String returnType) {
+	private void sendToContentProvider(Uri contentProviderUri, 
+			Serializable object, String returnType) {
+		
 		Log.v(debug, "sendToContentProvider: serializable object " + object.getClass().getName());
 		Log.v(debug, "sendToContentProvider: returnType " + returnType);
 
@@ -258,23 +268,25 @@ public class RestProcessor {
 				e.printStackTrace();
 			}
 			
-			Log.e(debug, "contentValueList return: " 
-					+ ContentHelper.getContentValuesList(object, theClass));
-			
 			List<ContentValues> list = 
 					ContentHelper.getContentValuesList(object, theClass);
 			
-			Log.v(debug, "// parsing contentvalue list to contentvalues array");
+			// parsing contentvalue list to contentvalues array
 			Log.v(debug, "sizeof arraylist " + list.size());
 			
 			ContentValues[] cva = new ContentValues[list.size()];
 			for(ContentValues cv : list) {
 				cva[list.indexOf(cv)] = cv; 
 			}
-			Log.v(debug, "ContentValues array toString: " + cva.toString());
 			
-			Log.v(debug, "// bulk inserts the contentvalue array");
-			cr.bulkInsert(contentProviderUri, cva);
+			// bulk inserts the contentvalue array 
+			try {
+				cr.bulkInsert(contentProviderUri, cva);
+			}
+			catch (SQLException e) {
+				Log.e(debug, e.getMessage()); 
+				throw e; 
+			}
 		} else {
 			ContentValues cv = new ContentValues(ContentHelper.getContentValues(object)); 
 			cr.insert(contentProviderUri, cv);
@@ -297,16 +309,19 @@ public class RestProcessor {
 	 * @param obj the obj
 	 */
 	private void sendIntentBroadcast(String intentString, Serializable obj) {
-		Log.v(debug, "sendIntentBroadcast: sending broadcast, object name " 
-				+ obj.getClass().getName());
-		Log.v(debug, "sendIntentBroadcast: broadcast sent, extradata identifier: " 
-				+ IntentMessages.BROADCAST_RETURN_VALUE_NAME);
-		Log.v(debug, "sendIntentBroadcast: Putting extra " + obj.toString());
+		Log.v(debug, 
+				"sendIntentBroadcast: sending broadcast identifier " 
+				+ intentString);
+		Log.v(debug, 
+				"sendIntentBroadcast: broadcast sent, extradata identifier: " 
+				+ IntentMessages.BROADCAST_RETURN_PAYLOAD_ID);
+		Log.v(debug, 
+				"sendIntentBroadcast: Putting extra " + obj.toString());
+	
 		Intent broadcastedIntent = new Intent(); 
-		broadcastedIntent.putExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME, obj);
+		broadcastedIntent.putExtra(IntentMessages.BROADCAST_RETURN_PAYLOAD_ID, obj);
 		broadcastedIntent.setAction(intentString);
 
-		
 		mContext.sendBroadcast(broadcastedIntent);
 	}
 }

@@ -58,7 +58,6 @@ public class UkaProgramContentMapper implements IContentMapper {
 		List<ContentValues> events = new ArrayList<ContentValues>();
 
 		for (UkaEvent event : up.getEvents()) {
-			Log.v("event", event.toString());
 			UkaEventContentMapper u = new UkaEventContentMapper();
 			ContentValues ue = u.mapValues(event);
 			events.add(ue);

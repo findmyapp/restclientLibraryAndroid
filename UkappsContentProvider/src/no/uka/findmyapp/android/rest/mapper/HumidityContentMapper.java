@@ -62,7 +62,6 @@ public class HumidityContentMapper implements IContentMapper {
 		List<ContentValues> list = new ArrayList<ContentValues>();
 
 		for (Humidity hum : humidityList) {
-			Log.v(debug, "Humidity " + hum.getValue());
 			list.add(mapValues(hum));
 		}
 		return list;

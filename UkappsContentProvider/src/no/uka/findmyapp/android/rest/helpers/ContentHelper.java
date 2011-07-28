@@ -65,10 +65,6 @@ public class ContentHelper {
 		try {
 			IContentMapper contentMapper = 
 				getMapperClass(object, returnType).newInstance();
-			
-			Log.e(debug, "--------------------------------------------");
-			Log.v(debug, "getContentValuesList: return " + contentMapper.mapValuesList(object));
-			Log.e(debug, "--------------------------------------------");
 
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {
@@ -110,9 +106,6 @@ public class ContentHelper {
 		String classString;
 		
 		if (clazz == null) {
-			Log.e(debug, "--------------------------------------------");
-			Log.d(debug, "class type: "  + object.toString()); 
-			Log.e(debug, "--------------------------------------------");
 			classString = MAPPER_PREFIX + object.getClass().getSimpleName()
 			+ MAPPER_POSTFIX;
 			
@@ -120,9 +113,6 @@ public class ContentHelper {
 		} 
 		else {
 			classString = MAPPER_PREFIX + clazz.getSimpleName() + MAPPER_POSTFIX;
-			Log.e(debug, "--------------------------------------------");
-			Log.v(debug, "classString: " + classString);
-			Log.e(debug, "--------------------------------------------");
 		}
 		
 		Log.v(debug, clazz.getSimpleName());
@@ -135,10 +125,6 @@ public class ContentHelper {
 			Log.e(debug, "getMapperClass: " + e.getLocalizedMessage());
 			throw e; 
 		}
-		Log.e(debug, "--------------------------------------------");
-		Log.w(debug, "getMapperClass: return " + mapperClass);
-		Log.e(debug, "--------------------------------------------");
-
 
 		return mapperClass;
 	}

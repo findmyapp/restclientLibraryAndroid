@@ -21,34 +21,28 @@ import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
- * The rest service helper class, a singleton which exposes a simple
- * asynchronous API to be used by the user interface.
- * 
- * Responsibility Prepare and send the Service request: - Check if the method is
- * already running - Create the requested Intent - Add the operation type and a
- * unique request id - Add the method specific parameters - Add the binder
- * callback - Call {@link RestService#startService()} - Return the request id
- * Handle the callback from the service - Dispatch callbacks to the user
- * interface listeners
+ * The Class RestServiceHelper.
  */
 public class RestServiceHelper {
 
 	/** The Constant debug. */
 	private static final String debug = "RestServiceHelper";
 
-	/** The singleton RestServiceHelper instance. */
+	/** The INSTANCE. */
 	private static RestServiceHelper INSTANCE;
 
-	/** The intent receiver. */
+	/** The s intent receiver. */
 	private ServiceModelReceiver sIntentReceiver;
 
+	/** The m credentials. */
 	private Credentials mCredentials; 
 
+	/** The user token. */
 	private String userToken;
 	
 	/**
 	 * Gets the single instance of RestServiceHelper.
-	 * 
+	 *
 	 * @return single instance of RestServiceHelper
 	 */
 	public static RestServiceHelper getInstance() {
@@ -59,6 +53,13 @@ public class RestServiceHelper {
 		return INSTANCE;
 	}
 
+	/**
+	 * Sets the credentials.
+	 *
+	 * @param key the key
+	 * @param secret the secret
+	 * @throws RestServiceException the rest service exception
+	 */
 	public void setCredentials(String key, String secret)
 			throws RestServiceException {
 		if (key != null && secret != null) {
@@ -68,11 +69,23 @@ public class RestServiceHelper {
 		}
 	}
 
+	/**
+	 * Sets the user token.
+	 *
+	 * @param userToken the new user token
+	 */
 	public void setUserToken(String userToken) {
 		this.userToken = userToken;
 	}
 	
 
+	/**
+	 * Auth user.
+	 *
+	 * @param context the context
+	 * @param fbToken the fb token
+	 * @return true, if successful
+	 */
 	public boolean authUser(Context context, String fbToken) {
 		try {
 			ServiceModel model = new ServiceModel(
@@ -97,20 +110,12 @@ public class RestServiceHelper {
 
 	/**
 	 * Call start service.
-	 * 
-	 * @param context
-	 *            the context
-	 * @param service
-	 *            the service
-	 * @param params
-	 *            the params
-	 * @throws RestServiceException
-	 * @throws URISyntaxException
-	 *             the uRI syntax exception
-	 * @throws IllegalAccessException
-	 *             the illegal access exception
-	 * @throws InstantiationException
-	 *             the instantiation exception
+	 *
+	 * @param context the context
+	 * @param service the service
+	 * @param contentProviderURI the content provider uri
+	 * @param params the params
+	 * @throws RestServiceException the rest service exception
 	 */
 	public void callStartService(Context context, UkappsServices service,
 			URI contentProviderURI, String[] params)
@@ -139,11 +144,9 @@ public class RestServiceHelper {
 
 	/**
 	 * Call start service.
-	 * 
-	 * @param context
-	 *            the context
-	 * @param serviceModel
-	 *            the service model
+	 *
+	 * @param context the context
+	 * @param serviceModel the service model
 	 */
 	public void callStartService(Context context, ServiceModel serviceModel) {
 		Log.v(debug, "Inside callStarteService, using ServiceModel");
@@ -167,19 +170,29 @@ public class RestServiceHelper {
 		context.startService(selectIntent);
 	}
 
+	/**
+	 * Api credentials is set.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean apiCredentialsIsSet() {
 		return mCredentials.isCredentialsSet(); 
 	}
 	
+	/**
+	 * Checks for user token.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasUserToken() {
 		return (userToken != null) ? true : false; 
 	}
 
 	/**
-     * Register broad cast listener.
-     *
-     * @param context the context
-     */
+	 * Register broad cast listener for user auth.
+	 *
+	 * @param context the context
+	 */
     private void registerBroadCastListenerForUserAuth(Context context) {
             Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
             sIntentReceiver = new ServiceModelReceiver();
@@ -189,7 +202,7 @@ public class RestServiceHelper {
     }
 
     /**
-     * Unregister broad cast listener.
+     * Unregister broad cast listener for user auth.
      *
      * @param context the context
      */
@@ -222,6 +235,12 @@ public class RestServiceHelper {
 
 		}
 
+		/**
+		 * Intent message identified by boadcasat token.
+		 *
+		 * @param intent the intent
+		 * @return true, if successful
+		 */
 		private boolean intentMessageIdentifiedByBoadcasatToken(Intent intent) {
 			return intent.getAction().equals(
 					IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH);

@@ -14,10 +14,13 @@ import no.uka.findmyapp.android.rest.datamodels.models.Temperature;
 import android.content.ContentValues;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TemperatureContentMapper.
  */
 public class TemperatureContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
 	private static final String debug = "TemperatureContentMapper";
 
 

@@ -42,33 +42,35 @@ import android.util.Log;
  */
 public class RestMethod 
 {
+	
+	/** The Constant debug. */
 	private final static String debug = "RestMethod";
 	
-	/** Default HTTP status response codes. */
+	/** The HTT p_ statu s_ ok. */
 	private final int HTTP_STATUS_OK = 200;
 	
-	/** The HTTP status not modified. */
+	/** The HTT p_ statu s_ no t_ modified. */
 	private final int HTTP_STATUS_NOT_MODIFIED = 304;
 	
-	/** The HTTP status bad request. */
+	/** The HTT p_ statu s_ ba d_ request. */
 	private final int HTTP_STATUS_BAD_REQUEST = 400; 
 	
-	/** The HTTP status unauthorized. */
+	/** The HTT p_ statu s_ unauthorized. */
 	private final int HTTP_STATUS_UNAUTHORIZED = 401; 
 	
-	/** The HTTP status forbidden. */
+	/** The HTT p_ statu s_ forbidden. */
 	private final int HTTP_STATUS_FORBIDDEN = 403; 
 	
-	/** The HTTP status not_ found. */
+	/** The HTT p_ statu s_ no t_ found. */
 	private final int HTTP_STATUS_NOT_FOUND = 404; 
 	
-	/** The HTTP status timeout. */
+	/** The HTT p_ statu s_ timeout. */
 	private final int HTTP_STATUS_TIMEOUT = 408;
 	
-	/** The HTTP status internal server error. */
+	/** The HTT p_ statu s_ interna l_ serve r_ error. */
 	private final int HTTP_STATUS_INTERNAL_SERVER_ERROR = 500; 
 	
-	/** The UNHANDLED status code. */
+	/** The UNHANDLE d_ statu s_ code. */
 	private final int UNHANDLED_STATUS_CODE = 666; 
 	
 	/** The Constant REQUEST_TOKEN_ENDPOINT_URL. */
@@ -80,48 +82,51 @@ public class RestMethod
 	/** The Constant AUTHORIZE_WEBSITE_URL. */
 	private static final String AUTHORIZE_WEBSITE_URL = "http://findmyapp.net/findmyapp/oauth/authorize";
 
+	/** The Constant sDataFormat. */
 	private static final String sDataFormat = "application/json";
 	
+	/** The Constant CHARSET. */
 	private static final String CHARSET = "UTF-8"; 
 	
-	/** Default user-agent set to Mozilla Firefox Windows version. {@link #setRequestHeaders(String, HttpGet)} */
+	/** The m useragent. */
 	private String mUseragent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0"; 
 	
 	
-	/**
-	 * Shared buffer used by {@link #getUrlContent(String)} when reading results
-	 * from an API request.
-	 */
+	/** The m stream buffer. */
 	private static byte[] mStreamBuffer = new byte[512];
 	
-	/** URL to the REST service server {@link #RestClient(String)},. {@link #RestClient(String)} {@link #RestClient(String, String)} */
+	/** The m uri. */
 	private URI mUri; 
 	
-	/** Instance HTTP client. */
+	/** The m client. */
 	private HttpClient mClient; 
 	
-	/** The provider. */
+	/** The m provider. */
 	private OAuthProvider mProvider;
 	
-	/** The consumer. */
+	/** The m consumer. */
 	private OAuthConsumer mConsumer;
 	
+	/** The m o auth key. */
 	private String mOAuthKey; 
 	
+	/** The m o auth secret. */
 	private String mOAuthSecret; 
 	
 	/**
 	 * Instantiates a new rest method.
+	 *
+	 * @param credentials the credentials
 	 */
 	public RestMethod(Credentials credentials) {
+
 		mProvider = new CommonsHttpOAuthProvider(
                 REQUEST_TOKEN_ENDPOINT_URL, 
                 ACCESS_TOKEN_ENDPOINT_URL,
                 AUTHORIZE_WEBSITE_URL);
 
         mConsumer = new CommonsHttpOAuthConsumer(credentials.getKey(),
-                                             credentials.getSecret());
-        
+                                             credentials.getSecret());      
         Log.v(debug, "API key: " + credentials.getKey() + " API-secret: " + credentials.getSecret());
 	}
 	
@@ -173,10 +178,8 @@ public class RestMethod
 	/**
 	 * Gets the.
 	 *
-	 * @param serviceDataFormat the service data format
 	 * @return the string
-	 * @throws HTTPStatusException 
-	 * @throws Exception the exception
+	 * @throws HTTPStatusException the hTTP status exception
 	 */
 	public String get() throws HTTPStatusException {
 		HttpGet request = new HttpGet(mUri);
@@ -184,6 +187,13 @@ public class RestMethod
 		return executeGet(setRequestHeaders(request, mUseragent));
 	}
 	
+	/**
+	 * Post.
+	 *
+	 * @param data the data
+	 * @return the string
+	 * @throws HTTPStatusException the hTTP status exception
+	 */
 	public String post(String data) throws HTTPStatusException {
 		HttpPost post = new HttpPost(this.mUri);
 		setPostHeaders(post, mUseragent);
@@ -192,15 +202,15 @@ public class RestMethod
 	}
 	
 	/**
-	 * Execute.
+	 * Execute get.
 	 *
 	 * @param request the request
 	 * @return the string
-	 * @throws HTTPStatusException 
-	 * @throws Exception the exception
+	 * @throws HTTPStatusException the hTTP status exception
 	 */
 	private String executeGet(HttpRequestBase request) throws HTTPStatusException {
 			this.mClient = new DefaultHttpClient();
+	
 			try {
 				mConsumer.sign(request);
 			} catch (OAuthMessageSignerException e) {
@@ -261,6 +271,14 @@ public class RestMethod
 			return new String(content.toByteArray());
 	}
 	
+	/**
+	 * Execute post.
+	 *
+	 * @param post the post
+	 * @param data the data
+	 * @return the string
+	 * @throws HTTPStatusException the hTTP status exception
+	 */
 	private String executePost(HttpPost post, String data) throws HTTPStatusException {
 		try{
 			StringEntity entity = new StringEntity(data, CHARSET);
@@ -321,8 +339,8 @@ public class RestMethod
 	/**
 	 * Sets the request headers.
 	 *
-	 * @param expectedDataFormat the expected data format
 	 * @param request the request
+	 * @param useragent the useragent
 	 * @return the http request base
 	 */
 	private HttpRequestBase setRequestHeaders(HttpRequestBase request, String useragent) {
@@ -333,6 +351,13 @@ public class RestMethod
 		return request; 
 	}
 	
+	/**
+	 * Sets the post headers.
+	 *
+	 * @param request the request
+	 * @param useragent the useragent
+	 * @return the http request base
+	 */
 	private HttpRequestBase setPostHeaders(HttpRequestBase request, String useragent) {
 		request.setHeader("User-Agent", useragent);
 		request.setHeader("Accept", sDataFormat);
@@ -342,7 +367,7 @@ public class RestMethod
 	}
 
 	/**
-	 * Throws a HTTPStatusExcetion decided by a response/status code.
+	 * Throw http status exception.
 	 *
 	 * @param statusCode the status code
 	 * @throws HTTPStatusException the hTTP status exception
@@ -371,9 +396,7 @@ public class RestMethod
 	 */
 	public static class HTTPStatusException extends Exception {
 		
-		/**
-		 * 
-		 */
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 4485462910566178510L;
 		
 		/** The status code. */
@@ -393,7 +416,7 @@ public class RestMethod
 		/**
 		 * Gets the http status code.
 		 *
-		 * @return HTTP status code
+		 * @return the http status code
 		 */
 		public int getHttpStatusCode() {
 			return this.statusCode; 

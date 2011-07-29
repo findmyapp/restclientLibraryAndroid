@@ -21,15 +21,7 @@ import android.widget.Toast;
 
 // TODO: Auto-generated Javadoc
 /**
- * The RestService is able to recieve Intents sent
- * from the {@link RestServiceHelper} and starts
- * the corresponding {@link RestMethod}
- * 
- * Responsibility: 
- * 	- Ensure that the restmethods are called
- *	- Handle the {@link RestProcessor} callback, and 
- *	  invoke {@link RestServiceHelper} binder callback.
- *	- Implement queue of request tasks.
+ * The Class RestIntentService.
  */
 
 public class RestIntentService extends IntentService {
@@ -37,6 +29,7 @@ public class RestIntentService extends IntentService {
     /** The Constant debug. */
     private static final String debug = "RestIntentService";
     
+    /** The Constant SERVICE_NAME. */
     private static final String SERVICE_NAME = "RestIntentService";
     
     /** The rest processor. */
@@ -81,6 +74,11 @@ public class RestIntentService extends IntentService {
         Log.v(debug, "" + new Date() + ", This thread is waked up.");
 	}
 	
+	/**
+	 * Creates the rest processor.
+	 *
+	 * @param credentials the credentials
+	 */
 	private void createRestProcessor(Credentials credentials) {
 		restProcessor = new RestProcessor(getApplicationContext(), credentials);
 	}
@@ -107,6 +105,9 @@ public class RestIntentService extends IntentService {
         return START_STICKY;
     }
 
+    /* (non-Javadoc)
+     * @see android.app.IntentService#onDestroy()
+     */
     @Override
     public void onDestroy() {
     	super.onDestroy();

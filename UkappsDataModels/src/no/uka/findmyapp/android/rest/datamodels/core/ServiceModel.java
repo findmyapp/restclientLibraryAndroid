@@ -12,10 +12,9 @@ import java.net.URISyntaxException;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import android.net.Uri;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ServiceModel.
- *
- * @author jostein.guldal
  */
 public class ServiceModel implements Serializable {
 
@@ -31,7 +30,7 @@ public class ServiceModel implements Serializable {
 	/** The return type. */
 	private String returnType;
 	
-	/** The parameters needed */
+	/** The parameters. */
 	private String[] parameters; 
 
 	/** The data. */
@@ -51,25 +50,14 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Instantiates a new service model.
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @param httpType
-	 *            the http type
-	 * @param dataformat
-	 *            the dataformat
-	 * @param returnType
-	 *            the return type
-	 * @param data
-	 *            the data
-	 * @param contentProviderUri
-	 *            the content provider uri
-	 * @param broadcastNotification
-	 *            the broadcast notification
-	 * @param localIdentifier
-	 *            the local identifier
-	 * @throws URISyntaxException
-	 *             the uRI syntax exception
+	 *
+	 * @param uri the uri
+	 * @param httpType the http type
+	 * @param returnType the return type
+	 * @param data the data
+	 * @param contentProviderUri the content provider uri
+	 * @param broadcastNotification the broadcast notification
+	 * @throws URISyntaxException the uRI syntax exception
 	 */
 	public ServiceModel(URI uri, HttpType httpType, Class returnType, Serializable data,
 			Uri contentProviderUri, String broadcastNotification) throws URISyntaxException {
@@ -86,7 +74,7 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Gets the broadcast notification.
-	 * 
+	 *
 	 * @return the broadcast notification
 	 */
 	public String getBroadcastNotification() {
@@ -95,7 +83,7 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Gets the content provider uri.
-	 * 
+	 *
 	 * @return the content provider uri
 	 */
 	public URI getContentProviderUri() {
@@ -104,7 +92,7 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Gets the data.
-	 * 
+	 *
 	 * @return the data
 	 */
 	public Serializable getData() {
@@ -113,7 +101,7 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Gets the http type.
-	 * 
+	 *
 	 * @return the http type
 	 */
 	public HttpType getHttpType() {
@@ -122,7 +110,7 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Gets the return type.
-	 * 
+	 *
 	 * @return the return type
 	 */
 	public String getReturnType() {
@@ -131,7 +119,7 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Gets the uri.
-	 * 
+	 *
 	 * @return the uri
 	 */
 	public URI getUri() {
@@ -140,9 +128,8 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Sets the broadcast notification.
-	 * 
-	 * @param broadcastNotification
-	 *            the new broadcast notification
+	 *
+	 * @param broadcastNotification the new broadcast notification
 	 */
 	public void setBroadcastNotification(String broadcastNotification) {
 		this.broadcastNotification = broadcastNotification;
@@ -150,9 +137,8 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Sets the content provider uri.
-	 * 
-	 * @param contentProvider
-	 *            the new content provider uri
+	 *
+	 * @param contentProvider the new content provider uri
 	 */
 	public void setContentProviderUri(URI contentProvider) {
 		this.contentProviderUri = contentProvider;
@@ -160,9 +146,8 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Sets the data.
-	 * 
-	 * @param data
-	 *            the new data
+	 *
+	 * @param data the new data
 	 */
 	public void setData(Serializable data) {
 		this.data = data;
@@ -170,9 +155,8 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Sets the http type.
-	 * 
-	 * @param httpType
-	 *            the new http type
+	 *
+	 * @param httpType the new http type
 	 */
 	public void setHttpType(HttpType httpType) {
 		this.httpType = httpType;
@@ -180,9 +164,8 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Sets the return type.
-	 * 
-	 * @param returnType
-	 *            the new return type
+	 *
+	 * @param returnType the new return type
 	 */
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
@@ -190,9 +173,8 @@ public class ServiceModel implements Serializable {
 
 	/**
 	 * Sets the uri.
-	 * 
-	 * @param uri
-	 *            the new uri
+	 *
+	 * @param uri the new uri
 	 */
 	public void setUri(URI uri) {
 		this.uri = uri;
@@ -205,14 +187,27 @@ public class ServiceModel implements Serializable {
 	 */
 	
 
+	/**
+	 * Gets the parameters.
+	 *
+	 * @return the parameters
+	 */
 	public String[] getParameters( ) {
 		return parameters;
 	}
 
+	/**
+	 * Sets the parameters.
+	 *
+	 * @param parameters the new parameters
+	 */
 	public void setParameters(String[] parameters ) {
 		this.parameters = parameters;
 	}	
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "ServiceModel [uri=" + uri + ", httpType=" + httpType

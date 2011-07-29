@@ -317,9 +317,8 @@ public class UkaEventProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new events database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public EventsDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

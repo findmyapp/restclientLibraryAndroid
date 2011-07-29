@@ -30,9 +30,8 @@ public class ContentHelper {
 
 	/**
 	 * Gets the content values.
-	 * 
-	 * @param object
-	 *            the object
+	 *
+	 * @param object the object
 	 * @return the content values
 	 */
 	public static ContentValues getContentValues(Serializable object) {
@@ -53,11 +52,9 @@ public class ContentHelper {
 
 	/**
 	 * Gets the content values list.
-	 * 
-	 * @param object
-	 *            the object
-	 * @param returnType
-	 *            the return type
+	 *
+	 * @param object the object
+	 * @param returnType the return type
 	 * @return the content values list
 	 */
 	public static List<ContentValues> getContentValuesList(Serializable object, Class returnType) {
@@ -90,14 +87,11 @@ public class ContentHelper {
 	 */
 	/**
 	 * Gets the mapper class.
-	 * 
-	 * @param object
-	 *            the object
-	 * @param returnType
-	 *            the return type
+	 *
+	 * @param object the object
+	 * @param clazz the clazz
 	 * @return the mapper class
-	 * @throws ClassNotFoundException
-	 *             the class not found exception
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	@SuppressWarnings("unchecked")
 	private static Class<IContentMapper> getMapperClass(Serializable object, Class clazz) throws ClassNotFoundException {

@@ -71,6 +71,7 @@ public final class Location implements BaseColumns {
 		/** The Constant LOCATION_ID. */
 		public static final String LOCATION_ID = "location_id";
 		
+		/** The Constant LOCATION_STRING_ID. */
 		public static final String LOCATION_STRING_ID = "location_string_id";
 		
 		/** The Constant LOCATION_NAME. */

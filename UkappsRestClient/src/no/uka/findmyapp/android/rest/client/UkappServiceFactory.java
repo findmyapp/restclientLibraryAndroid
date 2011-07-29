@@ -27,17 +27,14 @@ import android.util.Log;
  */
 public class UkappServiceFactory {
 	
+	/** The Constant debug. */
 	private static final String debug = "createServiceModel";
 	
 	/**
 	 * Creates a new UkappService object.
 	 *
 	 * @param service the service
-	 * @param params the params
-	 * @return the servicemodel
-	 * @throws URISyntaxException the uRI syntax exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws InstantiationException the instantiation exception
+	 * @return the service model
 	 */
 	public static ServiceModel createServiceModel(UkappsServices service) {
 		ServiceModel model; 

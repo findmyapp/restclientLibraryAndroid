@@ -37,9 +37,8 @@ public class TemperatureProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new temperature database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public TemperatureDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

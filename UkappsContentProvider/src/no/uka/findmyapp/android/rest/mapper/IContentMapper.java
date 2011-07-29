@@ -18,25 +18,23 @@ public interface IContentMapper {
 
 	/**
 	 * Checks if is list.
-	 * 
+	 *
 	 * @return true, if is list
 	 */
 	public boolean isList();
 
 	/**
 	 * Map values.
-	 * 
-	 * @param object
-	 *            the object
+	 *
+	 * @param object the object
 	 * @return the content values
 	 */
 	public ContentValues mapValues(Serializable object);
 
 	/**
 	 * Map values list.
-	 * 
-	 * @param object
-	 *            the object
+	 *
+	 * @param object the object
 	 * @return the list
 	 */
 	public List<ContentValues> mapValuesList(Serializable object);

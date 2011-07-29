@@ -21,6 +21,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class LocationProvider.
@@ -37,9 +38,8 @@ public class LocationProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new location database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public LocationDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -233,8 +233,8 @@ public class LocationProvider extends ContentProvider {
 		 * like "INSERT INTO temperature_table (location_id) VALUES (NULL)" in
 		 * this case.
 		 */
-		long rowId = db.insertWithOnConflict(LocationContract.TABLE_NAME,
-				null, values, SQLiteDatabase.CONFLICT_REPLACE);
+		long rowId = db.replace(LocationContract.TABLE_NAME,
+				null, values);
 		if (rowId > 0) {
 			Uri contentUri = ContentUris.withAppendedId(
 					LocationContract.LOCATION_CONTENT_URI, rowId);

@@ -20,6 +20,8 @@ import android.util.Log;
  * The Class NoiseContentMapper.
  */
 public class NoiseContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
 	private static final String debug = "NoiseContentMapper";
 
 	/*

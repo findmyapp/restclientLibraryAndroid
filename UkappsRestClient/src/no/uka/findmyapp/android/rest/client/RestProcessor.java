@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.client.RestMethod.HTTPStatusException;
-import no.uka.findmyapp.android.rest.contracts.UkaEvents.UkaEventContract;
 import no.uka.findmyapp.android.rest.datamodels.core.Credentials;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
@@ -36,6 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RestProcessor.
  */
@@ -44,27 +44,31 @@ public class RestProcessor {
 	/** The Constant debug. */
 	private static final String debug = "RestProcessor"; 
 	
+	/** The Constant sModelPackage. */
 	private static final String sModelPackage = 
 		"no.uka.findmyapp.android.rest.datamodels.models.";
 	
-	/** The rest method. */
+	/** The m rest method. */
 	private RestMethod mRestMethod;
 	
-	/** The gson. */
+	/** The m gson. */
 	private Gson mGson;
 	
-	/** The context. */
+	/** The m context. */
 	private Context mContext; 
 	
+	/** The m credentials. */
 	private Credentials mCredentials;
 	
 	/**
 	 * Instantiates a new rest processor.
 	 *
 	 * @param context the context
+	 * @param credentials the credentials
 	 */
 	public RestProcessor(Context context, Credentials credentials) {
 		Log.v(debug, "Inside RestProcessor creator");
+		Log.v(debug, "credentials " + credentials.toString());
 		
 		mRestMethod = new RestMethod(credentials);
 		mGson = new GsonBuilder().create();
@@ -75,8 +79,7 @@ public class RestProcessor {
 	 * Call rest.
 	 *
 	 * @param serviceModel the service model
-	 * @throws HttpException 
-	 * @throws HTTPStatusException 
+	 * @param userToken the user token
 	 */
 	public void callRest(ServiceModel serviceModel, String userToken) {
 		Log.v(debug, "Inside callRest");
@@ -99,6 +102,12 @@ public class RestProcessor {
 		}
 	}
 
+	/**
+	 * Save and return data.
+	 *
+	 * @param serviceModel the service model
+	 * @param returnedObject the returned object
+	 */
 	private void saveAndReturnData(ServiceModel serviceModel,
 			Serializable returnedObject) {
 		if(serviceModel.getContentProviderUri() != null) {
@@ -117,6 +126,12 @@ public class RestProcessor {
 		}
 	}
 
+	/**
+	 * Prepare and send to content provider.
+	 *
+	 * @param serviceModel the service model
+	 * @param returnedObject the returned object
+	 */
 	private void prepareAndSendToContentProvider(ServiceModel serviceModel,
 			Serializable returnedObject) {
 		sendToContentProvider(Uri.parse(
@@ -128,9 +143,9 @@ public class RestProcessor {
 	 * Execute and parse.
 	 *
 	 * @param serviceModel the service model
+	 * @param userToken the user token
 	 * @return the serializable
-	 * @throws HTTPStatusException 
-	 * @throws Exception 
+	 * @throws HTTPStatusException the hTTP status exception
 	 */
 	private Serializable executeAndParse(ServiceModel serviceModel, String userToken) 
 			throws HTTPStatusException {
@@ -170,6 +185,13 @@ public class RestProcessor {
 		return s;
 	}
 	
+	/**
+	 * Creates the uri.
+	 *
+	 * @param serviceModel the service model
+	 * @param userToken the user token
+	 * @return the uRI
+	 */
 	private URI createURI(ServiceModel serviceModel, String userToken) {
 		String tempUri; 
 		if(serviceModel.getParameters() != null) {
@@ -179,7 +201,7 @@ public class RestProcessor {
 		else {
 			tempUri = serviceModel.getUri().toString();
 		}
-		tempUri = tempUri + "?token=" + URLEncoder.encode(userToken);
+		//tempUri = tempUri + "?token=" + URLEncoder.encode(userToken);
 		Log.v(debug, "URI with params " + tempUri);
 		
 		URI returURI;
@@ -193,6 +215,13 @@ public class RestProcessor {
 		return returURI; 
 	}
 
+	/**
+	 * Http request.
+	 *
+	 * @param serviceModel the service model
+	 * @return the string
+	 * @throws HTTPStatusException the hTTP status exception
+	 */
 	private String httpRequest(ServiceModel serviceModel)
 			throws HTTPStatusException {
 		String response = "";
@@ -206,6 +235,14 @@ public class RestProcessor {
 		return response;
 	}
 
+	/**
+	 * Parses the from json.
+	 *
+	 * @param response the response
+	 * @param t1 the t1
+	 * @return the serializable
+	 * @throws JSONException the jSON exception
+	 */
 	private Serializable parseFromJson(String response, Type t1)
 			throws JSONException {
 		Serializable s;
@@ -214,11 +251,20 @@ public class RestProcessor {
 		} else {
 			Log.v(debug, "executeAndParse: Is not list");
 			s = (Serializable)mGson.fromJson(response, t1);
-			Log.v(debug, "executeAndParse: Serializable " + s.toString());
+			Log.v(debug, "executeAndParse: Serializable " 
+					+ s.toString());
 		}
 		return s;
 	}
 
+	/**
+	 * Parses the list from json.
+	 *
+	 * @param response the response
+	 * @param t1 the t1
+	 * @return the serializable
+	 * @throws JSONException the jSON exception
+	 */
 	private Serializable parseListFromJson(String response, Type t1)
 			throws JSONException {
 		Serializable s;
@@ -233,6 +279,13 @@ public class RestProcessor {
 		return s;
 	}
 	
+	/**
+	 * Execute.
+	 *
+	 * @param serviceModel the service model
+	 * @return the string
+	 * @throws HTTPStatusException the hTTP status exception
+	 */
 	private String execute(ServiceModel serviceModel) throws HTTPStatusException {
 		if(serviceModel.getHttpType() == HttpType.GET) {
 			return mRestMethod.get();
@@ -247,7 +300,7 @@ public class RestProcessor {
 	/**
 	 * Send to content provider.
 	 *
-	 * @param contentProviderUri the uri
+	 * @param contentProviderUri the content provider uri
 	 * @param object the object
 	 * @param returnType the return type
 	 */
@@ -293,6 +346,12 @@ public class RestProcessor {
 		}
 	}
 	
+	/**
+	 * Checks if is instance of java native type.
+	 *
+	 * @param object the object
+	 * @return true, if is instance of java native type
+	 */
 	private boolean isInstanceOfJavaNativeType(Serializable object) {
 		Log.v(debug, "Type of " + object.toString());
 		if(object instanceof String || object instanceof Integer) {

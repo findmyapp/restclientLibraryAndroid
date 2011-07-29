@@ -30,9 +30,8 @@ public class UkaProgram implements Serializable {
 
 	/**
 	 * Instantiates a new uka program.
-	 * 
-	 * @param eventList
-	 *            the event list
+	 *
+	 * @param eventList the event list
 	 */
 	public UkaProgram(List<UkaEvent> eventList) {
 		this.events = eventList;
@@ -40,7 +39,7 @@ public class UkaProgram implements Serializable {
 
 	/**
 	 * Gets the events.
-	 * 
+	 *
 	 * @return the events
 	 */
 	public List<UkaEvent> getEvents() {
@@ -49,7 +48,7 @@ public class UkaProgram implements Serializable {
 
 	/**
 	 * Gets the event size.
-	 * 
+	 *
 	 * @return the event size
 	 */
 	public int getEventSize() {
@@ -58,9 +57,8 @@ public class UkaProgram implements Serializable {
 
 	/**
 	 * Sets the events.
-	 * 
-	 * @param events
-	 *            the new events
+	 *
+	 * @param events the new events
 	 */
 	public void setEvents(List<UkaEvent> events) {
 		this.events = events;
@@ -68,9 +66,8 @@ public class UkaProgram implements Serializable {
 
 	/**
 	 * Sets the event size.
-	 * 
-	 * @param eventSize
-	 *            the new event size
+	 *
+	 * @param eventSize the new event size
 	 */
 	public void setEventSize(int eventSize) {
 		this.eventSize = eventSize;

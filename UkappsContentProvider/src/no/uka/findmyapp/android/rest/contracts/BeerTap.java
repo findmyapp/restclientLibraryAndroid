@@ -20,6 +20,7 @@ public final class BeerTap implements BaseColumns {
 	 * The Class BeerTapTable.
 	 */
 	public static class BeerTapTable implements BaseColumns {
+		
 		/** The Constant TABLE_NAME. */
 		public static final String TABLE_NAME = "beertap_sample";
 

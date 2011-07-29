@@ -37,9 +37,8 @@ public class HumidityProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new humidity database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public HumidityDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

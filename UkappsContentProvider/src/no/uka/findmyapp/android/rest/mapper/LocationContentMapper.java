@@ -21,6 +21,8 @@ import android.util.Log;
  * The Class LocationContentMapper.
  */
 public class LocationContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
 	private static final String debug = "LocationContentMapper";
 
 	/*

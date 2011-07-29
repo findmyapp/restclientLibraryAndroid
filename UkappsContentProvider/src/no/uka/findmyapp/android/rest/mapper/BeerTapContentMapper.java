@@ -17,9 +17,11 @@ import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class BeerTapContentProvider.
+ * The Class BeerTapContentMapper.
  */
 public class BeerTapContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
 	private static final String debug = "BeerTapContentMapper";
 	
 	/*

@@ -64,15 +64,18 @@ public class UkaEvent implements Serializable {
 	/** The favourite. */
 	private boolean favourite;
 	
+	/** The spotify string. */
 	private String spotifyString; 
 	
+	/** The place string. */
 	private String placeString; 
 	
+	/** The updated date. */
 	private long updatedDate; 
 
 	/**
 	 * Gets the age limit.
-	 * 
+	 *
 	 * @return the age limit
 	 */
 	public int getAgeLimit() {
@@ -81,7 +84,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the billingid.
-	 * 
+	 *
 	 * @return the billingid
 	 */
 	public int getBillingid() {
@@ -90,7 +93,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the entrance id.
-	 * 
+	 *
 	 * @return the entrance id
 	 */
 	public int getEntranceId() {
@@ -99,7 +102,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the event type.
-	 * 
+	 *
 	 * @return the event type
 	 */
 	public String getEventType() {
@@ -108,7 +111,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the id.
-	 * 
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -117,7 +120,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the image.
-	 * 
+	 *
 	 * @return the image
 	 */
 	public String getImage() {
@@ -126,7 +129,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the lead.
-	 * 
+	 *
 	 * @return the lead
 	 */
 	public String getLead() {
@@ -135,7 +138,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the place.
-	 * 
+	 *
 	 * @return the place
 	 */
 	public String getPlace() {
@@ -144,7 +147,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the price.
-	 * 
+	 *
 	 * @return the price
 	 */
 	public int getPrice() {
@@ -153,7 +156,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the showing time.
-	 * 
+	 *
 	 * @return the showing time
 	 */
 	public long getShowingTime() {
@@ -162,7 +165,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the text.
-	 * 
+	 *
 	 * @return the text
 	 */
 	public String getText() {
@@ -171,7 +174,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the thumbnail.
-	 * 
+	 *
 	 * @return the thumbnail
 	 */
 	public String getThumbnail() {
@@ -180,7 +183,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Gets the title.
-	 * 
+	 *
 	 * @return the title
 	 */
 	public String getTitle() {
@@ -189,7 +192,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Checks if is canceled.
-	 * 
+	 *
 	 * @return true, if is canceled
 	 */
 	public boolean isCanceled() {
@@ -198,7 +201,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Checks if is favourite.
-	 * 
+	 *
 	 * @return true, if is favourite
 	 */
 	public boolean isFavourite() {
@@ -207,7 +210,7 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Checks if is free.
-	 * 
+	 *
 	 * @return true, if is free
 	 */
 	public boolean isFree() {
@@ -216,9 +219,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the age limit.
-	 * 
-	 * @param ageLimit
-	 *            the new age limit
+	 *
+	 * @param ageLimit the new age limit
 	 */
 	public void setAgeLimit(int ageLimit) {
 		this.ageLimit = ageLimit;
@@ -226,9 +228,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the billingid.
-	 * 
-	 * @param billingid
-	 *            the new billingid
+	 *
+	 * @param billingid the new billingid
 	 */
 	public void setBillingid(int billingid) {
 		this.billingid = billingid;
@@ -236,9 +237,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the canceled.
-	 * 
-	 * @param canceled
-	 *            the new canceled
+	 *
+	 * @param canceled the new canceled
 	 */
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
@@ -246,9 +246,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the entrance id.
-	 * 
-	 * @param entranceId
-	 *            the new entrance id
+	 *
+	 * @param entranceId the new entrance id
 	 */
 	public void setEntranceId(int entranceId) {
 		this.entranceId = entranceId;
@@ -256,9 +255,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the event type.
-	 * 
-	 * @param eventType
-	 *            the new event type
+	 *
+	 * @param eventType the new event type
 	 */
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
@@ -266,9 +264,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the favourite.
-	 * 
-	 * @param favourite
-	 *            the new favourite
+	 *
+	 * @param favourite the new favourite
 	 */
 	public void setFavourite(boolean favourite) {
 		this.favourite = favourite;
@@ -276,9 +273,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the free.
-	 * 
-	 * @param free
-	 *            the new free
+	 *
+	 * @param free the new free
 	 */
 	public void setFree(boolean free) {
 		this.free = free;
@@ -286,9 +282,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the id.
-	 * 
-	 * @param id
-	 *            the new id
+	 *
+	 * @param id the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -296,9 +291,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the image.
-	 * 
-	 * @param image
-	 *            the new image
+	 *
+	 * @param image the new image
 	 */
 	public void setImage(String image) {
 		this.image = image;
@@ -306,9 +300,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the lead.
-	 * 
-	 * @param lead
-	 *            the new lead
+	 *
+	 * @param lead the new lead
 	 */
 	public void setLead(String lead) {
 		this.lead = lead;
@@ -316,9 +309,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the place.
-	 * 
-	 * @param place
-	 *            the new place
+	 *
+	 * @param place the new place
 	 */
 	public void setPlace(String place) {
 		this.place = place;
@@ -326,9 +318,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the price.
-	 * 
-	 * @param price
-	 *            the new price
+	 *
+	 * @param price the new price
 	 */
 	public void setPrice(int price) {
 		this.price = price;
@@ -336,9 +327,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the showing time.
-	 * 
-	 * @param date
-	 *            the new showing time
+	 *
+	 * @param date the new showing time
 	 */
 	public void setShowingTime(long date) {
 		this.showingTime = date;
@@ -346,9 +336,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the text.
-	 * 
-	 * @param text
-	 *            the new text
+	 *
+	 * @param text the new text
 	 */
 	public void setText(String text) {
 		this.text = text;
@@ -356,9 +345,8 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the thumbnail.
-	 * 
-	 * @param thumbnail
-	 *            the new thumbnail
+	 *
+	 * @param thumbnail the new thumbnail
 	 */
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
@@ -366,34 +354,63 @@ public class UkaEvent implements Serializable {
 
 	/**
 	 * Sets the title.
-	 * 
-	 * @param title
-	 *            the new title
+	 *
+	 * @param title the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * Gets the spotify string.
+	 *
+	 * @return the spotify string
+	 */
 	public String getSpotifyString() {
 		return spotifyString;
 	}
 
+	/**
+	 * Sets the spotify string.
+	 *
+	 * @param spotifyString the new spotify string
+	 */
 	public void setSpotifyString(String spotifyString) {
 		this.spotifyString = spotifyString;
 	}
 
+	/**
+	 * Gets the place string.
+	 *
+	 * @return the place string
+	 */
 	public String getPlaceString() {
 		return placeString;
 	}
 
+	/**
+	 * Sets the place string.
+	 *
+	 * @param placeString the new place string
+	 */
 	public void setPlaceString(String placeString) {
 		this.placeString = placeString;
 	}
 
+	/**
+	 * Gets the updated date.
+	 *
+	 * @return the updated date
+	 */
 	public long getUpdatedDate() {
 		return updatedDate;
 	}
 
+	/**
+	 * Sets the updated date.
+	 *
+	 * @param dateUpdated the new updated date
+	 */
 	public void setUpdatedDate(long dateUpdated) {
 		this.updatedDate = updatedDate;
 	}

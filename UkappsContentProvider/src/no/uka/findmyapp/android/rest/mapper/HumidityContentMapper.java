@@ -19,6 +19,8 @@ import android.util.Log;
  * The Class HumidityContentMapper.
  */
 public class HumidityContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
 	private static final String debug = "HumidityContentMapper";
 
 	/*

@@ -42,7 +42,7 @@ public class UkappsRestClientDemoActivity extends Activity {
 			Log.v("DEBUG", "HERE1");
 			
 			List<String> list = new LinkedList<String>();
-			serviceHelper.callStartService(this, UkappsServices.UKAEVENTS, new String[] {"uka11"}); 
+			serviceHelper.callStartService(this, UkappsServices.UKAEVENTS, null, new String[] {"uka11"}); 
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block

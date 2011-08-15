@@ -55,9 +55,9 @@ public class RestIntentService extends IntentService {
         Bundle bundle = intent.getExtras();
         Log.v(debug, "onHandleIntent bundle recived");
         ServiceModel serviceModel = (ServiceModel) bundle.get(IntentMessages.SERVICE_MODEL_PACKAGE);
-		
+		String userToken = (String) bundle.get(IntentMessages.USER_TOKEN);
 		Log.v(debug, "onHandleIntent: Sending " + serviceModel + " to the rest processor");
-		this.restProcessor.callRest(serviceModel);
+		this.restProcessor.callRest(serviceModel, userToken);
 		
 		Log.v(debug, "onHandleIntent: DONE HandleIntent");
         Log.v(debug, "" + new Date() + ", This thread is waked up.");

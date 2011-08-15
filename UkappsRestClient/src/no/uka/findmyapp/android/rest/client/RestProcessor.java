@@ -7,6 +7,7 @@ package no.uka.findmyapp.android.rest.client;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,11 +65,11 @@ public class RestProcessor {
 	 *
 	 * @param serviceModel the service model
 	 */
-	public void callRest(ServiceModel serviceModel) {
+	public void callRest(ServiceModel serviceModel, String userToken) {
 		Log.v(debug, "Inside callRest");
 		switch(serviceModel.getHttpType()) {
 			case GET :
-				Serializable returnedObject = this.executeAndParse(serviceModel);
+				Serializable returnedObject = this.executeAndParse(serviceModel, userToken);
 				Log.v(debug, "callRest: executeAndParse, object name " + returnedObject.getClass().getName());
 				if(serviceModel.getContentProviderUri() != null) {
 					Log.v(debug, "callRest using content provider " + serviceModel.getContentProviderUri().toString());
@@ -80,7 +81,7 @@ public class RestProcessor {
 				}
 			break;
 			case POST :
-				Serializable postReturnedObject = this.executeAndParse(serviceModel);
+				Serializable postReturnedObject = this.executeAndParse(serviceModel, userToken);
 				Log.v(debug, "callRest: executeAndParse, object name " + postReturnedObject.getClass().getName());
 				if(serviceModel.getContentProviderUri() != null) {
 					Log.v(debug, "callRest using content provider " + serviceModel.getContentProviderUri().toString());
@@ -100,8 +101,8 @@ public class RestProcessor {
 	 * @param serviceModel the service model
 	 * @return the serializable
 	 */
-	private Serializable executeAndParse(ServiceModel serviceModel) {
-		restMethod.setUri(serviceModel.getUri());
+	private Serializable executeAndParse(ServiceModel serviceModel, String userToken) {
+		restMethod.setUri(URI.create(serviceModel.getUri().toString() + "?token=" + userToken));
 		String response = "";
 		try {
 			Log.v(debug, "executeAndParse: ServiceModel " + serviceModel.toString());

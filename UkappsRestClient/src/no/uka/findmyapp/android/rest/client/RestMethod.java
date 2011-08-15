@@ -85,9 +85,12 @@ public class RestMethod {
 	 * from an API request.
 	 */
 	private static byte[] mStreamBuffer = new byte[512];
-	
+
 	/** URL to the REST service server {@link #RestClient(String)},. {@link #RestClient(String)} {@link #RestClient(String, String)} */
 	private URI mUri; 
+	
+	/** User token */
+	private String userToken; 
 	
 	/** Instance HTTP client. */
 	private HttpClient mClient; 
@@ -145,6 +148,25 @@ public class RestMethod {
 	 */
 	public void setUri(URI uri) {
 		mUri = uri;
+	}
+	
+
+	/**
+	 * Gets the uri.
+	 *
+	 * @return the uri
+	 */
+	public String getUserToken() {
+		return userToken;
+	}
+
+	/**
+	 * Sets the uri.
+	 *
+	 * @param uri the new uri
+	 */
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
 	}
 
 	/**

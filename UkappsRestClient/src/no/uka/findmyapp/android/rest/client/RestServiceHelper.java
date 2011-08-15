@@ -61,6 +61,9 @@ public class RestServiceHelper {
 	
 	private static String sSecret; 
 	
+	/** TEMP TODO **/
+	private static String userToken;
+	
 	/**
 	 * Instantiates a new rest service helper.
 	 */
@@ -92,6 +95,42 @@ public class RestServiceHelper {
 					"Set API security credentials");
 		}
 	}
+	
+	public static boolean hasUserToken() {
+		if(userToken != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void setUserToken(String userToken) {
+		this.userToken = userToken;
+	}
+	
+	public boolean authUser(Context context, String fbToken) {
+		try {
+			ServiceModel model = new ServiceModel(new URI("http://findmyapp.net/findmyapp/auth/login?facebookToken=" + fbToken),
+			           HttpType.GET,
+			           ServiceDataFormat.JSON,
+			           String.class,
+			           null,
+			           null,
+			           IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH,
+			           "login");
+			
+
+			if(sIntentReceiver == null) {
+				this.registerBroadCastListener(context);
+				this.callStartService(context, model);
+			}
+			
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return true;
+	}
 
 	/**
 	 * Call start service.
@@ -105,6 +144,7 @@ public class RestServiceHelper {
 		
 		Log.v(debug, "callStartService: servicemodel " + serviceModel.toString());
 		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
+		selectIntent.putExtra("userToken", userToken);
 		
 		Log.v(debug, "callStartService: intent package: " + selectIntent.getExtras().toString()); 
 		context.startService(selectIntent);
@@ -176,6 +216,29 @@ public class RestServiceHelper {
 	 *
 	 * @param context the context
 	 */
+	private void registerBroadCastListenerForUserAuth(Context context) {
+		Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
+		sIntentReceiver = new ServiceModelReceiver();
+		IntentFilter intentFilter = 
+			new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH);
+		context.registerReceiver(sIntentReceiver, intentFilter);
+	}
+
+	/**
+	 * Unregister broad cast listener.
+	 *
+	 * @param context the context
+	 */
+	private void unregisterBroadCastListenerForUserAuth(Context context) {
+		Log.v(debug, "Internal: unregistering broadcastlistener for servicemodel");
+		context.unregisterReceiver(sIntentReceiver); 
+	}
+	
+	/**
+	 * Register broad cast listener.
+	 *
+	 * @param context the context
+	 */
 	private void registerBroadCastListener(Context context) {
 		Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
 		sIntentReceiver = new ServiceModelReceiver();
@@ -214,8 +277,12 @@ public class RestServiceHelper {
 				List<ServiceModel> serviceModels = (List<ServiceModel>) obj;
 				
 				UkappServiceFactory.serviceModels = hashMapServiceModel(serviceModels);
-				
 				callBufferedRequests();
+				
+			} else if(intent.getAction().equals(IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH)) {
+				unregisterBroadCastListenerForUserAuth(context);
+				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME);
+				setUserToken((String) obj);
 			}
 			
 		}
@@ -240,7 +307,7 @@ public class RestServiceHelper {
 			return intent.getAction().equals(
 					IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
 		}
-
+		
 		private Map<String, ServiceModel> hashMapServiceModel(
 				List<ServiceModel> serviceModels ) {
 			Map<String, ServiceModel> serviceModelsMap = new HashMap<String, ServiceModel>();

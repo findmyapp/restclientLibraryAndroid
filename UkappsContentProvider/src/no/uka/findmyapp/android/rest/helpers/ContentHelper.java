@@ -6,6 +6,7 @@
 package no.uka.findmyapp.android.rest.helpers;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.mapper.IContentMapper;
@@ -29,55 +30,46 @@ public class ContentHelper {
 
 	/**
 	 * Gets the content values.
-	 * 
-	 * @param object
-	 *            the object
+	 *
+	 * @param object the object
 	 * @return the content values
 	 */
 	public static ContentValues getContentValues(Serializable object) {
 		try {
-			IContentMapper contentMapper = getMapperClass(object, null)
-					.newInstance();
+			IContentMapper contentMapper = 
+				getMapperClass(object, null).newInstance();
+			Log.v(debug, "type of contentMapper: " + contentMapper.getClass().getCanonicalName());
 			return contentMapper.mapValues(object);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Class not found exception " + e.getMessage()); 
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: IllegalAccessException " + e.getMessage()); 
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Instantiation Exception " + e.getMessage());
 		}
 		return null;
 	}
 
 	/**
 	 * Gets the content values list.
-	 * 
-	 * @param object
-	 *            the object
-	 * @param returnType
-	 *            the return type
+	 *
+	 * @param object the object
+	 * @param returnType the return type
 	 * @return the content values list
 	 */
-	public static List<ContentValues> getContentValuesList(Serializable object,
-			String returnType) {
+	public static List<ContentValues> getContentValuesList(Serializable object, Class returnType) {
 
 		try {
-			Log.v(debug, "Object debug " + object.toString());
-			IContentMapper contentMapper = getMapperClass(object, returnType)
-					.newInstance();
+			IContentMapper contentMapper = 
+				getMapperClass(object, returnType).newInstance();
+
 			return contentMapper.mapValuesList(object);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Class not found exception " + e.getMessage()); 
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: IllegalAccessException " + e.getMessage()); 
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(debug, "getContentValueList: Instantiation Exception " + e.getMessage()); 
 		}
 		return null;
 	}
@@ -95,30 +87,39 @@ public class ContentHelper {
 	 */
 	/**
 	 * Gets the mapper class.
-	 * 
-	 * @param object
-	 *            the object
-	 * @param returnType
-	 *            the return type
+	 *
+	 * @param object the object
+	 * @param clazz the clazz
 	 * @return the mapper class
-	 * @throws ClassNotFoundException
-	 *             the class not found exception
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	@SuppressWarnings("unchecked")
-	private static Class<IContentMapper> getMapperClass(Serializable object,
-			String returnType) throws ClassNotFoundException {
-		Log.v("ContentHelper", "trying to getMapperClass for: " + returnType);
+	private static Class<IContentMapper> getMapperClass(Serializable object, Class clazz) throws ClassNotFoundException {
+		Log.v(debug, "trying to getMapperClass for: " + object.getClass().getName());
+		
 		String classString;
-		if (returnType == null) {
+		
+		if (clazz == null) {
 			classString = MAPPER_PREFIX + object.getClass().getSimpleName()
-					+ MAPPER_POSTFIX;
-		} else {
-			classString = MAPPER_PREFIX + returnType + MAPPER_POSTFIX;
+			+ MAPPER_POSTFIX;
+			
+			Log.v(debug, "classString: " + classString);
+		} 
+		else {
+			classString = MAPPER_PREFIX + clazz.getSimpleName() + MAPPER_POSTFIX;
+		}
+		
+		Log.v(debug, clazz.getSimpleName());
+		
+		Log.v("ContentHelper", "trying to getMapperClass for: " + classString);
+		Class<IContentMapper> mapperClass;
+		try {
+			mapperClass = (Class<IContentMapper>) Class.forName(classString);
+		} catch (ClassNotFoundException e) {
+			Log.e(debug, "getMapperClass: " + e.getLocalizedMessage());
+			throw e; 
 		}
 
-		Log.v("ContentHelper", "trying to getMapperClass for: " + classString);
-		Class<IContentMapper> mapperClass = (Class<IContentMapper>) Class
-				.forName(classString);
 		return mapperClass;
 	}
 }

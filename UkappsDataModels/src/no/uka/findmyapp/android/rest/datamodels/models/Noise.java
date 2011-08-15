@@ -42,7 +42,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the average.
-	 * 
+	 *
 	 * @return the average
 	 */
 	public float getAverage() {
@@ -51,7 +51,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the date.
-	 * 
+	 *
 	 * @return the date
 	 */
 	public long getDate() {
@@ -60,7 +60,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the id.
-	 * 
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -69,7 +69,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the location id.
-	 * 
+	 *
 	 * @return the location id
 	 */
 	public int getLocationId() {
@@ -78,7 +78,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the max.
-	 * 
+	 *
 	 * @return the max
 	 */
 	public float getMax() {
@@ -87,7 +87,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the min.
-	 * 
+	 *
 	 * @return the min
 	 */
 	public float getMin() {
@@ -96,7 +96,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the samples.
-	 * 
+	 *
 	 * @return the samples
 	 */
 	public String getSamples() {
@@ -105,7 +105,7 @@ public class Noise implements Serializable {
 
 	/**
 	 * Gets the standard deviation.
-	 * 
+	 *
 	 * @return the standard deviation
 	 */
 	public float getStandardDeviation() {
@@ -114,9 +114,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the average.
-	 * 
-	 * @param average
-	 *            the new average
+	 *
+	 * @param average the new average
 	 */
 	public void setAverage(float average) {
 		this.average = average;
@@ -124,9 +123,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the date.
-	 * 
-	 * @param date
-	 *            the new date
+	 *
+	 * @param date the new date
 	 */
 	public void setDate(long date) {
 		this.date = date;
@@ -134,9 +132,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the id.
-	 * 
-	 * @param id
-	 *            the new id
+	 *
+	 * @param id the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -144,9 +141,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the location id.
-	 * 
-	 * @param locationId
-	 *            the new location id
+	 *
+	 * @param locationId the new location id
 	 */
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
@@ -154,9 +150,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the max.
-	 * 
-	 * @param max
-	 *            the new max
+	 *
+	 * @param max the new max
 	 */
 	public void setMax(float max) {
 		this.max = max;
@@ -164,9 +159,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the min.
-	 * 
-	 * @param min
-	 *            the new min
+	 *
+	 * @param min the new min
 	 */
 	public void setMin(float min) {
 		this.min = min;
@@ -174,9 +168,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the samples.
-	 * 
-	 * @param samples
-	 *            the new samples
+	 *
+	 * @param samples the new samples
 	 */
 	public void setSamples(String samples) {
 		this.samples = samples;
@@ -184,9 +177,8 @@ public class Noise implements Serializable {
 
 	/**
 	 * Sets the standard deviation.
-	 * 
-	 * @param standardDeviation
-	 *            the new standard deviation
+	 *
+	 * @param standardDeviation the new standard deviation
 	 */
 	public void setStandardDeviation(float standardDeviation) {
 		this.standardDeviation = standardDeviation;

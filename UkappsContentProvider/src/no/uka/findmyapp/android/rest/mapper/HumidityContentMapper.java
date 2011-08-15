@@ -6,17 +6,22 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.Humidity.HumidityTable;
 import no.uka.findmyapp.android.rest.datamodels.models.Humidity;
 import android.content.ContentValues;
+import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class HumidityContentMapper.
  */
 public class HumidityContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
+	private static final String debug = "HumidityContentMapper";
 
 	/*
 	 * (non-Javadoc)
@@ -55,6 +60,12 @@ public class HumidityContentMapper implements IContentMapper {
 	 */
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		return null;
+		List<Humidity> humidityList = (List<Humidity>) object;
+		List<ContentValues> list = new ArrayList<ContentValues>();
+
+		for (Humidity hum : humidityList) {
+			list.add(mapValues(hum));
+		}
+		return list;
 	}
 }

@@ -20,6 +20,7 @@ public final class Humidity implements BaseColumns {
 	 * The Class HumidityTable.
 	 */
 	public static class HumidityTable implements BaseColumns {
+		
 		/** The Constant TABLE_NAME. */
 		public static final String TABLE_NAME = "humidity_sample";
 

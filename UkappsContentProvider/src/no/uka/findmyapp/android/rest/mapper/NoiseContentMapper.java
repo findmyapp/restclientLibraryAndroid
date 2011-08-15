@@ -6,17 +6,23 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.Noise.NoiseTable;
 import no.uka.findmyapp.android.rest.datamodels.models.Noise;
+import no.uka.findmyapp.android.rest.datamodels.models.Temperature;
 import android.content.ContentValues;
+import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class NoiseContentMapper.
  */
 public class NoiseContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
+	private static final String debug = "NoiseContentMapper";
 
 	/*
 	 * (non-Javadoc)
@@ -60,6 +66,12 @@ public class NoiseContentMapper implements IContentMapper {
 	 */
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		return null;
+		List<Noise> noiseList = (List<Noise>) object;
+		List<ContentValues> list = new ArrayList<ContentValues>();
+
+		for (Noise noise : noiseList) {
+			list.add(mapValues(noise));
+		}
+		return list;
 	}
 }

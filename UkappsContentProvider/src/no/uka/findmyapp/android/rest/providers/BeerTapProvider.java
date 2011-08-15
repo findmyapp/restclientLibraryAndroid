@@ -37,9 +37,8 @@ public class BeerTapProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new beer tap database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public BeerTapDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

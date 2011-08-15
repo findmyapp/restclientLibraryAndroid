@@ -27,7 +27,7 @@ public final class Location implements BaseColumns {
 				+ LocationContract.TABLE_NAME + " (" 
 				+ LocationContract.ID + " INTEGER PRIMARY KEY, " 
 				+ LocationContract.LOCATION_ID + " INTEGER, " 
-				+ LocationContract.LOCATION_STRING_ID + " VARCHAR(30), "
+				+ LocationContract.LOCATION_STRING_ID + " VARCHAR(30) UNIQUE, "
 				+ LocationContract.LOCATION_NAME + " VARCHAR(30)" 
 				+ ");";
 
@@ -71,6 +71,7 @@ public final class Location implements BaseColumns {
 		/** The Constant LOCATION_ID. */
 		public static final String LOCATION_ID = "location_id";
 		
+		/** The Constant LOCATION_STRING_ID. */
 		public static final String LOCATION_STRING_ID = "location_string_id";
 		
 		/** The Constant LOCATION_NAME. */

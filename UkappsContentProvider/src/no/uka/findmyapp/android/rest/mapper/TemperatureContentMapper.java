@@ -6,17 +6,23 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.Temperature.TemperatureTable;
 import no.uka.findmyapp.android.rest.datamodels.models.Temperature;
 import android.content.ContentValues;
+import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class TemperatureContentMapper.
  */
 public class TemperatureContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
+	private static final String debug = "TemperatureContentMapper";
+
 
 	/*
 	 * (non-Javadoc)
@@ -55,6 +61,12 @@ public class TemperatureContentMapper implements IContentMapper {
 	 */
 	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		return null;
+		List<Temperature> temperatureList = (List<Temperature>) object;
+		List<ContentValues> list = new ArrayList<ContentValues>();
+
+		for (Temperature temp : temperatureList) {
+			list.add(mapValues(temp));
+		}
+		return list;
 	}
 }

@@ -6,18 +6,24 @@
 package no.uka.findmyapp.android.rest.mapper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import no.uka.findmyapp.android.rest.contracts.BeerTap.BeerTapTable;
 import no.uka.findmyapp.android.rest.datamodels.models.BeerTap;
+import no.uka.findmyapp.android.rest.datamodels.models.Temperature;
 import android.content.ContentValues;
+import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class BeerTapContentProvider.
+ * The Class BeerTapContentMapper.
  */
-public class BeerTapContentProvider implements IContentMapper {
-
+public class BeerTapContentMapper implements IContentMapper {
+	
+	/** The Constant debug. */
+	private static final String debug = "BeerTapContentMapper";
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -54,8 +60,13 @@ public class BeerTapContentProvider implements IContentMapper {
 	 * no.uka.findmyapp.android.rest.mapper.IContentMapper#mapValuesList(java
 	 * .io.Serializable)
 	 */
-	@Override
 	public List<ContentValues> mapValuesList(Serializable object) {
-		return null;
+		List<BeerTap> beerTapList = (List<BeerTap>) object;
+		List<ContentValues> list = new ArrayList<ContentValues>();
+
+		for (BeerTap beerTap : beerTapList) {
+			list.add(mapValues(beerTap));
+		}
+		return list;
 	}
 }

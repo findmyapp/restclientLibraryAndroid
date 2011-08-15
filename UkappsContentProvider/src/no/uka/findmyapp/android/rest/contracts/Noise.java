@@ -20,6 +20,7 @@ public final class Noise implements BaseColumns {
 	 * The Class NoiseTable.
 	 */
 	public static class NoiseTable implements BaseColumns {
+		
 		/** The Constant TABLE_NAME. */
 		public static final String TABLE_NAME = "noise_sample";
 

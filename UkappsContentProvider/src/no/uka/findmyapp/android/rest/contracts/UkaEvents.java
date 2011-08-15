@@ -131,13 +131,16 @@ public final class UkaEvents implements BaseColumns {
 		/** The Constant LOWEST_PRICE. */
 		public static final String LOWEST_PRICE = "lowest_price";
 
-		/** The Constant CANCELED. */
+		/** The Constant SPOTIFY_STRING. */
 		public static final String SPOTIFY_STRING = "spotify_string";
 		
+		/** The Constant UPDATED_DATE. */
 		public static final String UPDATED_DATE = "update_date";
 		
+		/** The Constant CANCELED. */
 		public static final String CANCELED = "canceled";
 		
+		/** The Constant PLACE_STRING. */
 		public static final String PLACE_STRING = "places_string";
 
 		// This class cannot be instantiated

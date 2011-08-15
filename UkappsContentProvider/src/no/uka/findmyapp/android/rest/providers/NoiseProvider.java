@@ -37,9 +37,8 @@ public class NoiseProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new noise database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public NoiseDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

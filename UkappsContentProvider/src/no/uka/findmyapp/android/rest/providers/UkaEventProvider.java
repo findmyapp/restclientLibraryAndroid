@@ -193,8 +193,6 @@ public class UkaEventProvider extends ContentProvider {
 		}
 
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		Log.v(debug, "Insert: selected database " + db.toString());
-		Log.v(debug, "Insert: insertvalues " + values.toString());
 
 		/*
 		 * The second insert() parameter is a nullColumnHack, a somewhat crappy
@@ -319,9 +317,8 @@ public class UkaEventProvider extends ContentProvider {
 
 		/**
 		 * Instantiates a new events database helper.
-		 * 
-		 * @param context
-		 *            the context
+		 *
+		 * @param context the context
 		 */
 		public EventsDatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -8,12 +8,9 @@ package no.uka.findmyapp.android.rest.client;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import no.uka.findmyapp.android.rest.datamodels.constants.ServiceDataFormat;
+import no.uka.findmyapp.android.rest.client.RestServiceException.RestHelperException;
+import no.uka.findmyapp.android.rest.datamodels.core.Credentials;
 import no.uka.findmyapp.android.rest.datamodels.core.ServiceModel;
 import no.uka.findmyapp.android.rest.datamodels.enums.HttpType;
 import android.content.BroadcastReceiver;
@@ -24,53 +21,25 @@ import android.util.Log;
 
 // TODO: Auto-generated Javadoc
 /**
- * The rest service helper class, a singleton which exposes a simple
- * asynchronous API to be used by the user interface.
- * 
- * Responsibility Prepare and send the Service request: - Check if the method is
- * already running - Create the requested Intent - Add the operation type and a
- * unique request id - Add the method specific parameters - Add the binder
- * callback - Call {@link RestService#startService()} - Return the request id
- * Handle the callback from the service - Dispatch callbacks to the user
- * interface listeners
+ * The Class RestServiceHelper.
  */
 public class RestServiceHelper {
-	
+
 	/** The Constant debug. */
 	private static final String debug = "RestServiceHelper";
-	
-	private static final String SERVICE_MODEL_PROVIDER_SERVICE_URI 
-		= "http://findmyapp.net/findmyapp/serviceinfo/all";
 
-	/** The singleton RestServiceHelper instance. */
+	/** The INSTANCE. */
 	private static RestServiceHelper INSTANCE;
-	
-	/** The intent receiver. */
-	private static ServiceModelReceiver sIntentReceiver;
-	
-	/** The updated service models. */
-	private static boolean sUpdatedServiceModels = false;
-	
-	/** The updating service models. */
-	private static boolean sUpdatingServiceModels = false;
-	
-	/** The buffer. */
-	private static List<RequestBuffer> sBuffer;
-	
-	private static String sKey; 
-	
-	private static String sSecret; 
-	
-	/** TEMP TODO **/
-	private static String userToken;
-	
-	/**
-	 * Instantiates a new rest service helper.
-	 */
-	private RestServiceHelper() {
-		sBuffer = new ArrayList<RequestBuffer>();
-	}
 
+	/** The s intent receiver. */
+	private ServiceModelReceiver sIntentReceiver;
+
+	/** The m credentials. */
+	private Credentials mCredentials; 
+
+	/** The user token. */
+	private String userToken;
+	
 	/**
 	 * Gets the single instance of RestServiceHelper.
 	 *
@@ -83,53 +52,94 @@ public class RestServiceHelper {
 		}
 		return INSTANCE;
 	}
-	
-	public static void setCredentials(String key, String secret) 
-		throws RestServiceException {
-		if(key == null && secret == null) {
-			sKey = key; 
-			sSecret = secret; 
-		}
-		else {
-			throw new RestServiceException(
-					"Set API security credentials");
+
+	/**
+	 * Sets the credentials.
+	 *
+	 * @param key the key
+	 * @param secret the secret
+	 * @throws RestServiceException the rest service exception
+	 */
+	public void setCredentials(String key, String secret)
+			throws RestServiceException {
+		if (key != null && secret != null) {
+			mCredentials = new Credentials(key, secret);
+		} else {
+			throw new RestServiceException(RestHelperException.NO_CREDENTIALS);
 		}
 	}
-	
-	public static boolean hasUserToken() {
-		if(userToken != null) {
-			return true;
-		}
-		return false;
-	}
-	
+
+	/**
+	 * Sets the user token.
+	 *
+	 * @param userToken the new user token
+	 */
 	public void setUserToken(String userToken) {
 		this.userToken = userToken;
 	}
 	
+
+	/**
+	 * Auth user.
+	 *
+	 * @param context the context
+	 * @param fbToken the fb token
+	 * @return true, if successful
+	 */
 	public boolean authUser(Context context, String fbToken) {
 		try {
-			ServiceModel model = new ServiceModel(new URI("http://findmyapp.net/findmyapp/auth/login?facebookToken=" + fbToken),
-			           HttpType.GET,
-			           ServiceDataFormat.JSON,
-			           String.class,
-			           null,
-			           null,
-			           IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH,
-			           "login");
-			
+			ServiceModel model = new ServiceModel(
+					new URI("http://findmyapp.net/findmyapp/auth/login?facebookToken=" + fbToken), 
+					HttpType.GET, 
+					String.class, 
+					null, 
+					null,
+					IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH
+					);
 
-			if(sIntentReceiver == null) {
-				this.registerBroadCastListener(context);
+			if (sIntentReceiver == null) {
+				this.registerBroadCastListenerForUserAuth(context);
 				this.callStartService(context, model);
 			}
-			
-			
+
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+			Log.e(debug, e.getMessage());
+		}
 		return true;
+	}
+
+	/**
+	 * Call start service.
+	 *
+	 * @param context the context
+	 * @param service the service
+	 * @param contentProviderURI the content provider uri
+	 * @param params the params
+	 * @throws RestServiceException the rest service exception
+	 */
+	public void callStartService(Context context, UkappsServices service,
+			URI contentProviderURI, String[] params)
+			throws RestServiceException {
+		ServiceModel sm;
+		if (apiCredentialsIsSet() == false) {
+			throw new RestServiceException(RestHelperException.NO_CREDENTIALS);
+		}
+		try {
+			//TODO dasdf
+			sm = UkappServiceFactory.createServiceModel(service);
+			Log.v(debug, "callStartService: sm.toString " + sm.toString());
+			if (contentProviderURI != null)
+				sm.setContentProviderUri(contentProviderURI);
+
+			sm.setParameters(params); 
+			
+			Log.v(debug, "callStartService: preparing ServiceModel: "
+					+ sm.toString());
+
+			callStartService(context, sm);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -141,277 +151,99 @@ public class RestServiceHelper {
 	public void callStartService(Context context, ServiceModel serviceModel) {
 		Log.v(debug, "Inside callStarteService, using ServiceModel");
 		Intent selectIntent = new Intent(context, RestIntentService.class);
+
+		Log.v(debug,
+				"callStartService: servicemodel " + serviceModel.toString());
+		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE,
+				serviceModel);
 		
-		Log.v(debug, "callStartService: servicemodel " + serviceModel.toString());
-		selectIntent.putExtra(IntentMessages.SERVICE_MODEL_PACKAGE, serviceModel);
-		selectIntent.putExtra("userToken", userToken);
+		selectIntent.putExtra(IntentMessages.CREDENTIALS_PACKAGE, mCredentials);
 		
-		Log.v(debug, "callStartService: intent package: " + selectIntent.getExtras().toString()); 
+		// If we have a userToken
+		if(hasUserToken()) {
+			selectIntent.putExtra(IntentMessages.USER_TOKEN_PACKAGE,
+					userToken);
+		}
+		
+		Log.v(debug, "callStartService: intent package: "
+				+ selectIntent.getExtras().toString());
 		context.startService(selectIntent);
-
-		Log.v(debug, "callStartService: context.startSerivce() called");
 	}
 
 	/**
-	 * Call start service.
+	 * Api credentials is set.
 	 *
-	 * @param context the context
-	 * @param service the service
-	 * @param params the params
-	 * @throws URISyntaxException the uRI syntax exception
-	 * @throws IllegalAccessException the illegal access exception
-	 * @throws InstantiationException the instantiation exception
+	 * @return true, if successful
 	 */
-	public void callStartService(Context context, UkappsServices service, 
-			URI contentProviderURI, String[] params) throws URISyntaxException, 
-			IllegalAccessException, InstantiationException {
-		if(!sUpdatedServiceModels && !sUpdatingServiceModels) {
-			Log.v(debug, "callStartService: init updatedServiceModels");
-			sUpdatingServiceModels = true;
-			sBuffer.add(new RequestBuffer(context, service, contentProviderURI,  params));
-		
-			getUpdatedServiceModelInfo(context);
-		} 
-		else if(sUpdatedServiceModels) {
-			ServiceModel sm = UkappServiceFactory.createServiceModel(service, contentProviderURI, params);
-			Log.v(debug, "Internal: callStartService: preparing ServiceModel: " + sm.toString());
-			
-			this.callStartService(context, sm);
-		}
-	}
-
-	/**
-	 * Gets the updated service model info.
-	 *
-	 * @param context the context
-	 * @return the updated service model info
-	 */
-	private void getUpdatedServiceModelInfo(Context context) {
-		Log.v(debug, "updatingServiceModel");
-		try {
-			ServiceModel sm = new ServiceModel(
-				new URI(SERVICE_MODEL_PROVIDER_SERVICE_URI),
-				HttpType.GET, 
-				ServiceDataFormat.JSON, ServiceModel.class,
-				null, 
-				null, 
-				IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL, 
-				null);
-			
-			if(sIntentReceiver == null) {
-				Log.v(debug, "getUpdatedServiceModelInfo: intent receiver=null servicemodel " + sm.toString());
-				this.registerBroadCastListener(context);
-				this.callStartService(context, sm);
-			}
-		} 
-		//TODO Add error handling
-		catch (URISyntaxException e) {
-			e.printStackTrace();
-			Log.v(debug, e.getLocalizedMessage());
-		}
-	}
-
-	/**
-	 * Register broad cast listener.
-	 *
-	 * @param context the context
-	 */
-	private void registerBroadCastListenerForUserAuth(Context context) {
-		Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
-		sIntentReceiver = new ServiceModelReceiver();
-		IntentFilter intentFilter = 
-			new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH);
-		context.registerReceiver(sIntentReceiver, intentFilter);
-	}
-
-	/**
-	 * Unregister broad cast listener.
-	 *
-	 * @param context the context
-	 */
-	private void unregisterBroadCastListenerForUserAuth(Context context) {
-		Log.v(debug, "Internal: unregistering broadcastlistener for servicemodel");
-		context.unregisterReceiver(sIntentReceiver); 
+	private boolean apiCredentialsIsSet() {
+		return mCredentials.isCredentialsSet(); 
 	}
 	
 	/**
-	 * Register broad cast listener.
+	 * Checks for user token.
 	 *
-	 * @param context the context
+	 * @return true, if successful
 	 */
-	private void registerBroadCastListener(Context context) {
-		Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
-		sIntentReceiver = new ServiceModelReceiver();
-		IntentFilter intentFilter = 
-			new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
-		context.registerReceiver(sIntentReceiver, intentFilter);
+	public boolean hasUserToken() {
+		return (userToken != null) ? true : false; 
 	}
 
 	/**
-	 * Unregister broad cast listener.
+	 * Register broad cast listener for user auth.
 	 *
 	 * @param context the context
 	 */
-	private void unregisterBroadCastListener(Context context) {
-		Log.v(debug, "Internal: unregistering broadcastlistener for servicemodel");
-		context.unregisterReceiver(sIntentReceiver); 
-	}
+    private void registerBroadCastListenerForUserAuth(Context context) {
+            Log.v(debug, "Internal: registering broadcastlistener for servicemodel");
+            sIntentReceiver = new ServiceModelReceiver();
+            IntentFilter intentFilter =
+                    new IntentFilter(IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH);
+            context.registerReceiver(sIntentReceiver, intentFilter);
+    }
 
-	// AUTOGENERATED
+    /**
+     * Unregister broad cast listener for user auth.
+     *
+     * @param context the context
+     */
+    private void unregisterBroadCastListenerForUserAuth(Context context) {
+            Log.v(debug, "Internal: unregistering broadcastlistener for servicemodel");
+            context.unregisterReceiver(sIntentReceiver);
+    }
+
 	/**
 	 * The Class ServiceModelReceiver.
 	 */
 	public class ServiceModelReceiver extends BroadcastReceiver {
-		
-		/* (non-Javadoc)
-		 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * android.content.BroadcastReceiver#onReceive(android.content.Context,
+		 * android.content.Intent)
 		 */
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.v(debug, "ServiceModelReceiver: received broadcast");
 			if (intentMessageIdentifiedByBoadcasatToken(intent)) {
-				unregisterBroadCastListener(context);
-				sUpdatedServiceModels = true;
-				
-				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME);
-				List<ServiceModel> serviceModels = (List<ServiceModel>) obj;
-				
-				UkappServiceFactory.serviceModels = hashMapServiceModel(serviceModels);
-				callBufferedRequests();
-				
-			} else if(intent.getAction().equals(IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH)) {
 				unregisterBroadCastListenerForUserAuth(context);
-				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_VALUE_NAME);
+
+				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_PAYLOAD_ID);
 				setUserToken((String) obj);
 			}
-			
+
 		}
 
-		//TODO Add exception handling
-		private void callBufferedRequests( ) {
-			for(RequestBuffer b : sBuffer) {
-				try {
-					callStartService(b.getContext(), b.getUkappsServices(), 
-							b.getContentProvider(), b.getParams());
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
+		/**
+		 * Intent message identified by boadcasat token.
+		 *
+		 * @param intent the intent
+		 * @return true, if successful
+		 */
 		private boolean intentMessageIdentifiedByBoadcasatToken(Intent intent) {
 			return intent.getAction().equals(
-					IntentMessages.BROADCAST_INTENT_TOKEN_SERVICEMODEL);
-		}
-		
-		private Map<String, ServiceModel> hashMapServiceModel(
-				List<ServiceModel> serviceModels ) {
-			Map<String, ServiceModel> serviceModelsMap = new HashMap<String, ServiceModel>();
-			for(ServiceModel sm : serviceModels) {
-				serviceModelsMap.put(sm.getLocalIdentifier(), sm);
-				Log.v(debug, "hashMapServiceModel serviceModel mapped: " + sm.toString());
-			}
-			return serviceModelsMap;
-		}
-	}
-	
-	/**
-	 * The Class RequestBuffer.
-	 */
-	class RequestBuffer {
-		
-		/** The context. */
-		private Context context;
-		
-		/** The ukapps services. */
-		private UkappsServices ukappsServices;
-		
-		private URI contentProvider;
-		
-		/** The params. */
-		private String[] params;
-		
-		
-		/**
-		 * Instantiates a new request buffer.
-		 *
-		 * @param context the context
-		 * @param ukappsServices the ukapps services
-		 * @param params the params
-		 */
-		public RequestBuffer(Context context, UkappsServices ukappsServices, 
-				URI contentUri, String[] params) {
-			super();
-			this.context = context;
-			this.params = params;
-			this.ukappsServices = ukappsServices;
-			this.contentProvider = contentUri; 
-		}
-		
-		/**
-		 * Gets the context.
-		 *
-		 * @return the context
-		 */
-		public Context getContext() {
-			return context;
-		}
-		
-		/**
-		 * Sets the context.
-		 *
-		 * @param context the new context
-		 */
-		public void setContext(Context context) {
-			this.context = context;
-		}
-		
-		/**
-		 * Gets the ukapps services.
-		 *
-		 * @return the ukapps services
-		 */
-		public UkappsServices getUkappsServices() {
-			return ukappsServices;
-		}
-		
-		/**
-		 * Sets the ukapps services.
-		 *
-		 * @param ukappsServices the new ukapps services
-		 */
-		public void setUkappsServices(UkappsServices ukappsServices) {
-			this.ukappsServices = ukappsServices;
-		}
-		
-		/**
-		 * Gets the params.
-		 *
-		 * @return the params
-		 */
-		public String[] getParams() {
-			return params;
-		}
-		
-		/**
-		 * Sets the params.
-		 *
-		 * @param params the new params
-		 */
-		public void setParams(String[] params) {
-			this.params = params;
-		}
-
-		public URI getContentProvider() {
-			return contentProvider;
-		}
-
-		public void setContentProvider(URI contentProvider) {
-			this.contentProvider = contentProvider;
+					IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH);
 		}
 	}
 }

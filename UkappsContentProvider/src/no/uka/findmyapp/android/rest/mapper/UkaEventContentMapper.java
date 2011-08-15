@@ -81,7 +81,6 @@ public class UkaEventContentMapper implements IContentMapper {
 		List<UkaEvent> ukaEventList = (List<UkaEvent>) object;
 
 		for (UkaEvent event : ukaEventList) {
-			Log.v(debug, "EventType " + event.getEventType());
 			list.add(mapValues(event));
 		}
 		return list;

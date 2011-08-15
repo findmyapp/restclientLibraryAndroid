@@ -30,7 +30,7 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Gets the date.
-	 * 
+	 *
 	 * @return the date
 	 */
 	public long getDate() {
@@ -39,7 +39,7 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Gets the id.
-	 * 
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -48,7 +48,7 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Gets the location id.
-	 * 
+	 *
 	 * @return the location id
 	 */
 	public int getLocationId() {
@@ -57,7 +57,7 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Gets the value.
-	 * 
+	 *
 	 * @return the value
 	 */
 	public float getValue() {
@@ -66,9 +66,8 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Sets the date.
-	 * 
-	 * @param date
-	 *            the new date
+	 *
+	 * @param date the new date
 	 */
 	public void setDate(long date) {
 		this.date = date;
@@ -76,9 +75,8 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Sets the id.
-	 * 
-	 * @param id
-	 *            the new id
+	 *
+	 * @param id the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -86,9 +84,8 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Sets the location id.
-	 * 
-	 * @param locationId
-	 *            the new location id
+	 *
+	 * @param locationId the new location id
 	 */
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
@@ -96,9 +93,8 @@ public class Humidity implements Serializable {
 
 	/**
 	 * Sets the value.
-	 * 
-	 * @param value
-	 *            the new value
+	 *
+	 * @param value the new value
 	 */
 	public void setValue(float value) {
 		this.value = value;

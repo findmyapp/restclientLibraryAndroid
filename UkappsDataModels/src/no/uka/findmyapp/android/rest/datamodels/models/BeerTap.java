@@ -7,51 +7,137 @@ package no.uka.findmyapp.android.rest.datamodels.models;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BeerTap.
+ */
 public class BeerTap implements Serializable {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3502164399399083651L;
 	
+	/** The id. */
 	private int id;
+	
+	/** The location. */
 	private int location;
+	
+	/** The value. */
 	private float value;
+	
+	/** The tapnr. */
 	private int tapnr;
+	
+	/** The date. */
 	private long date;
+	
+	/** The time. */
 	private long time;
 	
+	/**
+	 * Gets the tapnr.
+	 *
+	 * @return the tapnr
+	 */
 	public int getTapnr(){
 		return tapnr;
 	}
+	
+	/**
+	 * Sets the tapnr.
+	 *
+	 * @param tapnr the new tapnr
+	 */
 	public void setTapnr(int tapnr){
 		this.tapnr = tapnr;
 	}
 	
+	/**
+	 * Gets the location.
+	 *
+	 * @return the location
+	 */
 	public int getLocation() {
 		return location;
 	}
+	
+	/**
+	 * Sets the location.
+	 *
+	 * @param location the new location
+	 */
 	public void setLocation(int location) {
 		this.location = location;
 	}
+	
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	public float getValue() {
 		return value;
 	}
+	
+	/**
+	 * Sets the value.
+	 *
+	 * @param value the new value
+	 */
 	public void setValue(float value) {
 		this.value = value;
 	}
+	
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public long getDate() {
 		return date;
 	}
+	
+	/**
+	 * Sets the date.
+	 *
+	 * @param date the new date
+	 */
 	public void setDate(long date) {
 		this.date = date;
 	}
+	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	/**
+	 * Sets the time.
+	 *
+	 * @param time the new time
+	 */
 	public void setTime(long time) {
 		this.time = time;
 	}
+	
+	/**
+	 * Gets the time.
+	 *
+	 * @return the time
+	 */
 	public long getTime() {
 		return time;
 	}

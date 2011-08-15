@@ -20,6 +20,7 @@ public final class Temperature implements BaseColumns {
 	 * The Class TemperatureTable.
 	 */
 	public static class TemperatureTable implements BaseColumns {
+		
 		/** The Constant TABLE_NAME. */
 		public static final String TABLE_NAME = "temperature_sample";
 

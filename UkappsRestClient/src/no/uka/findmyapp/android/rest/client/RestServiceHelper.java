@@ -229,7 +229,7 @@ public class RestServiceHelper {
 			if (intentMessageIdentifiedByBoadcasatToken(intent)) {
 				unregisterBroadCastListenerForUserAuth(context);
 
-				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_RETURN_PAYLOAD_ID);
+				Serializable obj = intent.getSerializableExtra(IntentMessages.BROADCAST_INTENT_TOKEN_USERAUTH);
 				setUserToken((String) obj);
 			}
 
